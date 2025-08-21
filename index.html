@@ -16,19 +16,9 @@
     <!-- Preview Header -->
     <div class="preview-header">
         <img src="uploads/orycomLogo.png" alt="Orycom Theme" width="105" height="75">
-        <strong>Limited time offers</strong>
         <a href="Pages/products.html" target="_blank">Get Your Course</a>
 
-            <!-- Add this right after <body> -->
-<div class="user-dropdown" id="userDropdown">
-<!-- In your user-dropdown HTML, update the img tag to have an id -->
-<button class="user-icon-btn" onclick="toggleUserDropdown()">
-  <img id="userIconImg" src="uploads/8847419.png" alt="User" style="height:75px;width:75px;">
-</button>
-  <div class="user-dropdown-content" id="userDropdownContent">
-    <!-- Menu will be filled by JS -->
-  </div>
-</div>
+        
     </div>
 
 
@@ -64,6 +54,8 @@
                     <li><a href="Pages/OrycomEdu/OutOfService.html">Projects</a></li>
 					<li><a href="Pages/Review1.html">FAQ's</a></li>
                     <li><a href="Pages/contact.html">Contact</a></li>
+                    <li><a href="Pages/Login.html">Login</a></li>
+                    <li><a href="Pages/register.html">Rigester</a></li>
                 </ul>
             </div>
         </div>
@@ -442,7 +434,7 @@
 
   function updateUserIcon() {
     const token = localStorage.getItem('token');
-    const profileImg = localStorage.getItem('profileImg').src = `https://backend-g8fsuq.fly.dev/uploads/${user.photo}`; // Store user image URL after login
+    const profileImg = localStorage.getItem('profileImg').src = `http://localhost:5000/uploads/${user.photo}`; // Store user image URL after login
     const icon = document.getElementById('userIconImg');
     if (profileImg && icon) {
       userIconImg.src = profileImg;
