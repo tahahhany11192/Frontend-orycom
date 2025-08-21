@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("password").value.trim();
 
       try {
-        const res = await fetch("https://backend-orycom.fly.dev/api/auth/login", {
+        const res = await fetch("https://backend-g8fsuq.fly.dev/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const formData = new FormData(registerForm);
       try {
-        const res = await fetch("https://backend-orycom.fly.dev/api/auth/register", {
+        const res = await fetch("https://backend-g8fsuq.fly.dev/api/auth/register", {
           method: "POST",
           body: formData,
         });
@@ -123,7 +123,7 @@ window.updateProfilePhoto = async function () {
 
   try {
     const token = localStorage.getItem("token");
-    const res = await fetch("https://backend-orycom.fly.dev/api/user/update-photo", {
+    const res = await fetch("https://backend-g8fsuq.fly.dev/api/user/update-photo", {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`
@@ -159,7 +159,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch(`https://backend-orycom.fly.dev/api/user/enroll/6868843691f59b8c38d3896c`, {
+      const res = await fetch(`https://backend-g8fsuq.fly.dev/api/user/enroll/6868843691f59b8c38d3896c`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -189,7 +189,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch(`https://backend-orycom.fly.dev/api/courses/buy/${courseId}`, {
+      const res = await fetch(`https://backend-g8fsuq.fly.dev/api/courses/buy/${courseId}`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -223,7 +223,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch("https://backend-orycom.fly.dev/api/user/profile", {
+      const res = await fetch("https://backend-g8fsuq.fly.dev/api/user/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -236,7 +236,7 @@ window.updateProfilePhoto = async function () {
 
       if (profileInfo) {
         
-          document.getElementById("profileImg").src = `https://backend-orycom.fly.dev/uploads/${user.photo}`;
+          document.getElementById("profileImg").src = `https://backend-g8fsuq.fly.dev/uploads/${user.photo}`;
           document.getElementById("profileDetails").innerHTML = `
           <p><b>Name:</b> ${user.name}</p>
           <p><b>Age:</b> ${user.age}</p>
@@ -263,7 +263,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch("https://backend-orycom.fly.dev/api/user/my-courses", {
+      const res = await fetch("https://backend-g8fsuq.fly.dev/api/user/my-courses", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
