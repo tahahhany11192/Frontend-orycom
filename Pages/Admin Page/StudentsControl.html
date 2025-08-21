@@ -674,7 +674,7 @@
       try {
         studentsContainer.innerHTML = '<div class="loading">Loading students...</div>';
         
-        const response = await makeAuthenticatedRequest('https://backend-orycom.fly.dev/api/users');
+        const response = await makeAuthenticatedRequest('https://backend-g8fsuq.fly.dev/api/users');
         if (!response.ok) {
           if (response.status === 401) {
             // Token is invalid or expired
@@ -707,7 +707,7 @@
         
         // Use actual photo from user or fallback
         const imgUrl = student.photo 
-          ? `https://backend-orycom.fly.dev/api/users/${student._id}/photo`
+          ? `https://backend-g8fsuq.fly.dev/api/users/${student._id}/photo`
           : '';
         
         card.innerHTML = `
@@ -780,7 +780,7 @@
     async function deleteStudent(id) {
       if (confirm('Are you sure you want to delete this student?')) {
         try {
-          const response = await makeAuthenticatedRequest(`https://backend-orycom.fly.dev/api/users/${id}`, {
+          const response = await makeAuthenticatedRequest(`https://backend-g8fsuq.fly.dev/api/users/${id}`, {
             method: 'DELETE'
           });
           
@@ -825,8 +825,8 @@
       
       try {
         const url = id 
-          ? `https://backend-orycom.fly.dev/api/users/${id}`
-          : 'https://backend-orycom.fly.dev/api/users';
+          ? `https://backend-g8fsuq.fly.dev/api/users/${id}`
+          : 'https://backend-g8fsuq.fly.dev/api/users';
           
         const method = id ? 'PUT' : 'POST';
         
@@ -857,7 +857,7 @@
       const searchTerm = searchInput.value.toLowerCase();
       
       try {
-        const response = await makeAuthenticatedRequest(`https://backend-orycom.fly.dev/api/users?q=${searchTerm}`);
+        const response = await makeAuthenticatedRequest(`https://backend-g8fsuq.fly.dev/api/users?q=${searchTerm}`);
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem('adminToken');
