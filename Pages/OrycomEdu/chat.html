@@ -887,8 +887,8 @@
 
   <script>
     // ====== CONFIG ======
-    const API_BASE = "https://backend-orycom.fly.dev/api/chat";
-    const SOCKET_URL = "https://backend-orycom.fly.dev";
+    const API_BASE = "https://backend-g8fsuq.fly.dev/api/chat";
+    const SOCKET_URL = "https://backend-g8fsuq.fly.dev";
     const TOKEN = localStorage.getItem("userToken");
     const USER_ID = localStorage.getItem("userId");
     const USER_NAME = localStorage.getItem("userName") || "You";
@@ -950,7 +950,7 @@
       }
 
       try {
-        const res = await fetch(`https://backend-orycom.fly.dev/api/search?q=${encodeURIComponent(query)}`, {
+        const res = await fetch(`https://backend-g8fsuq.fly.dev/api/search?q=${encodeURIComponent(query)}`, {
           headers: {
             "Authorization": `Bearer ${TOKEN}`
           }
