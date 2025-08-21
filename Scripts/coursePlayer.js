@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       return;
     }
 
-    const res = await fetch(`https://backend-pfnoxq.fly.dev/api/courses/${courseId}/content`, {
+    const res = await fetch(`https://backend-g8fsuq.fly.devapi/courses/${courseId}/content`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -189,7 +189,7 @@ async function submitAssignment(courseId, lessonId, assignmentId) {
       
       const token = localStorage.getItem('token');
       const res = await fetch(
-        `https://backend-pfnoxq.fly.dev/api/courses/${courseId}/lessons/${lessonId}/assignments/${assignmentId}/submit`, 
+        `https://backend-g8fsuq.fly.devapi/courses/${courseId}/lessons/${lessonId}/assignments/${assignmentId}/submit`, 
         {
           method: 'POST',
           headers: {
