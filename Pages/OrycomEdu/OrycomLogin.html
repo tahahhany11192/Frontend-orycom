@@ -8,9 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
-    
-      margin: -5px;
-      padding: 1px;
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
@@ -40,6 +39,7 @@
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
+      padding: 20px;
     }
 
     /* Animated background elements */
@@ -77,9 +77,9 @@
     /* Login container */
     .container {
       display: flex;
-      width: 1000px;
-      max-width: 95%;
-      height: 600px;
+      width: 100%;
+      max-width: 1000px;
+      min-height: 600px;
       background: rgba(30, 41, 59, 0.7);
       backdrop-filter: blur(12px);
       border-radius: 20px;
@@ -112,6 +112,7 @@
 
     .logo {
       width: 211px;
+      max-width: 100%;
       margin-bottom: 25px;
       filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
       animation: logoFloat 4s ease-in-out infinite;
@@ -163,12 +164,8 @@
     /* Role switcher */
     .role-switcher {
       display: flex;
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 12px;
-      padding: 8px;
       margin-bottom: 30px;
-      border: 1px solid rgba(79, 70, 229, 0.3);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
     }
 
     .role-btn {
@@ -456,47 +453,115 @@
     }
 
     /* Responsive design */
-    @media (max-width: 950px) {
+    /* Tablet: 601px–1024px */
+    @media (max-width: 1024px) {
+      .header h1 {
+        font-size: 2.4rem;
+      }
+      
+      .brand-side h2 {
+        font-size: 1.8rem;
+      }
+      
+      .form-header h2 {
+        font-size: 1.8rem;
+      }
+      
+      .brand-side, .login-side {
+        padding: 30px;
+      }
+    }
+    
+    /* Mobile: max-width: 600px */
+    @media (max-width: 768px) {
       .container {
         flex-direction: column;
-        height: auto;
-        max-width: 500px;
+        min-height: auto;
       }
       
       .brand-side {
+        order: 2;
         padding: 30px 20px;
       }
       
       .login-side {
+        order: 1;
         padding: 40px 30px;
       }
       
       .header {
-        padding: 20px;
+        padding: 10px;
       }
       
       .header h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
       }
-    }
-
-    @media (max-width: 480px) {
+      
+      .header p {
+        font-size: 1rem;
+      }
+      
+      .role-switcher {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
       .options {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 15px;
       }
       
       .forgot-password {
         margin-left: 0;
       }
-
-      .role-switcher {
-        flex-direction: column;
+      
+      .feature {
+        padding: 10px;
       }
       
+      .feature i {
+        font-size: 1rem;
+        margin-right: 10px;
+      }
+      
+      .particle {
+        display: none; /* Hide particles on mobile for better performance */
+      }
+    }
+    
+    @media (max-width: 480px) {
       .header h1 {
         font-size: 1.8rem;
+      }
+      
+      .brand-side h2 {
+        font-size: 1.6rem;
+      }
+      
+      .form-header h2 {
+        font-size: 1.6rem;
+      }
+      
+      .brand-side, .login-side {
+        padding: 25px 15px;
+      }
+      
+      input {
+        padding: 14px 14px 14px 45px;
+      }
+      
+      .form-group i {
+        left: 15px;
+      }
+      
+      .logo {
+        width: 180px;
+      }
+      
+      .social-btn {
+        width: 45px;
+        height: 45px;
       }
     }
   </style>
@@ -515,7 +580,7 @@
   <div class="container">
     <div class="brand-side">
       <div class="brand-content">
-        <img src="../../uploads/orycomLogo.png" alt="NOVATech Logo" class="logo">
+        <img src="../../uploads/orycomLogo.png" alt="Orycom Logo" class="logo">
         <h2>Bring your ideas to life</h2>
         <p>Sign in to access all features including course materials, assignments, and community forums.</p>
         
@@ -538,14 +603,14 @@
     
     <div class="login-side">
       <!-- Role switcher with three buttons -->
-      <div class="role-switcher" style="width: 450px;">
-        <button class="role-btn active" id="student-btn" style="left: -25px;">
+      <div class="role-switcher">
+        <button class="role-btn active" id="student-btn">
           <i class="fas fa-user-graduate"></i> Student
         </button>
         <button class="role-btn" id="instructor-btn">
           <i class="fas fa-chalkboard-teacher"></i> Instructor
         </button>
-        <button class="role-btn" id="admin-btn" style="right: -25px;">
+        <button class="role-btn" id="admin-btn">
           <i class="fas fa-user-shield"></i> Admin
         </button>
       </div>
