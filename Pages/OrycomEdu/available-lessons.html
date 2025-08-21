@@ -546,7 +546,7 @@
     `;
 
     // Fetch payment requests first
-    fetch(`https://backend-orycom.fly.dev/api/payment-requests/user/${user._id}`, {
+    fetch(`https://backend-g8fsuq.fly.dev/api/payment-requests/user/${user._id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -569,7 +569,7 @@
 
     // Load all courses
     function loadCourses() {
-      fetch('https://backend-orycom.fly.dev/api/courses/all')
+      fetch('https://backend-g8fsuq.fly.dev/api/courses/all')
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -627,7 +627,7 @@
         card.style.animationDelay = `${index * 0.1}s`;
         
         card.innerHTML = `
-          <img src="https://backend-orycom.fly.dev/uploads/${course.thumbnail}" alt="${course.title}" class="course-thumbnail">
+          <img src="https://backend-g8fsuq.fly.dev/uploads/${course.thumbnail}" alt="${course.title}" class="course-thumbnail">
           <div class="course-content">
             <div class="course-header">
               <h3 class="course-title">${course.title}</h3>
