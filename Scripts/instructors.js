@@ -3,7 +3,7 @@ const form = document.getElementById('instructor-form');
 const modal = document.getElementById('instructor-form-modal');
 
 function fetchInstructors() {
-  fetch('https://backend-pfnoxq.fly.dev/api/instructors/getinstructor')
+  fetch('https://backend-g8fsuq.fly.devapi/instructors/getinstructor')
     .then(res => res.json())
     .then(data => {
       container.innerHTML = '';
@@ -66,13 +66,13 @@ form.onsubmit = async (e) => {
   if (!id) {
     formData.append('password', document.getElementById('password').value);
 
-    await fetch('https://backend-pfnoxq.fly.dev/api/instructors/addinstructor', {
+    await fetch('https://backend-g8fsuq.fly.devapi/instructors/addinstructor', {
       method: 'POST',
       body: formData
       
     });
   } else {
-    await fetch(`https://backend-pfnoxq.fly.dev/api/instructors/${id}`, {
+    await fetch(`https://backend-g8fsuq.fly.devapi/instructors/${id}`, {
       method: 'PUT',
       body: formData
     });
