@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <title>NOVATech - Home</title>
+  <link rel="stylesheet" href="../Styles/style.css">
+  <script src="../Scripts/script.js" defer></script>
+  <style>
+    /* Dropdown styles */
+    .user-dropdown {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      z-index: 20;
+    }
+    .user-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .user-dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #fff;
+      min-width: 140px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .user-dropdown-content a, .user-dropdown-content button {
+      display: block;
+      padding: 12px 18px;
+      color: #222;
+      text-decoration: none;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .user-dropdown-content a:hover, .user-dropdown-content button:hover {
+      background: #f0f0f0;
+    }
+    .user-dropdown.open .user-dropdown-content {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="user-dropdown" id="userDropdown">
+
+<button class="user-icon-btn" onclick="toggleUserDropdown()">
+  <img id="userIconImg" src="../uploads/8847419.png" alt="User" style="height:75px;width:75px;">
+</button>
+    <div class="user-dropdown-content" id="userDropdownContent">
+      
+    </div>
+  </div>
+
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="../uploads/AnimatedBackground.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div style="text-align:center; margin-top: 1rem;">
+    <img src="../uploads/nova white png.png" alt="NOVATech Logo" style="height:220px; max-width:100vw;">
+  </div>
+
+  <nav>
+    <button class="menu-toggle" onclick="toggleMenu()"><b>☰</b></button>
+    <div id="nav-links" class="nav-links">
+      
+      <a href="products.html">Courses</a>
+      <a href="contact.html">Contact</a>
+      <a href="Review1.html">Review</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="coursePlayer.html">Dashboard</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="products">
+      <article class="product">
+        <img src="../uploads/computerlab students.jpg" alt="NOVATech Courses">
+        <h2>Modern Learning Lab</h2>
+        <p>NOVATech is your gateway to modern learning and development — innovative, practical, and future-ready.</p>
+      </article>
+      <article class="product">
+        <img src="../uploads/novadesign.png" alt="NOVATech Development">
+        <h2>Development & Design</h2>
+        <p>Join us today and start your journey towards mastering the digital world!</p>
+      </article>
+      <article class="product">
+        <h2>About NOVATech</h2>
+        <p>
+          At Nova, we're not just a tech company—we’re a digital universe. Our mission is simple: double the value, double the creativity, double the possibilities. From websites to videos, marketing to finance, we bring it all together under one roof.
+        </p>
+        <h4>🌐 We Build the Web</h4>
+        <p>Need a powerful, modern website? We've got you. Nova delivers fast, beautiful, and scalable websites for individuals, startups, and big brands alike.</p>
+        <h4>🎨 We Create Everything</h4>
+        <p>Logos. Motion graphics. Animations. Video editing. Photography. You name it—we design it. Our creative team turns ideas into eye-catching realities, no matter the format.</p>
+        <h4>📈 We Grow Businesses</h4>
+        <p>Marketing isn’t just about ads—it’s about strategy. We craft custom campaigns, manage brands, and help companies grow online and offline. We also manage finances to keep your business strong and smart.</p>
+        <h4>💼 We Power Freelancers</h4>
+        <p>Nova is a freelancing ecosystem. We don’t just offer services—we train and grow talent. Every team member is trained to be a full-stack freelancer, ready to take on projects across tech, design, marketing, and business.</p>
+        <h4>🌍 Nova Teaching Center</h4>
+        <ul>
+          <li>Website access and hosting</li>
+          <li>Payment handling</li>
+          <li>Marketing services</li>
+          <li>On-ground and virtual assistance</li>
+        </ul>
+        <p>We make it easy for educators to teach, earn, and grow their reach—while we handle the rest.</p>
+        <h4>Why Nova?</h4>
+        <ul>
+          <li>✅ All-in-one tech and creative hub</li>
+          <li>✅ End-to-end support for businesses, freelancers, and educators</li>
+          <li>✅ Global team with next-gen tools</li>
+          <li>✅ Passionate about doubling value at every level</li>
+        </ul>
+        <p style="font-weight:bold;">Nova — Where Tech Meets Talent. Where Everything Multiplies.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 NOVATech. Empowering your future in tech.
+  </footer>
+
+  <script>
+    // Dropdown logic
+    function toggleUserDropdown() {
+      document.getElementById('userDropdown').classList.toggle('open');
+    }
+    // Close dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('userDropdown');
+      if (!dropdown.contains(event.target)) {
+        dropdown.classList.remove('open');
+      }
+    });
+
+    // Fill dropdown menu based on login state
+    function renderUserDropdown() {
+      const content = document.getElementById('userDropdownContent');
+      const token = localStorage.getItem('token');
+      if (token) {
+        content.innerHTML = `
+          <a href="profile.html">Profile</a>
+          <button onclick="logout()">Logout</button>
+        `;
+      } else {
+        content.innerHTML = `
+          <a href="LOGIN2.html">Login</a>
+          <a href="registeration.html">Register</a>
+        `;
+      }
+    }
+    function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      window.location.href = "index.html";
+    }
+    renderUserDropdown();
+  </script>
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      navLinks.classList.toggle('show');
+    }
+    function toggleSpecs() {
+      const extraInfo = document.getElementById('extra-info');
+      extraInfo.style.display = extraInfo.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+  <script>
+  // ...existing code...
+
+  function updateUserIcon() {
+    const userImg = localStorage.getItem('userImage'); // Store user image URL after login
+    const icon = document.getElementById('userIconImg');
+    if (userImg && icon) {
+      icon.src = userImg;
+    } else if (icon) {
+      icon.src = "8847419.png"; // Default icon
+    }
+  }after
+
+  // Call  rendering dropdown
+  renderUserDropdown();
+  updateUserIcon();
+
+  // Example: After successful login, set user image in localStorage
+  // localStorage.setItem('userImage', 'path/to/user-image.jpg');
+</script>
+</body>
+</html>

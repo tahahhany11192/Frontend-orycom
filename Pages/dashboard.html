@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="../Styles/dashboard.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2 class="logo">🎓 EduCenter</h2>
+      <nav>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">My Courses</a>
+        <a href="#">Settings</a>
+        <a href="#" id="logout-btn">Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section class="welcome-banner">
+        <img id="student-photo" src="" alt="Profile Photo">
+        <h1 id="student-name">Welcome, Student</h1>
+      </section>
+
+      <section class="courses-section">
+        <h2>Enrolled Courses</h2>
+        <div id="courses-list" class="courses-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../Scripts/dashboard.js"></script>
+</body>
+</html>

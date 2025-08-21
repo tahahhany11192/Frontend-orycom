@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Orycom</title>
+  <link rel="stylesheet" href="../Styles/stylelogin.css" />
+  <script src="../Scripts/main.js" defer></script>
+</head>
+<body class="login-page" style="background: #f6f7f9;">
+  <div class="login-card">
+    <div class="login-left">
+      <img src="../uploads/orycomLogo.png" alt="NOVATech Logo" class="login-logo" />
+      <h2>Create your account</h2>
+      <p class="login-sub">Sign up to get started</p>
+      <div class="divider"><span>or</span></div>
+      <form id="registerForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" required />
+        <label for="age">Age</label>
+        <input type="number" id="age" required />
+        <label for="email">Email address</label>
+        <input type="email" id="email" required />
+        <label for="password">Password</label>
+        <input type="password" id="password" required />
+        <input type="submit" value="Register" class="sign-in-btn" />
+      </form>
+      <div class="login-bottom">
+        <span>Already have an account?</span>
+        <a href="Login.html">Sign in</a>
+      </div>
+      <p id="errorMsg" style="color: red;"></p>
+    </div>
+    <div class="login-right">
+      <img src="../uploads/register photo.png" alt="Register Side" class="side-img" />
+      <div class="side-text">
+        <h3>Join Orycom today.</h3>
+        <p>Sign up for free and enjoy access to all features for 30 days. No credit card required.</p>
+      </div>
+    </div>
+  </div>
+  <footer style="text-align:center; margin-top:32px; color:#888;">
+    <p>&copy; 2025 NOVATech. All rights reserved.</p>
+  </footer>
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      console.log({ name, age, email, password });
+
+      try {
+        const response = await fetch("https://backend-orycom.fly.dev/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, age, email, password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert("Registration successful!");
+          console.log("Registered:", data);
+          window.location.href = "Login.html";
+        } else {
+          console.error("Registration failed:", data.message);
+          alert("Registration failed: " + data.message);
+        }
+      } catch (err) {
+        console.error("Error during registration:", err);
+        alert("Error during registration");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - NOVATech</title>
+  <link rel="stylesheet" href="../Styles/style.css" />
+  <script src="../Scripts/script.js" defer></script>
+</head>
+<body class="login-page">
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="../uploads/AnimatedBackground.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="../uploads/nova white png.png" alt="NOVATech Logo" style="height: 220px; max-width: 100vw;" />
+  </div>
+
+  <main>
+    <section class="login-form">
+      <h2><span style="color: rgb(93, 243, 93);"><b>Login</b></span></h2>
+      <form id="loginForm">
+        <label2 for="username">Email address:</label>
+        <input type="email" id="username" required style="width: 350px; height: 18px;" /><br /><br />
+
+        <label2 for="password">Password:</label>
+        <input type="password" id="password" required style="width: 350px; height: 18px;" /><br /><br />
+
+        <label2><input type="checkbox" /> Agree for all terms and conditions</label>
+        <a href="#" class="forgot-link" style="margin-left: 16px;">Forgot password</a><br /><br />
+
+        <input type="submit" value="Sign in" />
+      </form>
+
+      <button class="create-account-btn" onclick="window.location.href='registeration.html'" style="margin-top: 10px;">Sign up</button>
+      <p id="errorMsg" style="color: red;"></p>
+      <p><em>Don't have an account? Sign up instead.</em></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 NOVATech. All rights reserved.</p>
+  </footer>
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      try {
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          alert("Login successful!");
+        } else {
+          document.getElementById("errorMsg").textContent = data.message || "Login failed";
+        }
+      } catch (err) {
+        document.getElementById("errorMsg").textContent = "Error during login";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - NOVATech</title>
+  <link rel="stylesheet" href="../Styles/style.css" />
+  <script src="../Scripts/main.js" defer></script>
+</head>
+<body class="login-page">
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="../uploads/AnimatedBackground.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <img src="../uploads/nova white png.png" alt="NOVATech Logo" style="height: 220px; max-width: 100vw;" />
+  </div>
+
+  <main>
+    <section class="login-form">
+      <h2><span style="color: rgb(93, 243, 93);"><b>Register</b></span></h2>
+      <form id="registerForm">
+        <label2 for="name">Name:</label2>
+        <input type="text" id="name" required style="width: 350px; height: 18px;" /><br /><br />
+
+        <label2 for="age">Age:</label2>
+        <input type="number" id="age" required style="width: 40px; height: 40px;" /><br /><br />
+
+        <label2 for="email">Email:</label2>
+        <input type="email" id="email" required style="width: 360px; height: 20px;" /><br /><br />
+
+        <label2 for="password">Password:</label2>
+        <input type="password" id="password" required style="width: 350px; height: 18px;" /><br /><br />
+
+        <input type="submit" value="Register" />
+      </form>
+
+      <button class="create-account-btn" onclick="window.location.href='LOGIN2.html'" style="margin-top: 10px;">Back to Login</button>
+      <p id="errorMsg" style="color: red;"></p>
+      <p><em>Already have an account? Login instead.</em></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 NOVATech. All rights reserved.</p>
+  </footer>
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      console.log({ name, age, email, password });
+
+      try {
+        const response = await fetch("http://localhost:5000/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, age, email, password }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          alert("Registration successful!");
+          console.log("Registered:", data);
+        } else {
+          console.error("Registration failed:", data.message);
+          alert("Registration failed: " + data.message);
+        }
+      } catch (err) {
+        console.error("Error during registration:", err);
+        alert("Error during registration");
+      }
+    });
+  </script>
+</body>
+</html> 

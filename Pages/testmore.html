@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Lesson Content</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 6px; }
+    input, select, textarea { margin: 5px 0; width: 100%; }
+    .section { margin-bottom: 30px; }
+  </style>
+</head>
+<body>
+  <h2>Create Lesson with Quizzes & Assignments</h2>
+
+  <div class="section">
+    <label>Lesson Title:</label>
+    <input id="lessonTitle" placeholder="e.g. Algebra Basics" />
+  </div>
+
+  <!-- QUIZZES -->
+  <div class="section">
+    <h3>Add Quiz</h3>
+    <label>Question:</label>
+    <input id="quizQuestion" />
+    
+    <label>Type:</label>
+    <select id="quizType">
+      <option value="multiple_choice">Multiple Choice</option>
+      <option value="true_false">True / False</option>
+      <option value="fill_blank">Fill in the Blank</option>
+    </select>
+
+    <div id="quizOptionsContainer">
+      <label>Options (comma separated):</label>
+      <input id="quizOptions" placeholder="e.g. 2, 4, 6, 8" />
+    </div>
+
+    <label>Correct Answer:</label>
+    <input id="quizAnswer" />
+
+    <button onclick="addQuiz()">➕ Add Quiz</button>
+
+    <table id="quizTable">
+      <tr><th>Type</th><th>Question</th><th>Answer</th></tr>
+    </table>
+  </div>
+
+  <!-- ASSIGNMENTS -->
+  <div class="section">
+    <h3>Add Assignment</h3>
+    <label>Title:</label>
+    <input id="assignmentTitle" />
+
+    <label>Instructions:</label>
+    <textarea id="assignmentInstructions"></textarea>
+
+    <button onclick="addAssignment()">➕ Add Assignment</button>
+
+    <table id="assignmentTable">
+      <tr><th>Title</th><th>Instructions</th></tr>
+    </table>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="section">
+    <button onclick="submitLesson()">🚀 Submit Lesson</button>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    const quizzes = [];
+    const assignments = [];
+
+    document.getElementById("quizType").addEventListener("change", () => {
+      const show = document.getElementById("quizType").value === "multiple_choice";
+      document.getElementById("quizOptionsContainer").style.display = show ? "block" : "none";
+    });
+
+    function addQuiz() {
+      const question = document.getElementById("quizQuestion").value.trim();
+      const type = document.getElementById("quizType").value;
+      const options = document.getElementById("quizOptions").value.split(",").map(o => o.trim());
+      const correctAnswer = document.getElementById("quizAnswer").value.trim();
+
+      if (!question || !correctAnswer || (type === "multiple_choice" && options.length < 2)) {
+        alert("Please fill all required quiz fields.");
+        return;
+      }
+
+      const quiz = { type, question, correctAnswer };
+      if (type === "multiple_choice") quiz.options = options;
+
+      quizzes.push(quiz);
+
+      document.getElementById("quizTable").innerHTML += `
+        <tr><td>${type}</td><td>${question}</td><td>${correctAnswer}</td></tr>
+      `;
+
+      // Clear fields
+      document.getElementById("quizQuestion").value = "";
+      document.getElementById("quizOptions").value = "";
+      document.getElementById("quizAnswer").value = "";
+    }
+
+    function addAssignment() {
+      const title = document.getElementById("assignmentTitle").value.trim();
+      const instructions = document.getElementById("assignmentInstructions").value.trim();
+
+      if (!title || !instructions) {
+        alert("Please fill all required assignment fields.");
+        return;
+      }
+
+      assignments.push({ title, instructions });
+
+      document.getElementById("assignmentTable").innerHTML += `
+        <tr><td>${title}</td><td>${instructions}</td></tr>
+      `;
+
+      document.getElementById("assignmentTitle").value = "";
+      document.getElementById("assignmentInstructions").value = "";
+    }
+
+    function submitLesson() {
+      const title = document.getElementById("lessonTitle").value.trim();
+      if (!title) return alert("Lesson title is required.");
+
+      fetch("http://localhost:5000/api/courses/688a9f56924980d50bc8911b/lessons", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, quizzes, assignments }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("status").innerText = "✅ Lesson created!";
+          console.log(data);
+        })
+        .catch(err => {
+          console.error("❌", err);
+          document.getElementById("status").innerText = "❌ Failed to create lesson.";
+        });
+    }
+  </script>
+</body>
+</html>

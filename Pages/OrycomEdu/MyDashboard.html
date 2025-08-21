@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | Orycom</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6a5af9;
+      --secondary: #d66efd;
+      --accent: #ff8c8c;
+      --light: #f7f9fc;
+      --dark: #2d3748;
+      --success: #4ade80;
+      --warning: #fbbf24;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --shadow: 0 10px 20px rgba(0,0,0,0.1);
+      --radius: 16px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background-color: #f0f5ff;
+      background-image: radial-gradient(#d66efd33 1px, transparent 1px), 
+                        radial-gradient(#6a5af933 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+      color: var(--dark);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    
+    /* Header Styles */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.5rem 2rem;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    
+    nav ul li {
+      position: relative;
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    nav ul li a:hover {
+      background: var(--gradient);
+      color: white;
+      transform: translateY(-3px);
+    }
+    
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .profile-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .profile-icon:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
+    }
+    
+    /* Dashboard Main Content */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    
+    .welcome-banner {
+      background: var(--gradient);
+      color: white;
+      padding: 2rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .welcome-text h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .welcome-text p {
+      opacity: 0.9;
+    }
+    
+    .welcome-icon {
+      font-size: 3rem;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .dashboard-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      animation: fadeInUp 0.6s ease-out;
+      animation-fill-mode: backwards;
+    }
+    
+    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+    .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+    .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+    .dashboard-card:nth-child(5) { animation-delay: 0.5s; }
+    .dashboard-card:nth-child(6) { animation-delay: 0.6s; }
+    .dashboard-card:nth-child(7) { animation-delay: 0.7s; }
+    
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(106, 90, 249, 0.2);
+    }
+    
+    .dashboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--gradient);
+      z-index: 2;
+    }
+    
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1.5rem;
+      background: rgba(106, 90, 249, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+    
+    .dashboard-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    .dashboard-card p {
+      color: #718096;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      background: rgba(106, 90, 249, 0.1);
+      color: var(--primary);
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .card-link:hover {
+      background: var(--gradient);
+      color: white;
+      transform: translateX(5px);
+    }
+    
+    .unauth-message {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+    
+    .unauth-message h2 {
+      color: #e53e3e;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    
+    .unauth-message p {
+      color: #718096;
+      margin-bottom: 1.5rem;
+    }
+    
+    .auth-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 5px 15px rgba(106, 90, 249, 0.3);
+    }
+    
+    .auth-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(106, 90, 249, 0.4);
+    }
+    
+
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes logoFloat {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+      
+
+      
+      .welcome-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+      }
+      
+      .welcome-icon {
+        order: -1;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .dashboard-container {
+        padding: 0 1rem;
+      }
+      
+      .welcome-text h1 {
+        font-size: 1.8rem;
+      }
+    }
+    .logo {
+  display: flex;
+  align-items: center;
+animation: logoFloat 4s ease-in-out infinite;
+}
+
+
+.logo img {
+  height: 68px; /* Adjust as needed */
+  width: auto;
+  margin-right: 10px; /* Space between logo and text */
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Header with Navigation -->
+  <header>
+    <div class="header-container">
+   <div class="logo">
+  <img src="../../uploads/orycomLogo.png" alt="Orycom Logo">
+</div>
+      
+      <nav>
+        <ul>
+          <li><a href="OrycomLearnings.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#" active><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="myCourses.html"><i class="fas fa-book-open"></i> Courses</a></li>
+          <li><a href="../student-streams.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+          <li><a href="chat.html"><i class="fas fa-comments"></i> Messages</a></li>
+        </ul>
+      </nav>
+      
+      <div class="profile-section">
+        <div class="profile-icon">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+      
+
+    </div>
+  </header>
+  
+  <!-- Dashboard Content -->
+  <div class="dashboard-container">
+    <div id="dashboard-content">
+      <!-- Role-based content will appear here -->
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("userToken");
+    const role = localStorage.getItem("userRole"); // 'student' or 'instructor'
+    const dashboard = document.getElementById("dashboard-content");
+
+    if (!token || !role) {
+      dashboard.innerHTML = `
+        <div class="unauth-message">
+          <h2><i class="fas fa-exclamation-circle"></i> Access Restricted</h2>
+          <p>You need to be logged in to access the dashboard. Please sign in to continue.</p>
+          <a href="OrycomLogin.html" class="auth-btn">
+            <i class="fas fa-sign-in-alt"></i> Login Now
+          </a>
+        </div>
+      `;
+    } else if (role === "student") {
+      dashboard.innerHTML = `
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h1>Welcome Back, Student!</h1>
+            <p>Ready to continue your learning journey? Check out your latest lessons and assignments.</p>
+          </div>
+          <div class="welcome-icon">
+            <i class="fas fa-user-graduate"></i>
+          </div>
+        </div>
+        
+        <div class="dashboard-grid">
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h3>Available Lessons</h3>
+            <p>Browse and access all available lessons for your courses.</p>
+            <a href="available-lessons.html" class="card-link">
+              View Lessons <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-bookmark"></i>
+            </div>
+            <h3>My Lessons</h3>
+            <p>Track your progress through enrolled lessons and courses.</p>
+            <a href="my-courses.html" class="card-link">
+              My Progress <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <h3>My Assignments</h3>
+            <p>View, complete, and submit your pending assignments.</p>
+            <a href="assignments.html" class="card-link">
+              View Assignments <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-video"></i>
+            </div>
+            <h3>Online Classes</h3>
+            <p>Join live classes and interact with your instructors.</p>
+            <a href="../student-streams.html" class="card-link">
+              Join Classes <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>My Profile</h3>
+            <p>Update your personal information and preferences.</p>
+            <a href="profile.html" class="card-link">
+              Edit Profile <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3>Online Chat</h3>
+            <p>Connect with instructors and fellow students.</p>
+            <a href="chat.html" class="card-link">
+              Start Chatting <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <h3>Help Center</h3>
+            <p>Get support and answers to your questions.</p>
+            <a href="HelpCenter.html" class="card-link">
+              Get Help <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      `;
+    } else if (role === "instructor") {
+      dashboard.innerHTML = `
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h1>Welcome Back, Instructor!</h1>
+            <p>Manage your courses, assignments, and interact with your students.</p>
+          </div>
+          <div class="welcome-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+        </div>
+        
+        <div class="dashboard-grid">
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <h3>My Courses</h3>
+            <p>Manage and organize your teaching materials and courses.</p>
+            <a href="OutOfService.html" class="card-link">
+              View Courses <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <h3>Assignment Submissions</h3>
+            <p>Review and grade student assignment submissions.</p>
+            <a href="assignment-submissions.html" class="card-link">
+              Grade Work <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-video"></i>
+            </div>
+            <h3>Host Online Class</h3>
+            <p>Start a live class session with your students.</p>
+            <a href="../teacher-live.html" class="card-link">
+              Start Class <i class="fas fa-arrow-right"></i>
+            </a>s
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>Quiz Submissions</h3>
+            <p>Review and grade student quiz submissions.</p>
+            <a href="quiz-submissions.html" class="card-link">
+              Grade Quizzes <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>My Profile</h3>
+            <p>Update your instructor profile and information.</p>
+            <a href="profile.html" class="card-link">
+              Edit Profile <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3>Online Chat</h3>
+            <p>Communicate with students and colleagues.</p>
+            <a href="chat.html" class="card-link">
+              Start Chatting <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <h3>Help Center</h3>
+            <p>Get support and resources for instructors.</p>
+            <a href="help.html" class="card-link">
+              Get Help <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      `;
+    } else {
+      dashboard.innerHTML = `
+        <div class="unauth-message">
+          <h2><i class="fas fa-exclamation-triangle"></i> Unknown Role Detected</h2>
+          <p>There was an issue identifying your account type. Please log out and try again.</p>
+          <a href="OrycomLogin.html" class="auth-btn">
+            <i class="fas fa-sign-in-alt"></i> Return to Login
+          </a>
+        </div>
+      `;
+    }
+    
+    // Mobile menu toggle functionality
+    
+    const profileIcon = document.querySelector('.profile-icon');
+    
+    profileIcon.addEventListener('click', () => {
+      // This would typically open a profile dropdown or settings
+      window.location.href = 'profile.html';
+    });
+  </script>
+</body>
+</html>

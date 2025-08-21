@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Terminated | Orycom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --warning: #ff7675;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--warning));
+            animation: rainbow 8s linear infinite;
+        }
+        
+        .logo {
+            width: 120px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            animation: bounce 2s infinite;
+        }
+        
+        h1 {
+            color: var(--warning);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        p {
+            color: var(--dark);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .graphic {
+            margin: 2rem auto;
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+        
+        .circle-1 {
+            width: 160px;
+            height: 160px;
+            background-color: var(--secondary);
+            top: 20px;
+            left: 20px;
+            animation: pulse 4s infinite;
+        }
+        
+        .circle-2 {
+            width: 120px;
+            height: 120px;
+            background-color: var(--accent);
+            top: 40px;
+            left: 40px;
+            animation: pulse 4s infinite 0.5s;
+        }
+        
+        .circle-3 {
+            width: 80px;
+            height: 80px;
+            background-color: var(--warning);
+            top: 60px;
+            left: 60px;
+            animation: pulse 4s infinite 1s;
+        }
+        
+        .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: white;
+            z-index: 2;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background-color: rgba(162, 155, 254, 0.2);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes rainbow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .graphic {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .circle-1 {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .circle-2 {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .circle-3 {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <img src="../../uploads/orycomLogo.png" alt="Orycom Logo" class="logo">
+        <h1>Session Terminated</h1>
+        <p>You have been removed from the current session by the host or due to inactivity. 
+           If this was a mistake, please contact the session administrator.</p>
+        
+        <div class="graphic">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+            <div class="icon">🚫</div>
+        </div>
+        
+        <button class="btn" id="returnBtn">Return to Dashboard</button>
+    </div>
+
+    <script>
+        // Create floating elements
+        const floatingElements = document.getElementById('floatingElements');
+        const colors = ['#a29bfe', '#fd79a8', '#74b9ff', '#55efc4'];
+        
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            const size = Math.random() * 50 + 10;
+            const posX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 20 + 10;
+            const delay = Math.random() * 5;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            element.style.left = `${posX}px`;
+            element.style.bottom = `-${size}px`;
+            element.style.animationDuration = `${duration}s`;
+            element.style.animationDelay = `${delay}s`;
+            element.style.backgroundColor = color;
+            
+            floatingElements.appendChild(element);
+        }
+        
+        // Button functionality
+        document.getElementById('returnBtn').addEventListener('click', function() {
+            // Add button click animation
+            this.classList.add('clicked');
+            
+            // Simulate redirect to dashboard (replace with actual redirect)
+            setTimeout(() => {
+                window.location.href = 'MyDashboard.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>

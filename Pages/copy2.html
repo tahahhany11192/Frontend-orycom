@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructor Dashboard | Content Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-blue: #1a73e8;
+      --secondary-blue: #4285f4;
+      --accent-blue: #64b5f6;
+      --dark-blue: #0d47a1;
+      --light-blue: #e3f2fd;
+      --background-blue: #f0f7ff;
+      --success-green: #4caf50;
+      --warning-orange: #ff9800;
+      --error-red: #f44336;
+      --text-dark: #202124;
+      --text-medium: #5f6368;
+      --text-light: #ffffff;
+      --border-color: #dadce0;
+      --card-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-blue);
+      color: var(--text-dark);
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header Styles */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      color: var(--primary-blue);
+    }
+
+    .logo i {
+      font-size: 32px;
+      margin-right: 12px;
+    }
+
+    .logo h1 {
+      font-weight: 600;
+      font-size: 28px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-info img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary-blue);
+    }
+
+    .user-details h3 {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .user-details p {
+      color: var(--text-medium);
+      font-size: 14px;
+    }
+
+    /* Navigation Tabs */
+    .tabs {
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 18px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab.active {
+      color: var(--primary-blue);
+      border-bottom: 3px solid var(--primary-blue);
+      background: rgba(26, 115, 232, 0.05);
+    }
+
+    .tab:hover:not(.active) {
+      background: rgba(26, 115, 232, 0.05);
+    }
+
+    /* Content Section */
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .section-card h2 {
+      font-size: 22px;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+    }
+
+    .section-card h2 i {
+      margin-right: 12px;
+    }
+
+    /* Form Styles */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-medium);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background-color: white;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button:hover {
+      background: var(--dark-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(26, 115, 232, 0.3);
+    }
+
+    button i {
+      margin-right: 10px;
+    }
+
+    .btn-secondary {
+      background: var(--light-blue);
+      color: var(--primary-blue);
+    }
+
+    .btn-secondary:hover {
+      background: #d0e3fa;
+    }
+
+    .status-message {
+      margin-top: 20px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      display: none;
+    }
+
+    .success {
+      background-color: rgba(76, 175, 80, 0.15);
+      color: var(--success-green);
+      border: 1px solid var(--success-green);
+      display: block;
+    }
+
+    .error {
+      background-color: rgba(244, 67, 54, 0.15);
+      color: var(--error-red);
+      border: 1px solid var(--error-red);
+      display: block;
+    }
+
+    /* Quiz Builder Styles */
+    .quiz-builder {
+      background: rgba(227, 242, 253, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .quiz-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+
+    .question-list {
+      margin-top: 25px;
+    }
+
+    .question-item {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid var(--accent-blue);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .question-type {
+      font-weight: 600;
+      color: var(--primary-blue);
+    }
+
+    .question-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: var(--light-blue);
+      color: var(--primary-blue);
+      border: none;
+    }
+
+    .action-btn:hover {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .options-list {
+      margin-top: 15px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .option-item input[type="text"] {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .option-item input[type="radio"],
+    .option-item input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    /* Assignment Styles */
+    .assignment-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .assignment-details {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .assignment-instructions {
+      grid-column: span 2;
+    }
+
+    /* Table Styles */
+    .content-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .content-table th {
+      background-color: var(--light-blue);
+      color: var(--primary-blue);
+      font-weight: 600;
+      text-align: left;
+      padding: 16px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .content-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-medium);
+    }
+
+    .content-table tr:hover {
+      background-color: rgba(227, 242, 253, 0.3);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .badge-pdf {
+      background-color: rgba(244, 67, 54, 0.1);
+      color: var(--error-red);
+    }
+
+    .badge-video {
+      background-color: rgba(26, 115, 232, 0.1);
+      color: var(--primary-blue);
+    }
+
+    .badge-quiz {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--success-green);
+    }
+
+    .badge-assignment {
+      background-color: rgba(255, 152, 0, 0.1);
+      color: var(--warning-orange);
+    }
+
+    .file-link {
+      color: var(--primary-blue);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .file-link:hover {
+      text-decoration: underline;
+    }
+
+    .file-link i {
+      margin-right: 6px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .tabs {
+        flex-direction: column;
+      }
+      
+      .assignment-form {
+        grid-template-columns: 1fr;
+      }
+      
+      .assignment-details {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <h1>EduLearn Pro | Instructor Dashboard</h1>
+      </div>
+      <div class="user-info">
+        <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Instructor">
+        <div class="user-details">
+          <h3>Dr. Robert Chen</h3>
+          <p>Computer Science Professor</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+      <div class="tab active" data-tab="content">📚 Content Management</div>
+      <div class="tab" data-tab="quizzes">✏️ Quiz Builder</div>
+      <div class="tab" data-tab="assignments">📝 Assignments</div>
+      <div class="tab" data-tab="analytics">📊 Analytics</div>
+    </div>
+
+    <!-- Content Management Section -->
+    <div class="tab-content" id="content-tab">
+      <div class="section-card">
+        <h2><i class="fas fa-cloud-upload-alt"></i> Upload Class Content</h2>
+        
+        <form id="contentForm" enctype="multipart/form-data">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" id="title" name="title" placeholder="Enter content title" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="type">Content Type</label>
+              <select id="type" name="type" required>
+                <option value="">Select Type</option>
+                <option value="pdf">PDF Document</option>
+                <option value="video">Video Lecture</option>
+                <option value="quiz">Quiz</option>
+                <option value="assignment">Assignment</option>
+              </select>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="description">Description</label>
+              <textarea id="description" name="description" placeholder="Describe your content" rows="3"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="courseDropdown">Course</label>
+              <select id="courseDropdown" name="courseId" required>
+                <option value="">Select Course</option>
+                <option value="web101">Web Development Fundamentals</option>
+                <option value="data201">Data Science Essentials</option>
+                <option value="ai301">Advanced AI Concepts</option>
+                <option value="cloud401">Cloud Computing</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="file">Upload File</label>
+              <div class="input-wrapper">
+                <input type="file" id="file" name="file" required>
+              </div>
+            </div>
+            
+            <div class="form-group full-width">
+              <input type="hidden" name="instructorId" value="INSTRUCTOR_123">
+              <button type="submit">
+                <i class="fas fa-upload"></i> Upload Content
+              </button>
+              <div id="upload-status" class="status-message"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="section-card">
+        <h2><i class="fas fa-folder-open"></i> Uploaded Content</h2>
+        
+        <table class="content-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Course</th>
+              <th>File</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Introduction to JavaScript</td>
+              <td><span class="badge badge-video">Video</span></td>
+              <td>Web Development Fundamentals</td>
+              <td><a href="#" class="file-link"><i class="fas fa-file-video"></i> lecture-01.mp4</a></td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn"><i class="fas fa-edit"></i></button>
+                  <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Data Structures Quiz</td>
+              <td><span class="badge badge-quiz">Quiz</span></td>
+              <td>Data Science Essentials</td>
+              <td><a href="#" class="file-link"><i class="fas fa-file-alt"></i> quiz-ds.pdf</a></td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn"><i class="fas fa-edit"></i></button>
+                  <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Neural Networks Assignment</td>
+              <td><span class="badge badge-assignment">Assignment</span></td>
+              <td>Advanced AI Concepts</td>
+              <td><a href="#" class="file-link"><i class="fas fa-file-pdf"></i> assignment-nn.pdf</a></td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn"><i class="fas fa-edit"></i></button>
+                  <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Quiz Builder Section -->
+    <div class="tab-content" id="quizzes-tab" style="display: none;">
+      <div class="section-card">
+        <h2><i class="fas fa-pencil-alt"></i> Create New Quiz</h2>
+        
+        <div class="quiz-builder">
+          <div class="quiz-header">
+            <div class="quiz-title">Week 3: JavaScript Fundamentals Quiz</div>
+            <button class="btn-secondary"><i class="fas fa-plus"></i> Add Question</button>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="quiz-title">Quiz Title</label>
+              <input type="text" id="quiz-title" placeholder="Enter quiz title" value="Week 3: JavaScript Fundamentals">
+            </div>
+            
+            <div class="form-group">
+              <label for="quiz-course">Course</label>
+              <select id="quiz-course">
+                <option value="web101" selected>Web Development Fundamentals</option>
+                <option value="data201">Data Science Essentials</option>
+                <option value="ai301">Advanced AI Concepts</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="quiz-time">Time Limit (minutes)</label>
+              <input type="number" id="quiz-time" value="30">
+            </div>
+            
+            <div class="form-group">
+              <label for="quiz-attempts">Attempts Allowed</label>
+              <input type="number" id="quiz-attempts" value="2">
+            </div>
+          </div>
+          
+          <div class="question-list">
+            <div class="question-item">
+              <div class="question-header">
+                <div class="question-type">Multiple Choice</div>
+                <div class="question-actions">
+                  <button class="action-btn"><i class="fas fa-edit"></i></button>
+                  <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Question</label>
+                <input type="text" value="What does 'DOM' stand for in JavaScript?">
+              </div>
+              <div class="options-list">
+                <div class="option-item">
+                  <input type="radio" name="q1" checked>
+                  <input type="text" value="Document Object Model">
+                </div>
+                <div class="option-item">
+                  <input type="radio" name="q1">
+                  <input type="text" value="Data Object Model">
+                </div>
+                <div class="option-item">
+                  <input type="radio" name="q1">
+                  <input type="text" value="Document Orientation Model">
+                </div>
+              </div>
+            </div>
+            
+            <div class="question-item">
+              <div class="question-header">
+                <div class="question-type">True/False</div>
+                <div class="question-actions">
+                  <button class="action-btn"><i class="fas fa-edit"></i></button>
+                  <button class="action-btn"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Question</label>
+                <input type="text" value="JavaScript is the same as Java.">
+              </div>
+              <div class="options-list">
+                <div class="option-item">
+                  <input type="radio" name="q2">
+                  <input type="text" value="True" disabled>
+                </div>
+                <div class="option-item">
+                  <input type="radio" name="q2" checked>
+                  <input type="text" value="False" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group full-width" style="margin-top: 20px;">
+            <button type="button"><i class="fas fa-plus-circle"></i> Add Another Question</button>
+            <button type="submit" style="margin-top: 10px;"><i class="fas fa-save"></i> Save Quiz</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-card">
+        <h2><i class="fas fa-list"></i> Existing Quizzes</h2>
+        <table class="content-table">
+          <thead>
+            <tr>
+              <th>Quiz Title</th>
+              <th>Course</th>
+              <th>Questions</th>
+              <th>Last Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Week 1: HTML/CSS Basics</td>
+              <td>Web Development</td>
+              <td>8</td>
+              <td>Sep 12, 2023</td>
+              <td>
+                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                <button class="action-btn"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>Data Types Quiz</td>
+              <td>Data Science</td>
+              <td>12</td>
+              <td>Oct 5, 2023</td>
+              <td>
+                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                <button class="action-btn"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Assignments Section -->
+    <div class="tab-content" id="assignments-tab" style="display: none;">
+      <div class="section-card">
+        <h2><i class="fas fa-tasks"></i> Create New Assignment</h2>
+        
+        <form class="assignment-form">
+          <div class="assignment-details">
+            <div class="form-group">
+              <label for="assignment-title">Assignment Title</label>
+              <input type="text" id="assignment-title" placeholder="Enter assignment title">
+            </div>
+            
+            <div class="form-group">
+              <label for="assignment-course">Course</label>
+              <select id="assignment-course">
+                <option value="">Select Course</option>
+                <option value="web101">Web Development Fundamentals</option>
+                <option value="data201">Data Science Essentials</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="due-date">Due Date</label>
+              <input type="date" id="due-date">
+            </div>
+            
+            <div class="form-group">
+              <label for="max-score">Max Score</label>
+              <input type="number" id="max-score" value="100">
+            </div>
+          </div>
+          
+          <div class="form-group assignment-instructions">
+            <label for="instructions">Instructions</label>
+            <textarea id="instructions" rows="5" placeholder="Provide detailed instructions for the assignment..."></textarea>
+          </div>
+          
+          <div class="form-group full-width">
+            <label>Attachments</label>
+            <input type="file">
+          </div>
+          
+          <div class="form-group full-width">
+            <button type="submit"><i class="fas fa-plus-circle"></i> Create Assignment</button>
+          </div>
+        </form>
+      </div>
+      
+      <div class="section-card">
+        <h2><i class="fas fa-clipboard-list"></i> Current Assignments</h2>
+        <table class="content-table">
+          <thead>
+            <tr>
+              <th>Assignment</th>
+              <th>Course</th>
+              <th>Due Date</th>
+              <th>Submissions</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Responsive Web Design</td>
+              <td>Web Development</td>
+              <td>Nov 15, 2023</td>
+              <td>24/30</td>
+              <td><span style="color: var(--success-green);">Active</span></td>
+              <td>
+                <button class="action-btn"><i class="fas fa-eye"></i></button>
+                <button class="action-btn"><i class="fas fa-edit"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>Data Cleaning Project</td>
+              <td>Data Science</td>
+              <td>Nov 10, 2023</td>
+              <td>18/22</td>
+              <td><span style="color: var(--success-green);">Active</span></td>
+              <td>
+                <button class="action-btn"><i class="fas fa-eye"></i></button>
+                <button class="action-btn"><i class="fas fa-edit"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td>JavaScript Functions</td>
+              <td>Web Development</td>
+              <td>Oct 30, 2023</td>
+              <td>28/30</td>
+              <td><span style="color: var(--error-red);">Closed</span></td>
+              <td>
+                <button class="action-btn"><i class="fas fa-chart-bar"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching functionality
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        // Hide all tab content
+        document.querySelectorAll('.tab-content').forEach(tc => tc.style.display = 'none');
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        
+        // Show corresponding content
+        const tabId = tab.getAttribute('data-tab');
+        document.getElementById(`${tabId}-tab`).style.display = 'block';
+      });
+    });
+    
+    // Form submission handling
+    document.getElementById('contentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.querySelector('#contentForm button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+      submitBtn.disabled = true;
+      
+      const statusDiv = document.getElementById('upload-status');
+      statusDiv.className = '';
+      statusDiv.textContent = '';
+      
+      // Simulate upload delay
+      setTimeout(() => {
+        statusDiv.textContent = '✅ Content uploaded successfully!';
+        statusDiv.className = 'success';
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+        
+        // Reset form after successful upload
+        document.getElementById('contentForm').reset();
+      }, 2000);
+    });
+    
+    // Action button functionality
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const icon = this.querySelector('i').className;
+        if (icon.includes('trash')) {
+          if(confirm('Are you sure you want to delete this item?')) {
+            const row = this.closest('tr');
+            row.style.opacity = '0.5';
+            row.style.backgroundColor = 'rgba(244, 67, 54, 0.05)';
+            setTimeout(() => {
+              row.remove();
+            }, 1000);
+          }
+        } else {
+          alert('Edit functionality would open a modal to edit this item.');
+        }
+      });
+    });
+    
+    // Add question to quiz
+    document.querySelector('.btn-secondary').addEventListener('click', () => {
+      alert('This would open a modal to add a new question to the quiz.');
+    });
+  </script>
+</body>
+</html>

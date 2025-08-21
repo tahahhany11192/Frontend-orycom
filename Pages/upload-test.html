@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instructor Content Upload</title>
+</head>
+<body>
+  <h2>Upload Instructor Content</h2>
+
+  <form id="uploadForm" enctype="multipart/form-data" method="POST" action="http://localhost:5000/api/content/instructor/upload">
+    <label>Title: <input type="text" name="title" required></label><br><br>
+
+    <label>Type:
+      <select name="type" required>
+        <option value="video">Video</option>
+        <option value="document">Document</option>
+        <option value="quiz">Quiz</option>
+      </select>
+    </label><br><br>
+
+    <label>Course ID: <input type="text" name="courseId"></label><br><br>
+    <label>Instructor ID: <input type="text" name="instructorId"></label><br><br>
+
+    <label>Select File: <input type="file" name="file" required></label><br><br>
+
+    <button type="submit">Upload</button>
+  </form>
+</body>
+</html>

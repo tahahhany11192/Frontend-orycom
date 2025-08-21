@@ -1,0 +1,31 @@
+<script>
+document.getElementById('create-course-form').addEventListener('submit', async (e) => {
+  e.preventDefault(); // ❗ PREVENT default form submit
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch('http://localhost:5000/api/courses/create', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+
+
+    if (response.ok) {
+      alert('✅ ' + result.message);
+      console.log(result);
+    } else {
+      alert('❌ Failed: ' + result.message);
+      console.error(result);
+    }
+  } catch (err) {
+  console.error('❌ Network or server error:', err); // Log full error
+  alert('❌ Network or server error: ' + err.message);
+}
+
+});
+</script>

@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignments | Orycom Education</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    /* Your CSS remains unchanged */
+    :root {
+      --primary-color: #7b2cbf;
+      --secondary-color: #9d4edd;
+      --accent-color: #ff9e00;
+      --success-color: #38b000;
+      --warning-color: #ffaa00;
+      --danger-color: #ff0054;
+      --text-color: #f8f9fa;
+      --dark-bg: #10002b;
+      --card-bg: rgba(29, 17, 53, 0.8);
+      --sidebar-bg: rgba(41, 21, 81, 0.6);
+      --header-gradient: linear-gradient(to right, #9d4edd, #ff9e00);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #10002b, #240046);
+      color: var(--text-color);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+    }
+    
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 250px;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+    }
+    
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .menu-item {
+      margin-bottom: 5px;
+    }
+    
+    .menu-link {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .menu-link:hover, .menu-link.active {
+      background: rgba(157, 78, 221, 0.2);
+      color: white;
+      border-left: 3px solid var(--accent-color);
+    }
+    
+    .menu-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      height: 100vh;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      background: var(--header-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--secondary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Stats Cards */
+    .stats-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 20px;
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(157, 78, 221, 0.3);
+    }
+    
+    .stat-card i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    
+    .stat-card.total i { color: var(--secondary-color); }
+    .stat-card.pending i { color: var(--warning-color); }
+    .stat-card.overdue i { color: var(--danger-color); }
+    .stat-card.completed i { color: var(--success-color); }
+    
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 10px 0;
+      background: var(--header-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+    
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 15px 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 12px 20px 12px 45px;
+      border: none;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      color: white;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.3);
+    }
+    
+    .search-box input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .search-box i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .filter-options {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 500;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+      background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(157, 78, 221, 0.4);
+    }
+    
+    /* Assignments Grid */
+    .assignments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .assignment-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .assignment-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(157, 78, 221, 0.3);
+    }
+    
+    .assignment-card.pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 84, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 0, 84, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 84, 0); }
+    }
+    
+    .assignment-header {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .assignment-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .assignment-title i {
+      color: var(--accent-color);
+      font-size: 1.2rem;
+    }
+    
+    .assignment-course {
+      display: inline-block;
+      background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+      box-shadow: 0 3px 10px rgba(157, 78, 221, 0.3);
+    }
+    
+    .assignment-desc {
+      color: rgba(255,255,255,0.7);
+      line-height: 1.5;
+      margin: 15px 0;
+    }
+    
+    .assignment-details {
+      padding: 20px;
+      background: rgba(41, 21, 81, 0.4);
+    }
+    
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+    }
+    
+    .detail-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    
+    .detail-label {
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+    
+    .detail-value {
+      font-weight: 500;
+      color: white;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .status-overdue {
+      background: rgba(255, 0, 84, 0.1);
+      color: var(--danger-color);
+      border: 1px solid var(--danger-color);
+    }
+    
+    .status-urgent {
+      background: rgba(255, 170, 0, 0.1);
+      color: var(--warning-color);
+      border: 1px solid var(--warning-color);
+    }
+    
+    .status-soon {
+      background: rgba(56, 176, 0, 0.1);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+    }
+    
+    .status-normal {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--secondary-color);
+      border: 1px solid var(--secondary-color);
+    }
+    
+    .status-submitted {
+      background: rgba(76, 201, 240, 0.1);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+    }
+    
+    .countdown {
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 15px 0;
+      background: rgba(67, 97, 238, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .countdown.overdue {
+      background: rgba(255, 0, 84, 0.1);
+      color: var(--danger-color);
+      border: 1px solid var(--danger-color);
+    }
+    
+    .countdown.urgent {
+      background: rgba(255, 170, 0, 0.1);
+      color: var(--warning-color);
+      border: 1px solid var(--warning-color);
+      animation: pulse 2s infinite;
+    }
+    
+    .countdown.soon {
+      background: rgba(56, 176, 0, 0.1);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+    }
+    
+    .countdown.normal {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--secondary-color);
+      border: 1px solid var(--secondary-color);
+    }
+    
+    .assignment-actions {
+      padding: 0 20px 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-submit {
+      background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+      color: white;
+      box-shadow: 0 5px 15px rgba(157, 78, 221, 0.3);
+    }
+    
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(157, 78, 221, 0.5);
+    }
+    
+    .btn-submit:disabled {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .btn-submit:disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .btn-view {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .btn-view:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-label {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+      border: 1px dashed rgba(255,255,255,0.2);
+    }
+    
+    .file-label:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: var(--secondary-color);
+    }
+    
+    .file-label i {
+      margin-right: 8px;
+    }
+    
+    .file-name {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: 8px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 0 20px;
+    }
+    
+    .file-name.submitted {
+      color: var(--success-color);
+      font-weight: 600;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 60px;
+      grid-column: 1 / -1;
+    }
+    
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(123, 44, 191, 0.1);
+      border-top-color: var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 60px 40px;
+      color: rgba(255,255,255,0.7);
+      grid-column: 1 / -1;
+      background: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .no-results i {
+      font-size: 3rem;
+      color: var(--secondary-color);
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.9; }
+      50% { opacity: 1; }
+      100% { opacity: 0.9; }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .stats-container {
+        gap: 15px;
+      }
+      
+      .stat-card {
+        min-width: 150px;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 70px;
+        overflow: hidden;
+      }
+      
+      .sidebar-header, .menu-text {
+        display: none;
+      }
+      
+      .menu-link {
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .menu-link i {
+        margin-right: 0;
+        font-size: 1.2rem;
+      }
+      
+      .stats-container {
+        flex-wrap: wrap;
+      }
+      
+      .stat-card {
+        min-width: calc(50% - 10px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .assignments-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .filter-bar {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .search-box {
+        max-width: 100%;
+      }
+      
+      .filter-options {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .filter-btn {
+        flex: 1;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .stat-card {
+        min-width: 100%;
+      }
+      
+      .assignment-actions {
+        flex-direction: column;
+      }
+    }
+            .logo {
+  display: flex;
+  align-items: center;
+animation: logoFloat 4s ease-in-out infinite;
+}
+
+
+.logo img {
+  height: 68px; /* Adjust as needed */
+  width: auto;
+  margin-right: 10px; /* Space between logo and text */
+}
+  </style>
+</head>
+<body>
+  <div id="particles-js" class="particles"></div>
+  
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+            <div class="logo">
+        <img src="../../uploads/orycomLogo.png" alt="Orycom Logo">
+      </div>
+    </div>
+    <ul class="sidebar-menu">
+      <li class="menu-item">
+        <a href="MyDashboard.html" class="menu-link">
+          <i class="fas fa-tachometer-alt"></i>
+          <span class="menu-text">Dashboard</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="../student-streams.html" class="menu-link">
+          <i class="fas fa-video"></i>
+          <span class="menu-text">Live Streams</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="assignments.html" class="menu-link active">
+          <i class="fas fa-tasks"></i>
+          <span class="menu-text">Assignments</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="MyCourses.html" class="menu-link">
+          <i class="fas fa-book-open"></i>
+          <span class="menu-text">My Courses</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="chat.html" class="menu-link">
+          <i class="fas fa-comments"></i>
+          <span class="menu-text">Chat</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <h1 class="page-title">Assignment Tracker</h1>
+      <div class="user-profile">
+        <div class="user-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats-container">
+      <div class="stat-card total animate__animated animate__fadeIn" style="animation-delay: 0.1s">
+        <i class="fas fa-tasks"></i>
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Total Assignments</div>
+      </div>
+      <div class="stat-card pending animate__animated animate__fadeIn" style="animation-delay: 0.2s">
+        <i class="fas fa-clock"></i>
+        <div class="stat-value" id="stat-pending">0</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card overdue animate__animated animate__fadeIn" style="animation-delay: 0.3s">
+        <i class="fas fa-exclamation-circle"></i>
+        <div class="stat-value" id="stat-overdue">0</div>
+        <div class="stat-label">Overdue</div>
+      </div>
+      <div class="stat-card completed animate__animated animate__fadeIn" style="animation-delay: 0.4s">
+        <i class="fas fa-check-circle"></i>
+        <div class="stat-value" id="stat-completed">0</div>
+        <div class="stat-label">Completed</div>
+      </div>
+    </div>
+    
+    <div class="filter-bar animate__animated animate__fadeIn">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Search assignments...">
+      </div>
+      <div class="filter-options">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="pending">Pending</button>
+        <button class="filter-btn" data-filter="overdue">Overdue</button>
+        <button class="filter-btn" data-filter="completed">Completed</button>
+      </div>
+    </div>
+    
+    <div class="assignments-grid" id="assignments-list">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading assignments...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Initialize particles.js background
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.particlesJS) {
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: "#9d4edd" },
+            shape: { type: "circle" },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#7b2cbf", opacity: 0.4, width: 1 },
+            move: { enable: true, speed: 3, direction: "none", random: true, straight: false, out_mode: "out" }
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: {
+              onhover: { enable: true, mode: "repulse" },
+              onclick: { enable: true, mode: "push" }
+            }
+          }
+        });
+      }
+
+      // API endpoints (replace with your actual endpoints)
+      const API_BASE_URL = "https://backend-orycom.fly.dev/api/content";
+      const ASSIGNMENTS_ENDPOINT = API_BASE_URL + "/my-assignments";
+      const SUBMIT_ENDPOINT = API_BASE_URL + "/submit-assignment/";
+      
+      // Global assignments data
+      let assignmentsData = [];
+      let filteredAssignments = [];
+      
+      // Function to calculate assignment status
+      function calculateAssignmentStatus(dueDate, isSubmitted = false) {
+        if (isSubmitted) {
+          return {
+            status: "submitted",
+            statusText: "Submitted",
+            class: "status-submitted"
+          };
+        }
+        
+        const now = new Date();
+        const due = new Date(dueDate);
+        const diff = due - now;
+        
+        if (diff < 0) {
+          return {
+            status: "overdue",
+            statusText: "Overdue",
+            class: "status-overdue"
+          };
+        }
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        if (days === 0 && hours < 24) {
+          return {
+            status: "urgent",
+            statusText: "Due Today",
+            class: "status-urgent"
+          };
+        } else if (days <= 2) {
+          return {
+            status: "soon",
+            statusText: "Due Soon",
+            class: "status-soon"
+          };
+        } else {
+          return {
+            status: "normal",
+            statusText: "Upcoming",
+            class: "status-normal"
+          };
+        }
+      }
+      
+      // Function to calculate time remaining
+      function calculateTimeRemaining(dueDate) {
+        const now = new Date();
+        const due = new Date(dueDate);
+        const diff = due - now;
+        
+        if (diff < 0) {
+          return {
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            totalSeconds: 0,
+            status: "overdue"
+          };
+        }
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const totalSeconds = Math.floor(diff / 1000);
+        
+        let status = "normal";
+        if (days === 0 && hours < 24) status = "urgent";
+        else if (days < 3) status = "soon";
+        
+        return {
+          days,
+          hours,
+          minutes,
+          totalSeconds,
+          status
+        };
+      }
+      
+      // Function to format date
+      function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      }
+      
+      // Function to update countdowns
+      function updateCountdowns() {
+        document.querySelectorAll('.countdown').forEach(element => {
+          const dueDate = element.dataset.due;
+          const time = calculateTimeRemaining(dueDate);
+          
+          element.className = 'countdown';
+          
+          if (time.totalSeconds <= 0) {
+            element.textContent = "Overdue!";
+            element.classList.add('overdue');
+          } else {
+            element.textContent = `${time.days}d ${time.hours}h ${time.minutes}m`;
+            
+            if (time.status === "urgent") {
+              element.classList.add('urgent');
+              element.classList.add('pulse');
+            } else if (time.status === "soon") {
+              element.classList.add('soon');
+            } else {
+              element.classList.add('normal');
+            }
+          }
+        });
+      }
+      
+      // Function to update stats
+      function updateStats() {
+        const now = new Date();
+        
+        const total = assignmentsData.length;
+        const overdue = assignmentsData.filter(a => {
+          const due = new Date(a.dueDate);
+          return due < now && !a.isSubmitted;
+        }).length;
+        
+        const pending = assignmentsData.filter(a => {
+          const due = new Date(a.dueDate);
+          return due >= now && !a.isSubmitted;
+        }).length;
+        
+        const completed = assignmentsData.filter(a => a.isSubmitted).length;
+        
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-pending').textContent = pending;
+        document.getElementById('stat-overdue').textContent = overdue;
+        document.getElementById('stat-completed').textContent = completed;
+      }
+      
+      // Function to render assignments
+      function renderAssignments(assignments) {
+        const container = document.getElementById('assignments-list');
+        
+        if (assignments.length === 0) {
+          container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
+            <i class="fas fa-inbox"></i>
+            <h3>No Assignments Found</h3>
+            <p>You don't have any assignments at this time.</p>
+          </div>`;
+          return;
+        }
+        
+        container.innerHTML = '';
+        
+        assignments.forEach((assignment, index) => {
+          const time = calculateTimeRemaining(assignment.dueDate);
+          const formattedDate = formatDate(assignment.dueDate);
+          const statusInfo = calculateAssignmentStatus(assignment.dueDate, assignment.isSubmitted);
+          
+          const card = document.createElement('div');
+          card.className = `assignment-card animate__animated animate__fadeInUp`;
+          card.style.animationDelay = `${index * 0.1}s`;
+          
+          // Add pulse animation for urgent assignments that aren't submitted
+          if (statusInfo.status === "urgent" && !assignment.isSubmitted) {
+            card.classList.add('pulse');
+          }
+          
+          card.innerHTML = `
+            <div class="assignment-header">
+              <div class="assignment-title">
+                ${assignment.lessonTitle}
+                <i class="fas fa-book"></i>
+              </div>
+              <span class="assignment-course">${assignment.courseTitle || "General"}</span>
+              <p class="assignment-desc">${assignment.question || "No description provided"}</p>
+            </div>
+            
+            <div class="assignment-details">
+              <div class="detail-item">
+                <span class="detail-label">Due Date:</span>
+                <span class="detail-value">${formattedDate}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Status:</span>
+                <span class="status-badge ${statusInfo.class}">
+                  ${statusInfo.statusText}
+                </span>
+              </div>
+              ${!assignment.isSubmitted ? `
+              <div class="countdown" data-due="${assignment.dueDate}">
+                ${time.totalSeconds > 0 ? 
+                  `${time.days}d ${time.hours}h ${time.minutes}m` : 
+                  'Overdue!'}
+              </div>
+              ` : ''}
+            </div>
+            
+            <div class="assignment-actions">
+              <label class="file-label" for="file-${assignment._id}" ${assignment.isSubmitted ? 'style="display: none;"' : ''}>
+                <i class="fas fa-paperclip"></i> Choose File
+              </label>
+              <button class="btn btn-submit" data-id="${assignment._id}" 
+                ${assignment.isSubmitted ? 'disabled' : ''}>
+                <i class="fas fa-paper-plane"></i> 
+                ${assignment.isSubmitted ? 'Submitted' : 'Submit'}
+              </button>
+            </div>
+            <div class="file-name ${assignment.isSubmitted ? 'submitted' : ''}" id="file-name-${assignment._id}">
+              ${assignment.submittedFileName || 'No file chosen'}
+            </div>
+            ${!assignment.isSubmitted ? `
+            <input type="file" class="file-input" id="file-${assignment._id}" data-id="${assignment._id}">
+            ` : ''}
+          `;
+          
+          container.appendChild(card);
+          
+          // Add event listeners to the newly created elements
+          if (!assignment.isSubmitted) {
+            const fileInput = card.querySelector(`#file-${assignment._id}`);
+            const submitBtn = card.querySelector('.btn-submit');
+            
+            fileInput.addEventListener('change', function() {
+              handleFileSelect(this);
+            });
+            
+            submitBtn.addEventListener('click', function() {
+              submitAssignment(assignment._id);
+            });
+          }
+        });
+        
+        // Update countdowns immediately
+        updateCountdowns();
+        
+        // Set interval to update countdowns every minute
+        if (!window.countdownInterval) {
+          window.countdownInterval = setInterval(updateCountdowns, 60000);
+        }
+      }
+      
+      // Function to filter assignments
+      function filterAssignments(filter) {
+        const now = new Date();
+        
+        switch(filter) {
+          case 'pending':
+            filteredAssignments = assignmentsData.filter(a => 
+              new Date(a.dueDate) >= now && !a.isSubmitted
+            );
+            break;
+          case 'overdue':
+            filteredAssignments = assignmentsData.filter(a => 
+              new Date(a.dueDate) < now && !a.isSubmitted
+            );
+            break;
+          case 'completed':
+            filteredAssignments = assignmentsData.filter(a => a.isSubmitted);
+            break;
+          default:
+            filteredAssignments = [...assignmentsData];
+        }
+        
+        renderAssignments(filteredAssignments);
+      }
+      
+      // Handle file selection
+      function handleFileSelect(input) {
+        const assignmentId = input.dataset.id;
+        const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
+        const fileNameEl = document.getElementById(`file-name-${assignmentId}`);
+        
+        fileNameEl.textContent = fileName;
+        fileNameEl.classList.remove('submitted');
+      }
+      
+      // Load assignments from API
+      async function loadAssignments() {
+        const token = localStorage.getItem("userToken");
+        const container = document.getElementById('assignments-list');
+        
+        try {
+          const res = await fetch(ASSIGNMENTS_ENDPOINT, {
+            headers: { "Authorization": `Bearer ${token}` }
+          });
+
+          if (!res.ok) {
+            container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h3>Error Loading Assignments</h3>
+              <p>We couldn't load your assignments. Please try again.</p>
+            </div>`;
+            console.error("Error fetching assignments:", res.status);
+            return;
+          }
+
+          assignmentsData = await res.json();
+          
+          // Add isSubmitted property if not provided by API
+          assignmentsData = assignmentsData.map(assignment => {
+            return {
+              ...assignment,
+              isSubmitted: assignment.isSubmitted || false,
+              submittedFileName: assignment.submittedFileName || null
+            };
+          });
+          
+          filteredAssignments = [...assignmentsData];
+          
+          updateStats();
+          renderAssignments(assignmentsData);
+          
+        } catch (err) {
+          container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Connection Error</h3>
+            <p>Please check your connection and try again.</p>
+          </div>`;
+          console.error("Error:", err);
+        }
+      }
+      
+      // Submit assignment
+      async function submitAssignment(assignmentId) {
+        const token = localStorage.getItem("userToken");
+        const fileInput = document.getElementById(`file-${assignmentId}`);
+        const file = fileInput.files[0];
+        
+        if (!file) {
+          alert("Please select a file before submitting.");
+          return;
+        }
+        
+        const formData = new FormData();
+        formData.append("assignmentFile", file);
+        
+        try {
+          const submitBtn = document.querySelector(`.btn-submit[data-id="${assignmentId}"]`);
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+          
+          const res = await fetch(SUBMIT_ENDPOINT + assignmentId, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData
+          });
+          
+          const data = await res.json();
+          
+          if (res.ok) {
+            alert("Assignment submitted successfully!");
+            
+            // Update the assignment in our data
+            const assignmentIndex = assignmentsData.findIndex(a => a._id === assignmentId);
+            if (assignmentIndex !== -1) {
+              assignmentsData[assignmentIndex].isSubmitted = true;
+              assignmentsData[assignmentIndex].submittedFileName = file.name;
+            }
+            
+            // Update the UI
+            const fileNameEl = document.getElementById(`file-name-${assignmentId}`);
+            fileNameEl.textContent = file.name + " (Submitted)";
+            fileNameEl.classList.add('submitted');
+            
+            // Disable the submit button and file input
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Submitted';
+            
+            const fileLabel = fileInput.closest('.assignment-card').querySelector('.file-label');
+            fileLabel.style.display = 'none';
+            
+            // Hide the countdown and update status
+            const countdown = fileInput.closest('.assignment-card').querySelector('.countdown');
+            if (countdown) countdown.style.display = 'none';
+            
+            const statusBadge = fileInput.closest('.assignment-card').querySelector('.status-badge');
+            statusBadge.className = 'status-badge status-submitted';
+            statusBadge.textContent = 'Submitted';
+            
+            // Update stats
+            updateStats();
+            
+            // Re-filter if we're in completed view
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            if (activeFilter === 'completed') {
+              filterAssignments('completed');
+            }
+            
+          } else {
+            alert(data.error || "Failed to submit assignment");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+          }
+        } catch (err) {
+          alert("Network error. Please try again.");
+          console.error("Error submitting:", err);
+          const submitBtn = document.querySelector(`.btn-submit[data-id="${assignmentId}"]`);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+        }
+      }
+      
+      // Initialize the page
+      loadAssignments();
+      
+      // Set up filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          filterAssignments(this.dataset.filter);
+        });
+      });
+      
+      // Set up search
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        
+        if (searchTerm === '') {
+          const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+          filterAssignments(activeFilter);
+          return;
+        }
+        
+        const filtered = filteredAssignments.filter(assignment => {
+          return (
+            assignment.title.toLowerCase().includes(searchTerm) ||
+            (assignment.description && assignment.description.toLowerCase().includes(searchTerm)) ||
+            (assignment.course && assignment.course.toLowerCase().includes(searchTerm))
+          );
+        });
+        
+        renderAssignments(filtered);
+      });
+    });
+  </script>
+</body>
+</html>

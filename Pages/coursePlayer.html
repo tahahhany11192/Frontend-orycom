@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <title>Course Player - NOVATech</title>
+  <link rel="stylesheet" href="../Styles/style2.css">
+  <script src="https://cdn.jsdelivr.net/npm/video.js@7.11.4/dist/video.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/video.js@7.11.4/dist/video-js.min.css" rel="stylesheet">
+  <script src="../Scripts/coursePlayer.js" defer></script>
+</head>
+<body>
+  <div class="course-player-container">
+    <div class="sidebar">
+      <div class="course-info">
+        <h2 id="courseTitle"></h2>
+        <div id="courseProgress"></div>
+      </div>
+      <div class="lessons-list" id="lessonsList"></div>
+    </div>
+    
+    <div class="main-content">
+      <div class="video-container">
+        <video id="lessonVideo" class="video-js" controls></video>
+      </div>
+      
+      <div class="lesson-content">
+        <h3 id="lessonTitle"></h3>
+        <div id="lessonDescription"></div>
+        
+        <div class="resources-section">
+          <h4>Resources</h4>
+          <div id="pdfsList"></div>
+        </div>
+        
+        <div class="assignments-section" id="assignmentsSection"></div>
+        
+        <div class="quizzes-section" id="quizzesSection"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

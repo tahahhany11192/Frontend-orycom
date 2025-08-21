@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <title>Orycom - Review</title>
+  <link rel="stylesheet" href="../Styles/style.css">
+  <script src="../Scripts/script.js" defer></script>
+  <style>
+    /* Dropdown styles */
+    .user-dropdown {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      z-index: 20;
+    }
+    .user-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .user-dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #fff;
+      min-width: 140px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .user-dropdown-content a, .user-dropdown-content button {
+      display: block;
+      padding: 12px 18px;
+      color: #222;
+      text-decoration: none;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .user-dropdown-content a:hover, .user-dropdown-content button:hover {
+      background: #f0f0f0;
+    }
+    .user-dropdown.open .user-dropdown-content {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- User icon dropdown menu -->
+  <div class="user-dropdown" id="userDropdown">
+    <button class="user-icon-btn" onclick="toggleUserDropdown()">
+      <img src="../uploads/8847419.png" alt="User" style="height:75px;width:75px;">
+    </button>
+    <div class="user-dropdown-content" id="userDropdownContent">
+      <!-- Menu will be filled by JS -->
+    </div>
+  </div>
+<video autoplay muted loop playsinline id="bg-video">
+  <source src="../uploads/AnimatedBackground.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<div style="text-align:center; margin-top: 1rem;">
+  <img src="../uploads/nova white png.png" alt="NOVATech Logo" style="height:220px; max-width:100vw;">
+</div>
+<nav>
+              <button class="menu-toggle" onclick="toggleMenu()"><b>☰</b></button>
+  <div id="nav-links" class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Courses</a>
+            <a href="contact.html">Contact</a>
+      <a href="aboutus.html">About Us</a>
+        </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Submit Your Review</h2>
+      <form>
+        <label3 for="review">Your Review:</label3><br>
+        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+        <input type="button" value="Submit" onclick="submitReview()">
+      </form>
+    </section>
+    <section>
+      <h3>Reviews:</h3>
+      <div id="reviewSection"></div>
+    </section>
+    <p><em>Ahmed El-Sayed – ⭐⭐⭐⭐⭐
+"أنا كنت محتاج ويبسايت سريع واحترافي لنشاطي التجاري، وفريق نوفا خلصوه في وقت قياسي وبجودة ممتازة. دعم فني رائع وتعامل محترم جدًا. شكراً ليكم!"
+(I needed a fast, professional website for my business, and Nova's team delivered it quickly with excellent quality. Great support and very respectful communication. Thank you!)</em></p>
+    <p><em>Mona Mostafa – ⭐⭐⭐⭐⭐
+"اشتغلت مع نوفا في تصميم فيديوهات موشن جرافيك لحملتي الدعائية، والنتائج كانت فوق توقعاتي. الفريق مبدع ومتعاون جدًا."
+(I worked with Nova on motion graphic videos for my ad campaign, and the results exceeded my expectations. The team is creative and super cooperative.)</em></p>
+    <p><em>Kareem Mahmoud – ⭐⭐⭐⭐⭐
+"الخدمة ممتازة، اشتغلت معاهم في التسويق الإلكتروني، وشوفت تطور حقيقي في السوشيال ميديا والـ ROI. محتاجين بس تحسين في سرعة الرد أحياناً."
+(Excellent service. I worked with them on digital marketing and saw real growth on social media and ROI. Just need slightly faster response time sometimes.)</em></p>
+    <p><em>Salma El-Shazly – ⭐⭐⭐⭐⭐
+"أنا مدرّسة لغة إنجليزية وانضميت لمركز نوفا لتعليم المعلمين. وفّروا لي كل حاجة: موقع، تسويق، دفع، ومساعدة أثناء الكورسات. فعلاً مريح ومحترف!"
+(I’m an English teacher and joined the Nova Teaching Center. They provided everything: a website, marketing, payments, and course support. Truly convenient and professional!)</em></p>
+    <p><em>Tamer Nabil – ⭐⭐⭐⭐⭐
+"أنا شغال فريلانسر وقررت أنضم لفريق نوفا. التدريب اللي أخدته فتح لي مجالات جديدة في التصميم والتسويق. أحسن قرار خدته!"
+(I’m a freelancer and decided to join Nova’s team. The training I received opened up new opportunities in design and marketing. Best decision I’ve made!)</em></p>
+  </main>
+  <footer>
+    <p>&copy; 2025 Nova tech. All rights reserved.</p>
+  </footer>
+
+  
+  <script>
+    // Dropdown logic
+    function toggleUserDropdown() {
+      document.getElementById('userDropdown').classList.toggle('open');
+    }
+    // Close dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('userDropdown');
+      if (!dropdown.contains(event.target)) {
+        dropdown.classList.remove('open');
+      }
+    });
+
+    // Fill dropdown menu based on login state
+    function renderUserDropdown() {
+      const content = document.getElementById('userDropdownContent');
+      const token = localStorage.getItem('token');
+      if (token) {
+        content.innerHTML = `
+          <a href="profile.html">Profile</a>
+          <button onclick="logout()">Logout</button>
+        `;
+      } else {
+        content.innerHTML = `
+          <a href="LOGIN2.html">Login</a>
+          <a href="registeration.html">Register</a>
+        `;
+      }
+    }
+    function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      window.location.href = "index.html";
+    }
+    renderUserDropdown();
+  </script>
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      navLinks.classList.toggle('show');
+    }
+    function toggleSpecs() {
+      const extraInfo = document.getElementById('extra-info');
+      extraInfo.style.display = extraInfo.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+
+</body>
+</html>

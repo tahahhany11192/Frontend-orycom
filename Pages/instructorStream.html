@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <title>Live Streaming - NOVATech</title>
+  <script src="https://cdn.jsdelivr.net/npm/aws-ivs-web-broadcast@1.7.0/dist/amazon-ivs-web-broadcast.js"></script>
+  <style>
+    .stream-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    #preview {
+      width: 100%;
+      max-height: 500px;
+      background: #000;
+    }
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }   
+    .stream-info {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="stream-container">
+    <h1>Live Streaming</h1>
+    <video id="preview" muted autoplay playsinline></video>
+    
+    <div class="controls">
+      <button id="startBtn">Start Streaming</button>
+      <button id="stopBtn" disabled>Stop Streaming</button>
+      <button id="screenShareBtn">Share Screen</button>
+    </div>
+    
+    <div class="stream-info">
+      <h3>Stream Information</h3>
+      <p><strong>Stream Key:</strong> <span id="streamKey"></span></p>
+      <p><strong>Server URL:</strong> <span id="serverUrl"></span></p>
+    </div>
+  </div>
+
+  <script src="../Scripts/instructorStream.js"></script>
+</body>
+</html>

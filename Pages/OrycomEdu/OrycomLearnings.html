@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orycom - Educational Excellence</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6a5af9;
+            --secondary: #d66efd;
+            --accent: #ff8c8c;
+            --light: #f7f9fc;
+            --dark: #2d3748;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --radius: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f5ff;
+            background-image: radial-gradient(#d66efd33 1px, transparent 1px), 
+                              radial-gradient(#6a5af933 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            color: var(--dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.5rem 2rem;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        nav ul li a:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            min-width: 220px;
+            padding: 1rem 0;
+            display: none;
+            z-index: 10;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .dropdown-content a {
+            padding: 0.7rem 1.5rem;
+            display: block;
+            color: var(--dark);
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-content a:hover {
+            background: rgba(106, 90, 249, 0.1);
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .login-btn, .Register-btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+        }
+        
+        .login-btn:hover, .Register-btn:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-3px);
+            border-color: transparent;
+        }
+        
+        .profile-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .profile-icon:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 3rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .hero-content {
+            flex: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 20px rgba(106, 90, 249, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(106, 90, 249, 0.4);
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #ff8c8c, #ffc58c);
+            top: -50px;
+            left: -50px;
+            animation: pulse 4s infinite;
+        }
+        
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #6a5af9, #d66efd);
+            bottom: -30px;
+            right: -30px;
+            animation: pulse 5s infinite;
+        }
+        
+        .main-image {
+            position: relative;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 10px solid white;
+            z-index: 2;
+        }
+        
+        .main-image img {
+            width: 100%;
+            display: block;
+        }
+        
+        /* Features Section */
+        .features {
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            z-index: 2;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: rgba(106, 90, 249, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 5rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+            color: #a0aec0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--gradient);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes logoFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .header-container {
+                padding: 0.5rem 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            padding: 2rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .close-menu {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+        }
+        
+        .mobile-nav ul li {
+            margin-bottom: 1rem;
+        }
+        
+        .mobile-nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+    .logo {
+  display: flex;
+  align-items: center;
+animation: logoFloat 4s ease-in-out infinite;
+}
+
+
+.logo img {
+  height: 68px; /* Adjust as needed */
+  width: auto;
+  margin-right: 10px; /* Space between logo and text */
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Header with Navigation -->
+  <header>
+    <div class="header-container">
+   <div class="logo">
+  <img src="../../uploads/orycomLogo.png" alt="Orycom Logo">
+</div>
+    
+            
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="MyDashboard.html"><i class="fas fa-tachometer-alt"></i> My Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="available-lessons.html"><i class="fas fa-school"></i> Egyptian Education (ar)</a>
+                        <div class="dropdown-content">
+                            <a href="available-lessons.html">Basic Education</a>
+                            <a href="available-lessons.html">Preparatory Education</a>
+                            <a href="available-lessons.html">Secondary Education</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="available-lessons.html"><i class="fas fa-book-open"></i> Egyptian Schools (en)</a>
+                        <div class="dropdown-content">
+                            <a href="available-lessons.html">Basic Education</a>
+                            <a href="available-lessons.html">Preparatory Education</a>
+                            <a href="available-lessons.html">Secondary Education</a>
+                        </div>
+                    </li>
+                    <li><a href="available-lessons.html"><i class="fas fa-globe"></i> IG Education</a></li>
+                    <li><a href="available-lessons.html"><i class="fas fa-flag-usa"></i> American Education</a></li>
+                </ul>
+            </nav>
+            
+            <div class="profile-section">
+                <a href="OrycomLogin.html"><button class="login-btn">Login</button></a>
+                <a href="OrycomRegister.html"><button class="Register-btn">Register</button></a>
+                <div class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Orycom</span>
+            </div>
+            <button class="close-menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-tachometer-alt"></i> My Dashboard</a></li>
+                <li>
+                    <a href="#"><i class="fas fa-school"></i> Egyptian Education (ar)</a>
+                    <ul>
+                        <li><a href="#">Basic Education</a></li>
+                        <li><a href="#">Preparatory Education</a></li>
+                        <li><a href="#">Secondary Education</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-book-open"></i> Egyptian Schools (en)</a>
+                    <ul>
+                        <li><a href="#">Basic Education</a></li>
+                        <li><a href="#">Preparatory Education</a></li>
+                        <li><a href="#">Secondary Education</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="fas fa-globe"></i> IG Education</a></li>
+                <li><a href="#"><i class="fas fa-flag-usa"></i> American Education</a></li>
+            </ul>
+        </nav>
+        
+        <div class="profile-section">
+           <a href="OrycomLogin.html"><button class="login-btn">Login</button></a>
+            <a href="OrycomRegister.html"><button class="Register-btn">Register</button></a>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Transform Your Learning Experience with Orycom</h1>
+            <p>Join Egypt's leading educational platform for all school levels and types. We offer personalized learning paths, interactive content, and expert teachers to help you succeed.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-play-circle"></i> Watch Demo
+                </button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-image-container">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="main-image">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Students Learning">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why Choose Orycom?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>Comprehensive Curriculum</h3>
+                <p>Covering all Egyptian, IG, and American curricula with materials for all grade levels and subjects.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3>Expert Teachers</h3>
+                <p>Learn from certified teachers with years of experience in their respective fields.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3>Interactive Lessons</h3>
+                <p>Engaging video lessons, quizzes, and interactive exercises to enhance understanding.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Friendly</h3>
+                <p>Access your lessons anytime, anywhere on any device with our responsive platform.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Progress Tracking</h3>
+                <p>Monitor your progress with detailed analytics and personalized recommendations.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3>Bilingual Content</h3>
+                <p>All content available in both Arabic and English to suit your learning preferences.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Orycom</h3>
+                <p>Egypt's premier educational platform for all school levels and curricula. Empowering students to achieve academic excellence.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Courses</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Teachers</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Pricing</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Education Systems</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Egyptian Education (ar)</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Egyptian Schools (en)</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> IG Education</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> American Education</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Special Needs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Cairo, Egypt</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +20 123 456 7890</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> info@orycom.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Sun-Thu: 8AM - 8PM</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Orycom Educational Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeMenu = document.querySelector('.close-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+        
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+        
+        // Feature card animation on scroll
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            observer.observe(card);
+        });
+        
+        // Login button animation
+        const loginBtn = document.querySelector('.login-btn');
+        
+        loginBtn.addEventListener('mouseenter', () => {
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        });
+        
+        loginBtn.addEventListener('mouseleave', () => {
+            loginBtn.innerHTML = 'Login';
+        });
+        
+        // Profile icon animation
+        const profileIcon = document.querySelector('.profile-icon');
+        
+        profileIcon.addEventListener('click', () => {
+            profileIcon.innerHTML = '<i class="fas fa-user-check"></i>';
+            setTimeout(() => {
+                profileIcon.innerHTML = '<i class="fas fa-user"></i>';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

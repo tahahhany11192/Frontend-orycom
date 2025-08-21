@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <title>User Profile - NOVATech</title>
+  <link rel="stylesheet" href="../Styles/style.css">
+  <script src="../Scripts/script.js" defer></script>
+</head>
+<body>
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="../uploads/AnimatedBackground.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div style="text-align:center; margin-top:1rem;">
+    <img src="../uploads/nova white png.png" alt="NOVATech Logo" style="height:220px; max-width:100vw;">
+  </div>
+
+  <nav>
+    <button class="menu-toggle" onclick="toggleMenu()"><b>☰</b></button>
+    <div id="nav-links" class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="products.html">Courses</a>
+      <a href="contact.html">Contact</a>
+      <a href="Review1.html">Review</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="#" onclick="logout();return false;">Logout</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="profile-section" style="max-width:600px;margin:2rem auto;padding:2rem;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+      <h2 style="text-align:center;color:rgb(93,243,93);margin-bottom:1.5rem;">User Profile</h2>
+<div id="profileInfo" style="font-size:1.1rem; text-align:center;">
+  <img id="profileImg" src="" alt="Profile Photo" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 10px;" />
+  <br>
+  <input type="file" id="newPhoto" accept="image/*" />
+  <button onclick="updateProfilePhoto()">Update Photo</button>
+
+  <div id="profileDetails"></div>
+</div>
+
+      <h3 style="margin-top:2rem;color:#4f46e5;">My Paid Courses</h3>
+      <div id="coursesList">
+        Loading courses...
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 NOVATech. Empowering your future in tech.
+  </footer>
+
+</body>
+</html>

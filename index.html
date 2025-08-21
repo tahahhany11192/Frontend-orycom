@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/jpg" href="uploads/orycomLogo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orycom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="Styles/style2.css">
+	<script src="Script/script2.js" defer></script>
+</head>
+<body>
+
+
+    <!-- Preview Header -->
+    <div class="preview-header">
+        <img src="uploads/orycomLogo.png" alt="Orycom Theme" width="105" height="75">
+        <strong>Limited time offers</strong>
+        <a href="Pages/products.html" target="_blank">Get Your Course</a>
+
+            <!-- Add this right after <body> -->
+<div class="user-dropdown" id="userDropdown">
+<!-- In your user-dropdown HTML, update the img tag to have an id -->
+<button class="user-icon-btn" onclick="toggleUserDropdown()">
+  <img id="userIconImg" src="uploads/8847419.png" alt="User" style="height:75px;width:75px;">
+</button>
+  <div class="user-dropdown-content" id="userDropdownContent">
+    <!-- Menu will be filled by JS -->
+  </div>
+</div>
+    </div>
+
+
+    <!-- Main Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+20 01010909404</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Info@Orycom.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="logo">
+                    <a href="#"><img src="uploads/orycomLogo.png" alt="Orycom theme" width="158" height="85"></a>
+                </div>
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="Pages/aboutus.html">About</a></li>
+                    <li><a href="Pages/OrycomEdu/OrycomLearnings.html">Orycom Learnings</a></li>
+					<li><a href="Pages/home.html">Courses</a></li>
+                    <li><a href="Pages/OrycomEdu/OutOfService.html">Projects</a></li>
+					<li><a href="Pages/Review1.html">FAQ's</a></li>
+                    <li><a href="Pages/contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+<!-- Hero Slider -->
+<section class="hero-slider">
+    <div class="slide slide-1 active" style="background-image: url('uploads/Slider2.png'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="slide-content">
+                <h2>WE MAKE QUALITY</h2>
+                <p>Our Mission</p>
+                <p>Orycom builds modern solutions for web, design, and business. We empower the next generation of creators and leaders.</p>
+                <div class="btn-group">
+                    <a href="Pages/products.html" class="btn">Our Courses</a>
+                    <a href="Pages/icdlcourse-details.html" class="btn btn-light">Get a Free Course</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide slide-2" style="background-image: url('uploads/slider3.png'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="slide-content">
+                <h2>LEARN SAFELY, GROW SMARTLY</h2>
+                <p>Our Services</p>
+                <p>From tech to creative, Orycom offers safe, reliable, and innovative services for all your needs.</p>
+                <div class="btn-group">
+                    <a href="Pages/aboutus.html" class="btn">Our Services</a>
+                    <a href="Pages/contact.html" class="btn btn-light">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide slide-3" style="background-image: url('uploads/Slider1.png'); background-size: cover; background-position: center;">
+        <div class="container">
+            <div class="slide-content">
+                <h2>COMPANY OF QUALITY</h2>
+                <p>About Us</p>
+                <p>Discover how Orycom is changing the future of learning, freelancing, and business growth.</p>
+                <div class="btn-group">
+                    <a href="Pages/projects.html" class="btn">Our Projects</a>
+                    <a href="Pages/aboutus.html" class="btn btn-light">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slider-controls">
+        <div class="slider-dot active"></div>
+        <div class="slider-dot"></div>
+        <div class="slider-dot"></div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="services-section">
+    <div class="container">
+        <div class="section-title">
+            <div class="shape"></div>
+            <p>OUR SERVICES</p>
+            <h2>WHAT WE DO?</h2>
+            <p>We deliver modern web solutions, creative design, business growth, and global learning opportunities for everyone.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-box">
+                <div class="service-icon">
+                    <img src="uploads/webicon.png" alt="Web Development">
+                </div>
+                <h3>Web Development</h3>
+                <p>Fast, scalable, and beautiful websites for individuals and businesses.</p>
+            </div>
+            <div class="service-box">
+                <div class="service-icon">
+                    <img src="uploads/designicon.png" alt="Creative Design">
+                </div>
+                <h3>Creative Design</h3>
+                <p>Logos, graphics, videos, and animations that bring ideas to life.</p>
+            </div>
+            <div class="service-box">
+                <div class="service-icon">
+                    <img src="uploads/marketingicon.png" alt="Marketing & Growth">
+                </div>
+                <h3>Marketing & Growth</h3>
+                <p>Smart campaigns and brand management for business success.</p>
+            </div>
+            <div class="service-box">
+                <div class="service-icon">
+                    <img src="uploads/teachingicon.png" alt="Teaching Center">
+                </div>
+                <h3>Teaching Center</h3>
+                <p>Connect teachers and students worldwide for future-ready skills.</p>
+            </div>
+        </div>
+        <div class="cta-container">
+            <a href="Pages/products.html" class="btn">VIEW ALL COURSES</a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number">500<i>+</i></div>
+                <div class="stat-text">Graduates</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">120<i>+</i></div>
+                <div class="stat-text">Projects Delivered</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">30<i>+</i></div>
+                <div class="stat-text">Partners</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-title">
+            <p>WHY Orycom?</p>
+            <h2>ALL-IN-ONE DIGITAL HUB</h2>
+            <p>Double everything. Create anything. Grow everywhere.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <img src="uploads/freelance-icon.png" alt="Freelancing" height="170" style="margin-bottom: 20px;">
+                </div>
+                <h3>Freelancing Ecosystem</h3>
+                <p>We train and empower full-stack freelancers for any project.</p>
+                <a href="Pages/aboutus.html" class="btn">Read more</a>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <img src="uploads/global-icon.png" alt="Global Teaching" height="170" style="margin-bottom: 20px;">
+                </div>
+                <h3>Global Teaching Center</h3>
+                <p>Teachers and students connect, learn, and grow with our platform.</p>
+                <a href="Pages/products.html" class="btn">Read more</a>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <img src="uploads/support-icon.png" alt="Support"height="170" style="margin-bottom: 20px;">
+                </div>
+                <h3>End-to-End Support</h3>
+                <p>From tech to creative to business, we support every step.</p>
+                <a href="Pages/contact.html" class="btn">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section class="projects-section">
+    <div class="container">
+        <div class="section-title">
+            <div class="shape"></div>
+            <p>OUR PROJECTS</p>
+            <h2>WHAT WE'VE DONE?</h2>
+        </div>
+        <div class="projects-carousel">
+            <div class="projects-container">
+                <div class="project-item">
+                    <div class="project-image" style="background-image: url('uploads/learning.png');"></div>
+                    <div class="project-overlay">
+                        <h3>Online Learning Platform</h3>
+                        <p>Education</p>
+                        <a href="Pages/home.html" class="btn">View Project</a>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-image" style="background-image: url('uploads/brandsproject.jpg');"></div>
+                    <div class="project-overlay">
+                        <h3>Brand Identity for Startups</h3>
+                        <p>Design</p>
+                        <a href="Pages/home.html" class="btn">View Project</a>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-image" style="background-image: url('uploads/marketing.jpg');"></div>
+                    <div class="project-overlay">
+                        <h3>Marketing Campaigns</h3>
+                        <p>Business Growth</p>
+                        <a href="Pages/home.html" class="btn">View Project</a>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-image" style="background-image: url('uploads/training.png');"></div>
+                    <div class="project-overlay">
+                        <h3>Freelancer Training Bootcamp</h3>
+                        <p>Freelancing</p>
+                        <a href="Pages/home.html" class="btn">View Project</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="section-title">
+            <p>JOIN Orycom</p>
+            <h2>EMPOWER YOUR FUTURE</h2>
+            <p>Ready to learn, create, and grow? Explore our courses and join the Orycom movement today!</p>
+        </div>
+        <a href="Pages/products.html" class="btn">READ MORE</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-widget">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="Pages/aboutus.html">About Us</a></li>
+					<li><a href="Pages/home.html">Orycom Learnings</a></li>
+                    <li><a href="Pages/products.html">Courses</a></li>
+                    <li><a href="Pages/projects.html">Projects</a></li>
+                    <li><a href="Pages/contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-widget">
+                <h4>Courses</h4>
+                <ul>
+                    <li><a href="Pages/product1.html">Full ICDL Course</a></li>
+                    <li><a href="Pages/product2.html">Programming Course</a></li>
+                    <li><a href="Pages/product3.html">Graphic Design Course</a></li>
+                    <li><a href="Pages/product4.html">Digital Marketing Course</a></li>
+                    <li><a href="Pages/product5.html">Finance Management Course</a></li>
+                </ul>
+            </div>
+            <div class="footer-widget">
+                <h4>Partners</h4>
+                <ul>
+                    <li><a href="https://www.facebook.com/th.hany.th?locale=ar_AR">Eng.Taha Hany Taha</a></li>
+                    <li><a href="https://www.facebook.com/gamaleldin.ahmedyasser?locale=ar_AR">Eng.Gamal Eldin</a></li>
+                    <li><a href="https://www.facebook.com/eyadking.eyad.9?locale=ar_AR">Prof.Eyad Osman</a></li>
+                    <li><a href="https://www.facebook.com/hasan.aboali.7967?locale=ar_AR">Prof.Hassan Mohamed</a></li>
+                </ul>
+            </div>
+            <div class="footer-widget">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/c5EE2cdQ4kxpXhED7">123 Orycom Cairo, Egypt</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+200101909404">+20 0101909404</a></li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:info@Orycom.com">info@Orycom.com</a></li>
+                    <li><i class="fas fa-clock"></i> Mon-Fri: 9AM - 6PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Orycom. Empowering your future in tech.</p>
+        </div>
+    </div>
+
+</footer>
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+        
+        // Hero Slider
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        // Dot click events
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Auto slide change
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+        
+        // Projects Carousel
+        const projectsContainer = document.querySelector('.projects-container');
+        const projectItems = document.querySelectorAll('.project-item');
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+        let currentProject = 0;
+        
+        function updateProjects() {
+            const itemWidth = projectItems[0].offsetWidth;
+            projectsContainer.style.transform = `translateX(-${currentProject * (itemWidth + 30)}px)`;
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentProject > 0) {
+                currentProject--;
+                updateProjects();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentProject < projectItems.length - 3) {
+                currentProject++;
+                updateProjects();
+            }
+        });
+        
+        // Initialize on window resize
+        window.addEventListener('resize', updateProjects);
+    </script>
+    <script>
+  function toggleUserDropdown() {
+    document.getElementById('userDropdown').classList.toggle('open');
+  }
+  document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('userDropdown');
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove('open');
+    }
+  });
+  function renderUserDropdown() {
+    const content = document.getElementById('userDropdownContent');
+    const token = localStorage.getItem('token');
+    if (token) {
+      content.innerHTML = `
+        <a href="Pages/profile.html">Profile</a>
+        <button onclick="logout()">Logout</button>
+      `;
+    } else {
+      content.innerHTML = `
+        <a href="Pages/Login.html">Login</a>
+        <a href="Pages/register.html">Register</a>
+      `;
+    }
+  }
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    window.location.href = "Pages/Login.html";
+  }
+  renderUserDropdown();
+
+</script>
+<script>
+  // ...existing code...
+
+  function updateUserIcon() {
+    const token = localStorage.getItem('token');
+    const profileImg = localStorage.getItem('profileImg').src = `http://localhost:5000/uploads/${user.photo}`; // Store user image URL after login
+    const icon = document.getElementById('userIconImg');
+    if (profileImg && icon) {
+      userIconImg.src = profileImg;
+    } else if (icon) {
+      icon.src = "8847419.png"; // Default icon
+    }
+  }
+
+  // Call after rendering dropdown
+  renderUserDropdown();
+  updateUserIcon();
+
+  // Example: After successful login, set user image in localStorage
+  // localStorage.setItem('userImage', 'path/to/user-image.jpg');
+</script>
+<script>
+// Count-up animation for .stat-number
+document.querySelectorAll('.stat-number').forEach(function(el) {
+  const target = parseInt(el.textContent);
+  let start = 0;
+  const duration = 2000; // 2 seconds
+  const stepTime = Math.max(Math.floor(duration / target), 20);
+
+  function updateNumber() {
+    start++;
+    el.textContent = start + '+';
+    if (start < target) {
+      setTimeout(updateNumber, stepTime);
+    } else {
+      el.textContent = target + '+';
+    }
+  }
+  el.textContent = '0+';
+  updateNumber();
+});
+</script>
+
+
+
+
+<script>
+// Typewriter effect for .slide-content h2
+function typeWriter(element, text, speed = 50, callback) {
+  let i = 0;
+  element.textContent = "";
+  function typing() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    } else if (callback) {
+      callback();
+    }
+  }
+  typing();
+}
+
+// Apply typewriter effect when slide becomes active
+function applyTypewriterToActiveSlide() {
+  document.querySelectorAll('.slide-content h2').forEach(h2 => {
+    h2.textContent = h2.getAttribute('data-original') || h2.textContent;
+  });
+  const activeSlide = document.querySelector('.slide.active .slide-content h2');
+  if (activeSlide) {
+    if (!activeSlide.getAttribute('data-original')) {
+      activeSlide.setAttribute('data-original', activeSlide.textContent);
+    }
+    typeWriter(activeSlide, activeSlide.getAttribute('data-original'));
+  }
+}
+
+// Initial run
+applyTypewriterToActiveSlide();
+
+// Re-run on slide change
+dots = document.querySelectorAll('.slider-dot');
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    setTimeout(applyTypewriterToActiveSlide, 300); // Wait for slide transition
+  });
+});
+setInterval(() => {
+  setTimeout(applyTypewriterToActiveSlide, 300);
+}, 5000);
+</script>
+<script>
+// Typewriter effect for .slide-content h2
+function typeWriter(element, text, speed = 50, callback) {
+  let i = 0;
+  element.textContent = "";
+  function typing() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    } else if (callback) {
+      callback();
+    }
+  }
+  typing();
+}
+
+// Apply typewriter effect when slide becomes active
+function applyTypewriterToActiveSlide() {
+  document.querySelectorAll('.slide-content p').forEach(p => {
+    p.textContent = p.getAttribute('data-original') || p.textContent;
+  });
+  const activeSlide = document.querySelector('.slide.active .slide-content p');
+  if (activeSlide) {
+    if (!activeSlide.getAttribute('data-original')) {
+      activeSlide.setAttribute('data-original', activeSlide.textContent);
+    }
+    typeWriter(activeSlide, activeSlide.getAttribute('data-original'));
+  }
+}
+
+// Initial run
+applyTypewriterToActiveSlide();
+
+// Re-run on slide change
+dots = document.querySelectorAll('.slider-dot');
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    setTimeout(applyTypewriterToActiveSlide, 300); // Wait for slide transition
+  });
+});
+setInterval(() => {
+  setTimeout(applyTypewriterToActiveSlide, 300);
+}, 5000);
+</script>
+
+</body>
+</html>

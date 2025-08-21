@@ -1,0 +1,267 @@
+<form id="addLessonForm" class="lesson-form">
+  <div class="form-group">
+    <label for="title">Lesson Title*</label>
+    <input type="text" id="title" placeholder="Enter lesson title" required>
+    <div class="error-message" id="title-error"></div>
+  </div>
+  
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description" placeholder="Enter lesson description"></textarea>
+  </div>
+  
+  <div class="form-group">
+    <label for="videoUrl">Video URL</label>
+    <input type="url" id="videoUrl" placeholder="https://example.com/video">
+    <div class="error-message" id="video-error"></div>
+    <small class="hint">Optional - must be a valid URL if provided</small>
+  </div>
+  
+  <div class="form-actions">
+    <button type="submit" id="submitBtn" class="btn-primary">
+      <span class="btn-text">Add Lesson</span>
+      <span class="spinner hidden" id="spinner"></span>
+    </button>
+    <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+  </div>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('addLessonForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const spinner = document.getElementById('spinner');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const courseId = new URLSearchParams(window.location.search).get('courseId');
+
+    // Validate video URL format
+    const validateVideoUrl = (url) => {
+      if (!url) return true; // Optional field
+      try {
+        new URL(url);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const videoUrl = document.getElementById('videoUrl').value.trim();
+      
+      // Clear previous errors
+      document.getElementById('title-error').textContent = '';
+      document.getElementById('video-error').textContent = '';
+      
+      // Validate inputs
+      let isValid = true;
+      
+      if (!title) {
+        document.getElementById('title-error').textContent = 'Title is required';
+        isValid = false;
+      }
+      
+      if (videoUrl && !validateVideoUrl(videoUrl)) {
+        document.getElementById('video-error').textContent = 'Please enter a valid URL';
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Show loading state
+      submitBtn.disabled = true;
+      spinner.classList.remove('hidden');
+      document.querySelector('.btn-text').textContent = 'Adding...';
+      
+      try {   
+        const res = await fetch(`http://localhost:5000/api/courses/${courseId}/lessons`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({ title, description, videoUrl })
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(data.message || 'Failed to add lesson');
+        }
+        
+        // Show success message and redirect
+        showToast('Lesson added successfully!', 'success');
+        setTimeout(() => {
+          window.location.href = `/course/edit/${courseId}`; // Redirect to course edit page
+        }, 1500);
+        
+      } catch (error) {
+        showToast(error.message || 'Error adding lesson', 'error');
+        console.error('Error:', error);
+      } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        spinner.classList.add('hidden');
+        document.querySelector('.btn-text').textContent = 'Add Lesson';
+      }
+    });
+    
+    cancelBtn.addEventListener('click', () => {
+      window.location.href = `/course/edit/${courseId}`;
+    });
+    
+    // Helper function to show toast notifications
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+  });
+</script>
+
+<style>
+  .lesson-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .hint {
+    color: #666;
+    font-size: 13px;
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+  }
+  
+  .btn-primary {
+    background: #3498db;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background: #2980b9;
+  }
+  
+  .btn-secondary {
+    background: #ecf0f1;
+    color: #333;
+  }
+  
+  .btn-secondary:hover {
+    background: #bdc3c7;
+  }
+  
+  .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 4px;
+    color: white;
+    z-index: 1000;
+    animation: slideIn 0.3s;
+  }
+  
+  .toast.success {
+    background: #27ae60;
+  }
+  
+  .toast.error {
+    background: #e74c3c;
+  }
+  
+  .toast.info {
+    background: #3498db;
+  }
+  
+  .fade-out {
+    animation: fadeOut 0.5s;
+    opacity: 0;
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+</style>

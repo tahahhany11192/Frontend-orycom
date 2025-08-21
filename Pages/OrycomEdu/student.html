@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
+  <meta charset="utf-8" />
+  <title>Student — Join Live</title>
+  <style>
+    body{font-family:Arial;padding:20px;background:#f8fafc;color:#0f172a}
+    .card{max-width:720px;margin:auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 8px 24px rgba(2,6,23,0.06)}
+    input,button{padding:10px;border-radius:8px;border:1px solid #e6edf3}
+    button{cursor:pointer;background:#10b981;color:white;border:none}
+    .muted{color:#64748b}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Student — Check Host & Join</h2>
+    <p class="muted">Enter the course id to check whether the instructor is live.</p>
+
+    <input id="courseId" placeholder="Course ID" style="width:100%;margin:8px 0"/>
+
+    <div style="display:flex;gap:8px">
+      <button id="checkBtn">Check Host Status</button>
+      <button id="requestJoinBtn" style="background:#2563eb">Request Join Token</button>
+    </div>
+
+    <p id="status" class="muted" style="margin-top:10px"></p>
+    <pre id="out" style="background:#f3f4f6;padding:10px;border-radius:8px;max-height:260px;overflow:auto"></pre>
+  </div>
+
+<script>
+const API_BASE = 'https://backend-orycom.fly.dev';
+const checkBtn = document.getElementById('checkBtn');
+const requestJoinBtn = document.getElementById('requestJoinBtn');
+const courseInput = document.getElementById('courseId');
+const statusEl = document.getElementById('status');
+const out = document.getElementById('out');
+
+function log(...args){ const line = document.createElement('div'); line.textContent = `[${new Date().toLocaleTimeString()}] ${args.join(' ')}`; out.prepend(line); }
+function getToken(){ return localStorage.getItem('userToken') || localStorage.getItem('token') || ''; }
+
+// Polling helper: check live session for this course
+checkBtn.onclick = async () => {
+  const courseId = courseInput.value.trim();
+  if (!courseId) return alert('Enter course id');
+
+  try {
+    const res = await fetch(`${API_BASE}/api/live/status/course/${courseId}`);
+    if (!res.ok) throw new Error('Status request failed: ' + res.status);
+    const data = await res.json();
+    log('status:', JSON.stringify(data));
+    if (data.isLive) {
+      statusEl.textContent = `Host is online! sessionId: ${data.sessionId}`;
+      statusEl.style.color = 'green';
+      localStorage.setItem('lastLiveSessionId', data.sessionId);
+    } else {
+      statusEl.textContent = 'Host is offline';
+      statusEl.style.color = '#6b7280';
+      localStorage.removeItem('lastLiveSessionId');
+    }
+  } catch (err) {
+    console.error(err);
+    log('check error:' + (err.message || err));
+  }
+};
+
+// Request join token for the current (last) session
+requestJoinBtn.onclick = async () => {
+  const token = getToken();
+  if (!token) return alert('You must be logged in (userToken) to request join token');
+  const courseId = courseInput.value.trim();
+  const sessionId = localStorage.getItem('lastLiveSessionId');
+  if (!courseId || !sessionId) return alert('Enter courseId and make sure host is live');
+
+  try {
+    const res = await fetch(`${API_BASE}/api/live/request-join`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ courseId, sessionId })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || JSON.stringify(data));
+    log('Join token:', JSON.stringify(data));
+    alert('Received join token (open console/out for details).');
+    // Save token for socket handshake / peer usage:
+    localStorage.setItem('roomToken', data.roomToken || data.token || data.roomToken || data.roomToken);
+  } catch (err) {
+    console.error(err);
+    log('request-join error:' + (err.message || err));
+    alert('Request join failed: ' + (err.message || err));
+  }
+};
+</script>
+</body>
+</html>

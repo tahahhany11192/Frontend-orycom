@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Settings | EdOrycom</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-blue: #1a73e8;
+      --secondary-blue: #4285f4;
+      --accent-blue: #64b5f6;
+      --dark-blue: #0d47a1;
+      --light-blue: #e3f2fd;
+      --background-blue: #f0f7ff;
+      --success-green: #4caf50;
+      --warning-orange: #ff9800;
+      --error-red: #f44336;
+      --purple: #9c27b0;
+      --teal: #009688;
+      --pink: #e91e63;
+      --text-dark: #202124;
+      --text-medium: #5f6368;
+      --text-light: #ffffff;
+      --border-color: #dadce0;
+      --card-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
+      --sidebar-width: 260px;
+      --animation-duration: 0.5s;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--background-blue);
+      color: var(--text-dark);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: linear-gradient(to bottom, var(--primary-blue), var(--dark-blue));
+      color: var(--text-light);
+      padding: 25px 0;
+      height: 100vh;
+      position: fixed;
+      overflow-y: auto;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      padding: 0 25px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 25px;
+    }
+
+    .logo i {
+      font-size: 28px;
+      margin-right: 12px;
+    }
+
+    .logo h1 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      list-style: none;
+      padding: 0 15px;
+    }
+
+    .nav-links li {
+      margin-bottom: 5px;
+    }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .nav-links i {
+      font-size: 20px;
+      margin-right: 12px;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      padding: 30px;
+      transition: all var(--animation-duration) ease;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--primary-blue);
+      animation: fadeInDown var(--animation-duration) ease;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      animation: fadeInRight var(--animation-duration) ease;
+      gap: 15px;
+    }
+
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 12px;
+      border: 2px solid var(--primary-blue);
+    }
+
+    /* Settings Card Styles */
+    .settings-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    
+    @media (max-width: 992px) {
+      .settings-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .settings-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      animation: fadeInUp var(--animation-duration) ease;
+    }
+    
+    .settings-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(66, 133, 244, 0.2);
+    }
+    
+    .settings-card h3 {
+      font-size: 20px;
+      color: var(--primary-blue);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .settings-card h3 i {
+      margin-right: 10px;
+      color: var(--secondary-blue);
+    }
+    
+    .profile-photo {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+      margin: 0 auto 20px;
+    }
+    
+    .profile-photo img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary-blue);
+      box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .profile-photo:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(26, 115, 232, 0.4);
+    }
+    
+    .photo-edit {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: var(--primary-blue);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .photo-edit:hover {
+      background: var(--dark-blue);
+      transform: scale(1.1);
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-medium);
+      font-weight: 500;
+      font-size: 14px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      padding: 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #f9f9f9;
+    }
+    
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+      background: white;
+    }
+    
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .file-input-wrapper input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    
+    .file-input-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem;
+      background: var(--light-blue);
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      color: var(--text-medium);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input-button:hover {
+      background: rgba(26, 115, 232, 0.1);
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+    }
+    
+    .file-input-button i {
+      margin-right: 8px;
+    }
+    
+    /* Button Styles */
+    .btn {
+      padding: 0.85rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-blue);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--dark-blue);
+      box-shadow: 0 4px 8px rgba(26, 115, 232, 0.3);
+    }
+    
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+    
+    .btn-success {
+      background-color: var(--success-green);
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background-color: #3d8b40;
+    }
+    
+    .btn-logout {
+      background-color: var(--error-red);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .btn-logout:hover {
+      background-color: #d32f2f;
+      box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+    }
+    
+    /* Password Strength Indicator */
+    .password-strength {
+      height: 6px;
+      background: #f0f0f0;
+      border-radius: 3px;
+      margin-top: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .strength-meter {
+      height: 100%;
+      width: 0;
+      transition: width 0.3s ease;
+      border-radius: 3px;
+    }
+    
+    .strength-weak {
+      background-color: var(--error-red);
+      width: 33%;
+    }
+    
+    .strength-medium {
+      background-color: var(--warning-orange);
+      width: 66%;
+    }
+    
+    .strength-strong {
+      background-color: var(--success-green);
+      width: 100%;
+    }
+    
+    .password-strength-text {
+      font-size: 12px;
+      margin-top: 5px;
+      color: var(--text-medium);
+    }
+    
+    /* Security Activity */
+    .activity-list {
+      list-style: none;
+      margin-top: 15px;
+    }
+    
+    .activity-item {
+      display: flex;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border-color);
+      animation: fadeInLeft var(--animation-duration) ease;
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    .activity-content {
+      flex: 1;
+    }
+    
+    .activity-title {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .activity-time {
+      color: var(--text-medium);
+      font-size: 13px;
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    .notification.success {
+      border-left: 4px solid var(--success-green);
+    }
+    
+    .notification.error {
+      border-left: 4px solid var(--error-red);
+    }
+    
+    .notification i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    .notification.success i {
+      color: var(--success-green);
+    }
+    
+    .notification.error i {
+      color: var(--error-red);
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .animated {
+      animation-duration: var(--animation-duration);
+      animation-fill-mode: both;
+    }
+
+    .delay-1 {
+      animation-delay: 0.1s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.2s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.3s;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 1200px) {
+      .settings-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 80px;
+      }
+      .logo h1, .nav-links span {
+        display: none;
+      }
+      .logo {
+        justify-content: center;
+        padding: 0 0 25px;
+      }
+      .logo i {
+        margin-right: 0;
+        font-size: 32px;
+      }
+      .nav-links a {
+        justify-content: center;
+      }
+      .nav-links i {
+        margin-right: 0;
+        font-size: 22px;
+      }
+      .main-content {
+        margin-left: 80px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .user-info {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .profile-photo img {
+        width: 120px;
+        height: 120px;
+      }
+      .logout-container {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .main-content {
+        padding: 20px 15px;
+      }
+      .settings-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="fas fa-graduation-cap"></i>
+      <h1>EdOrycom</h1>
+    </div>
+    
+    <ul class="nav-links">
+      <li><a href="#" ><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+      <li><a href="create-course.html" ><i class="fas fa-graduation-cap"></i> <span>Courses</span></a></li>
+      <li><a href="Create-Lesson.html" ><i class="fas fa-book"></i> <span>Courses Content</span></a></li>
+      <li><a href="StudentsControl.html"><i class="fas fa-users"></i> <span>Students</span></a></li>
+      <li><a href="Instructors.html" ><i class="fas fa-chalkboard-teacher"></i> <span>Instructors</span></a></li>
+      <li><a href="Analytics.html"><i class="fas fa-chart-line"></i> <span>Analytics</span></a></li>
+      <li><a href="PaymentRequests.html"><i class="fas fa-money-bill-wave"></i> <span>Payment Requests</span></a></li>
+      <li><a href="settings.html" class="active"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+      <li><a href="#"><i class="fas fa-question-circle"></i> <span>Help</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <div class="header">
+      <h2 class="animated fadeInDown">Admin Settings</h2>
+      <div class="user-info animated fadeInRight">
+        <div class="user-details">
+          <img id="adminProfileImg" src="https://randomuser.me/api/portraits/men/41.jpg" alt="Admin">
+          <div>
+            <h4 id="adminName">Admin User</h4>
+            <p id="adminRole">System Administrator</p>
+          </div>
+        </div>
+        <button class="btn btn-logout" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+
+    <div class="settings-container">
+      <div class="settings-card animated fadeInUp">
+        <h3><i class="fas fa-user-cog"></i> Profile Settings</h3>
+        
+        <div class="profile-photo">
+          <img id="adminPhoto" src="https://randomuser.me/api/portraits/men/41.jpg" alt="Admin Photo">
+          <div class="photo-edit" onclick="document.getElementById('photoInput').click()">
+            <i class="fas fa-camera"></i>
+          </div>
+        </div>
+        
+        <form id="admin-settings-form" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="jobTitle">Job Title</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" />
+          </div>
+          
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" placeholder="Age" />
+          </div>
+          
+          <div class="form-group">
+            <label for="gmail">Email Address</label>
+            <input type="email" id="gmail" name="gmail" placeholder="Email Address" />
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" name="phone" placeholder="Phone Number" />
+          </div>
+          
+          <div class="form-group">
+            <label for="photo">Update Profile Photo</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="photoInput" name="photo" accept="image/*" />
+              <div class="file-input-button">
+                <i class="fas fa-cloud-upload-alt"></i> Choose File
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+        </form>
+      </div>
+      
+      <div class="settings-card animated fadeInUp delay-1">
+        <h3><i class="fas fa-lock"></i> Security Settings</h3>
+        
+        <form id="change-password-form">
+          <div class="form-group">
+            <label for="oldPassword">Current Password</label>
+            <input type="password" id="oldPassword" name="oldPassword" required placeholder="Enter your current password" />
+          </div>
+          
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" required placeholder="Create a new password" />
+            <div class="password-strength">
+              <div class="strength-meter" id="strengthMeter"></div>
+            </div>
+            <div class="password-strength-text" id="strengthText"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your new password" />
+          </div>
+          
+          <div class="form-group">
+            <label for="twoFactor">Two-Factor Authentication</label>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+              <label class="switch">
+                <input type="checkbox" id="twoFactor" name="twoFactor">
+                <span class="slider round"></span>
+              </label>
+              <span id="twoFactorStatus">Enabled</span>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-success btn-block">
+            <i class="fas fa-lock"></i> Update Password
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="settings-card animated fadeInUp delay-2">
+      <h3><i class="fas fa-shield-alt"></i> Security Activity</h3>
+      <ul class="activity-list" id="securityActivity">
+        <li class="activity-item">
+          <div class="activity-icon" style="background-color: rgba(26, 115, 232, 0.1); color: var(--primary-blue);">
+            <i class="fas fa-key"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">Password changed successfully</div>
+            <div class="activity-time">Today at 10:30 AM</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon" style="background-color: rgba(76, 175, 80, 0.1); color: var(--success-green);">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">Two-factor authentication enabled</div>
+            <div class="activity-time">Yesterday at 3:45 PM</div>
+          </div>
+        </li>
+        <li class="activity-item">
+          <div class="activity-icon" style="background-color: rgba(255, 152, 0, 0.1); color: var(--warning-orange);">
+            <i class="fas fa-desktop"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">New device login detected</div>
+            <div class="activity-time">August 3, 2025</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Notification Container -->
+  <div class="notification" id="notification">
+    <i class="fas fa-info-circle"></i>
+    <div id="notificationMessage">Notification message</div>
+  </div>
+
+  <script>
+    // Global token variable
+    const token = localStorage.getItem("adminToken");
+    
+    // Notification system
+    function showNotification(message, isSuccess = true) {
+      const notification = document.getElementById('notification');
+      const messageEl = document.getElementById('notificationMessage');
+      
+      messageEl.textContent = message;
+      notification.className = `notification ${isSuccess ? 'success' : 'error'}`;
+      notification.classList.add('show');
+      
+      // Add icon based on type
+      const icon = notification.querySelector('i');
+      icon.className = isSuccess ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+      
+      // Auto hide after 3 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      // Clear the admin token
+      localStorage.removeItem('adminToken');
+      
+      // Show logout notification
+      showNotification("You have been logged out successfully", true);
+      
+      // Redirect to login page after a delay
+      setTimeout(() => {
+        window.location.href = '../OrycomEdu/OrycomLogin.html'; // Change to your login page URL
+      }, 1500);
+    });
+    
+    // Fetch admin profile data
+    async function fetchAdminProfile() {
+      try {
+        const response = await fetch("https://backend-orycom.fly.dev/api/admin/profile", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile data');
+        }
+        
+        const data = await response.json();
+        
+        // Update profile image
+        if (data.photo) {
+          document.getElementById("adminPhoto").src = `https://backend-orycom.fly.dev/uploads/${data.photo}`;
+          document.getElementById("adminProfileImg").src = `https://backend-orycom.fly.dev/uploads/${data.photo}`;
+        }
+        
+        // Update form fields
+        document.getElementById("jobTitle").value = data.jobTitle || '';
+        document.getElementById("age").value = data.age || '';
+        document.getElementById("gmail").value = data.gmail || '';
+        document.getElementById("phone").value = data.phone || '';
+        
+        // Update admin name
+        if (data.name) {
+          document.getElementById("adminName").textContent = data.name;
+        }
+        
+        return data;
+      } catch (error) {
+        console.error("Error fetching admin profile", error);
+        showNotification("Failed to load profile data", false);
+      }
+    }
+    
+    // Update profile
+    document.getElementById("admin-settings-form").onsubmit = async (e) => {
+      e.preventDefault();
+      
+      // Show loading indicator
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      submitBtn.disabled = true;
+      
+      try {
+        const formData = new FormData(e.target);
+        
+        const res = await fetch("https://backend-orycom.fly.dev/api/admin/profile", {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+        
+        if (!res.ok) {
+          throw new Error('Failed to update profile');
+        }
+        
+        const result = await res.json();
+        
+        // Update profile image if changed
+        if (result.updatedAdmin && result.updatedAdmin.photo) {
+          document.getElementById("adminPhoto").src = `https://backend-orycom.fly.dev/uploads/admins/${result.updatedAdmin.photo}`;
+          document.getElementById("adminProfileImg").src = `https://backend-orycom.fly.dev/uploads/admins/${result.updatedAdmin.photo}`;
+        }
+        
+        showNotification(result.message || "✅ Profile updated successfully");
+      } catch (error) {
+        console.error("Error updating profile", error);
+        showNotification("Failed to update profile", false);
+      } finally {
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    };
+
+    // Change password
+    document.getElementById("change-password-form").onsubmit = async (e) => {
+      e.preventDefault();
+      
+      // Show loading indicator
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+      submitBtn.disabled = true;
+      
+      try {
+        const formData = new FormData(e.target);
+        const payload = {
+          oldPassword: formData.get("oldPassword"),
+          newPassword: formData.get("newPassword"),
+        };
+        
+        // Validate password match
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (newPassword !== confirmPassword) {
+          throw new Error('Passwords do not match');
+        }
+
+        const res = await fetch("https://backend-orycom.fly.dev/api/admin/change-password", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+        
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || 'Failed to change password');
+        }
+        
+        const result = await res.json();
+        showNotification(result.message || "✅ Password updated successfully");
+        
+        // Clear password fields
+        document.getElementById('oldPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+      } catch (error) {
+        console.error("Error changing password", error);
+        showNotification(error.message || "Failed to update password", false);
+      } finally {
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    };
+    
+    // Password strength indicator
+    document.getElementById('newPassword').addEventListener('input', function() {
+      const password = this.value;
+      const strengthMeter = document.getElementById('strengthMeter');
+      const strengthText = document.getElementById('strengthText');
+      
+      // Reset classes
+      strengthMeter.className = 'strength-meter';
+      
+      if (password.length === 0) {
+        strengthText.textContent = '';
+        return;
+      }
+      
+      let strength = 0;
+      
+      // Length check
+      if (password.length > 7) strength += 1;
+      
+      // Mixed case check
+      if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1;
+      
+      // Numbers check
+      if (password.match(/([0-9])/)) strength += 1;
+      
+      // Special chars check
+      if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/)) strength += 1;
+      
+      // Update UI
+      if (strength <= 1) {
+        strengthMeter.classList.add('strength-weak');
+        strengthText.textContent = 'Weak password';
+        strengthText.style.color = 'var(--error-red)';
+      } else if (strength === 2) {
+        strengthMeter.classList.add('strength-medium');
+        strengthText.textContent = 'Medium password';
+        strengthText.style.color = 'var(--warning-orange)';
+      } else {
+        strengthMeter.classList.add('strength-strong');
+        strengthText.textContent = 'Strong password';
+        strengthText.style.color = 'var(--success-green)';
+      }
+    });
+    
+    // Photo upload preview
+    document.getElementById('photoInput').addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          document.getElementById('adminPhoto').src = e.target.result;
+        }
+        
+        reader.readAsDataURL(this.files[0]);
+      }
+    });
+    
+    // Initialize the dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!token) {
+        showNotification("Please log in to access admin settings", false);
+        // Redirect to login page
+        setTimeout(() => {
+          window.location.href = '../OrycomEdu/OrycomLogin.html';
+        }, 2000);
+        return;
+      }
+      
+      // Fetch admin profile
+      fetchAdminProfile();
+      
+      // Add hover effects to cards
+      document.querySelectorAll('.settings-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

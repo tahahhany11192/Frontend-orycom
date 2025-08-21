@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Courses | Orycom</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6a5af9;
+      --secondary: #d66efd;
+      --accent: #ff8c8c;
+      --light: #f7f9fc;
+      --dark: #2d3748;
+      --success: #4ade80;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --shadow: 0 10px 20px rgba(0,0,0,0.1);
+      --radius: 16px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background-color: #f0f5ff;
+      background-image: radial-gradient(#d66efd33 1px, transparent 1px), 
+                        radial-gradient(#6a5af933 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+      color: var(--dark);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    
+    /* Header Styles */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.5rem 2rem;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+ 
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    
+    nav ul li {
+      position: relative;
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    nav ul li a:hover {
+      background: var(--gradient);
+      color: white;
+      transform: translateY(-3px);
+    }
+    
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .profile-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .profile-icon:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
+    }
+    
+    /* Main Content */
+    .courses-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .page-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .search-filter {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .search-box {
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      border: 2px solid rgba(106, 90, 249, 0.2);
+      min-width: 300px;
+      transition: all 0.3s ease;
+    }
+    
+    .search-box:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(106, 90, 249, 0.1);
+    }
+    
+    .filter-btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      background: white;
+      border: 2px solid rgba(106, 90, 249, 0.2);
+      color: var(--dark);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    /* Courses Grid */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .course-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      animation: fadeInUp 0.6s ease-out;
+      animation-fill-mode: backwards;
+    }
+    
+    .course-card:nth-child(1) { animation-delay: 0.1s; }
+    .course-card:nth-child(2) { animation-delay: 0.2s; }
+    .course-card:nth-child(3) { animation-delay: 0.3s; }
+    .course-card:nth-child(4) { animation-delay: 0.4s; }
+    .course-card:nth-child(5) { animation-delay: 0.5s; }
+    .course-card:nth-child(6) { animation-delay: 0.6s; }
+    
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(106, 90, 249, 0.2);
+    }
+    
+    .course-thumbnail {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 5px solid var(--primary);
+    }
+    
+    .course-content {
+      padding: 1.5rem;
+    }
+    
+    .course-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .course-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-right: 1rem;
+    }
+    
+    .course-status {
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .status-pending {
+      background: rgba(251, 191, 36, 0.2);
+      color: var(--warning);
+    }
+    
+    .status-accepted {
+      background: rgba(74, 222, 128, 0.2);
+      color: var(--success);
+    }
+    
+    .status-rejected {
+      background: rgba(248, 113, 113, 0.2);
+      color: var(--danger);
+    }
+    
+    .status-not-purchased {
+      background: rgba(106, 90, 249, 0.1);
+      color: var(--primary);
+    }
+    
+    .course-description {
+      color: #718096;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .course-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: #4a5568;
+    }
+    
+    .meta-icon {
+      color: var(--primary);
+    }
+    
+    .course-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .action-btn {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+      border: none;
+      box-shadow: 0 5px 15px rgba(106, 90, 249, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(106, 90, 249, 0.4);
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(106, 90, 249, 0.1);
+      transform: translateY(-3px);
+    }
+    
+    /* Empty State */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .empty-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .empty-text {
+      color: #718096;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Loading State */
+    .loading-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(106, 90, 249, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto 1.5rem;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes logoFloat {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .courses-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .search-filter {
+        width: 100%;
+      }
+      
+      .search-box {
+        min-width: auto;
+        flex-grow: 1;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .courses-container {
+        padding: 0 1rem;
+      }
+      
+      .course-actions {
+        flex-direction: column;
+      }
+      
+      .course-card {
+        animation-delay: 0s !important;
+      }
+    }
+    .logo {
+  display: flex;
+  align-items: center;
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+.logo img {
+  height: 68px; /* Adjust as needed */
+  width: auto;
+  margin-right: 10px; /* Space between logo and text */
+}
+
+    .back-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: #4a6cf7;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin: 15px;
+}
+
+.back-button:hover {
+  background-color: #3a5cd8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.back-button i {
+  margin-right: 8px;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Header with Navigation -->
+  <header>
+    <div class="header-container">
+   <div class="logo">
+  <img src="../../uploads/orycomLogo.png" alt="Orycom Logo">
+</div>
+<a href="javascript:history.back()" class="back-button">
+  <i class="fas fa-arrow-left"></i>
+  Back
+</a>
+      
+      <nav>
+        <ul>
+          <li><a href="OrycomLearnings.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="MyDashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="#" class= active><i class="fas fa-book-open"></i> Courses</a></li>
+          <li><a href="chat.html"><i class="fas fa-comments"></i> Messages</a></li>
+        </ul>
+      </nav>
+      
+      <div class="profile-section">
+        <div class="profile-icon">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <div class="courses-container">
+    <div class="page-header">
+      <h1 class="page-title"><i class="fas fa-book-open"></i> Available Courses</h1>
+      <div class="search-filter">
+        <input type="text" class="search-box" placeholder="Search courses...">
+        <button class="filter-btn">
+          <i class="fas fa-filter"></i> Filter
+        </button>
+      </div>
+    </div>
+    
+    <div id="courses-grid" class="courses-grid">
+      <!-- Courses will be loaded here dynamically -->
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading available courses...</p>
+      </div>
+    </div>
+  </div>
+
+      <script>
+    const container = document.getElementById('courses-grid');
+    const token = localStorage.getItem('userToken');
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    // Check authentication
+    if (!token || !user) {
+      alert("You need to log in to view courses");
+      window.location.href = 'OrycomLogin.html';
+    }
+
+    let paymentRequests = [];
+    let allCourses = [];
+
+    // Initial loading state
+    container.innerHTML = `
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading available courses...</p>
+      </div>
+    `;
+
+    // Fetch payment requests first
+    fetch(`https://backend-orycom.fly.dev/api/payment-requests/user/${user._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        paymentRequests = data.requests;
+        loadCourses();
+      } else {
+        showError("Failed to load payment status. Showing courses without purchase status.");
+        loadCourses();
+      }
+    })
+    .catch(err => {
+      console.error("Error fetching payment status:", err);
+      showError("Error checking payment status. Showing courses without purchase status.");
+      loadCourses();
+    });
+
+    // Load all courses
+    function loadCourses() {
+      fetch('https://backend-orycom.fly.dev/api/courses/all')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            allCourses = data.courses;
+            renderCourses(data.courses);
+          } else {
+            showError("Failed to load courses. Please try again later.");
+          }
+        })
+        .catch(err => {
+          console.error("Error:", err);
+          showError("Server error while fetching courses. Please check your connection.");
+        });
+    }
+
+    // Render courses to the page
+    function renderCourses(courses) {
+      if (courses.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h3>No Courses Available</h3>
+            <p class="empty-text">There are currently no courses available. Please check back later.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      
+      courses.forEach((course, index) => {
+        // Find payment request for this course (if any)
+        const paymentRequest = paymentRequests.find(r => r.course === course._id);
+        
+        // Determine status
+        let status, statusClass, statusText;
+        
+        if (paymentRequest) {
+          status = paymentRequest.status; // Pending, Accepted, or Rejected
+          statusClass = `status-${status.toLowerCase()}`;
+          statusText = status === 'approved' ? 'Purchased' : 
+                       status === 'rejected' ? 'Payment Rejected' : 
+                       status === 'pending' ? 'Payment Pending' : 'Unknown Status';
+        } else {
+          status = 'Not Purchased';
+          statusClass = 'status-not-purchased';
+          statusText = 'Not Purchased';
+        }
+        
+        // Create course card
+        const card = document.createElement('div');
+        card.className = 'course-card';
+        card.style.animationDelay = `${index * 0.1}s`;
+        
+        card.innerHTML = `
+          <img src="https://backend-orycom.fly.dev/uploads/${course.thumbnail}" alt="${course.title}" class="course-thumbnail">
+          <div class="course-content">
+            <div class="course-header">
+              <h3 class="course-title">${course.title}</h3>
+              <span class="course-status ${statusClass}">${statusText}</span>
+            </div>
+            <p class="course-description">${course.description}</p>
+            <div class="course-meta">
+              <span class="meta-item">
+                <i class="fas fa-user-tie meta-icon"></i>
+                ${course.instructor?.name || 'Unknown Instructor'}
+              </span>
+              <span class="meta-item">
+                <i class="fas fa-clock meta-icon"></i>
+                ${course.duration} hours
+              </span>
+              <span class="meta-item">
+                <i class="fas fa-tag meta-icon"></i>
+                ${course.category}
+              </span>
+              <span class="meta-item">
+                <i class="fas fa-signal meta-icon"></i>
+                ${course.Level}
+              </span>
+              <span class="meta-item">
+                <i class="fas fa-dollar-sign meta-icon"></i>
+                $${course.price}
+              </span>
+            </div>
+            <div class="course-actions">
+              ${status === 'Not Purchased' || status === 'rejected' ? `
+                <button class="action-btn btn-primary" onclick="buyCourse('${course._id}')">
+                  <i class="fas fa-shopping-cart"></i> ${status === 'rejected' ? 'Try Again' : 'Buy Course'}
+                </button>
+              ` : ''}
+              ${status === 'Pending' ? `
+                <button class="action-btn btn-primary" disabled style="opacity: 0.7; cursor: not-allowed">
+                  <i class="fas fa-hourglass-half"></i> Payment Pending
+                </button>
+              ` : ''}
+              <button class="action-btn btn-secondary" onclick="viewLessons('${course._id}')">
+                <i class="fas fa-book-reader"></i> View Lessons
+              </button>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(card);
+      });
+    }
+
+    function showError(message) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3>Error Loading Content</h3>
+          <p class="empty-text">${message}</p>
+          <button class="action-btn btn-primary" onclick="window.location.reload()">
+            <i class="fas fa-sync-alt"></i> Try Again
+          </button>
+        </div>
+      `;
+    }
+
+    function buyCourse(courseId) {
+      window.location.href = `payment.html?courseId=${courseId}`;
+    }
+
+    function viewLessons(courseId) {
+      // Always allow access to view lessons since users can purchase individual lessons
+      window.location.href = `course-lessons.html?courseId=${courseId}`;
+    }
+  </script>
+</body>
+</html>
