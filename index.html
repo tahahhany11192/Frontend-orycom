@@ -54,8 +54,8 @@
                     <li><a href="Pages/OrycomEdu/OutOfService.html">Projects</a></li>
 					<li><a href="Pages/Review1.html">FAQ's</a></li>
                     <li><a href="Pages/contact.html">Contact</a></li>
-                    <li><a href="Pages/Login.html">Login</a></li>
-                    <li><a href="Pages/register.html">Rigester</a></li>
+                    <li><a href="Pages/OrycomEdu/OrycomLogin.html">Login</a></li>
+                    <li><a href="Pages/OrycomEdu/OrycomRegister.html">Rigester</a></li>
                 </ul>
             </div>
         </div>
@@ -416,15 +416,15 @@
       `;
     } else {
       content.innerHTML = `
-        <a href="Pages/Login.html">Login</a>
-        <a href="Pages/register.html">Register</a>
+        <a href="Pages/OrycomEdu/OrycomLogin.html">Login</a>
+        <a href="Pages/OrycomEdu/OrycomRegister.html">Register</a>
       `;
     }
   }
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    window.location.href = "Pages/Login.html";
+    window.location.href = "Pages/OrycomEdu/OrycomLogin.html";
   }
   renderUserDropdown();
 
