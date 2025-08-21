@@ -576,7 +576,7 @@
     // Load instructors from backend
     function loadInstructors() {
       showLoading(instructorLoading);
-      makeAuthenticatedRequest('https://backend-orycom.fly.dev/api/instructors')
+      makeAuthenticatedRequest('https://backend-g8fsuq.fly.dev/api/instructors')
         .then(res => {
           if (!res.ok) {
             throw new Error('Failed to fetch instructors');
@@ -627,7 +627,7 @@
       const formData = new FormData(form);
 
       try {
-        const res = await makeAuthenticatedRequest('https://backend-orycom.fly.dev/api/courses/create', {
+        const res = await makeAuthenticatedRequest('https://backend-g8fsuq.fly.dev/api/courses/create', {
           method: 'POST',
           body: formData
           // Note: Don't set Content-Type header when using FormData, let the browser set it
