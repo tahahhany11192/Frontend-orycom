@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Get stream info from backend (now returns Mux stream key/URL)
-    const res = await fetch(`https://backend-pfnoxq.fly.dev/api/stream/${sessionId}`, {
+    const res = await fetch(`https://backend-g8fsuq.fly.devapi/stream/${sessionId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
