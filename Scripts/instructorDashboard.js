@@ -5,7 +5,7 @@ document.getElementById('contentForm').addEventListener('submit', async function
   const formData = new FormData(form);
 
   try {
-    const res = await fetch('https://backend-g8fsuq.fly.devapi/content/upload', {
+    const res = await fetch('https://orycom-backend.fly.devapi/content/upload', {
       method: 'POST',
       body: formData,
     });
@@ -26,7 +26,7 @@ document.getElementById('contentForm').addEventListener('submit', async function
 async function loadCourses() {
   const instructorId = 'INSTRUCTOR_ID_HERE'; // Dynamically assign based on login
 
-  const res = await fetch(`https://backend-g8fsuq.fly.devapi/instructors/${instructorId}/courses`);
+  const res = await fetch(`https://orycom-backend.fly.devapi/instructors/${instructorId}/courses`);
   const courses = await res.json();
 
   const dropdown = document.getElementById('courseDropdown');
@@ -48,7 +48,7 @@ async function loadInstructorContent() {
   tableBody.innerHTML = '';
 
   try {
-    const res = await fetch(`https://backend-g8fsuq.fly.devapi/content/instructor/${instructorId}`);
+    const res = await fetch(`https://orycom-backend.fly.devapi/content/instructor/${instructorId}`);
     const contents = await res.json();
 
     contents.forEach(content => {
@@ -58,7 +58,7 @@ async function loadInstructorContent() {
         <td>${content.title}</td>
         <td>${content.type}</td>
         <td>${content.course?.title || 'N/A'}</td>
-        <td><a href="https://backend-g8fsuq.fly.devuploads/${content.file}" target="_blank">View</a></td>
+        <td><a href="https://orycom-backend.fly.devuploads/${content.file}" target="_blank">View</a></td>
         <td>
           <button onclick="editContent('${content._id}')">✏️</button>
           <button onclick="deleteContent('${content._id}')">🗑️</button>
@@ -105,7 +105,7 @@ function editContent(id) {
 
 async function editContent(id) {
   try {
-    const res = await fetch(`https://backend-g8fsuq.fly.devapi/content/${id}`);
+    const res = await fetch(`https://orycom-backend.fly.devapi/content/${id}`);
     const content = await res.json();
 
     // Fill the form
@@ -139,8 +139,8 @@ document.getElementById('contentForm').onsubmit = async (e) => {
   }
 
   const url = contentId
-    ? `https://backend-g8fsuq.fly.devapi/content/${contentId}`
-    : `https://backend-g8fsuq.fly.devapi/content/upload`;
+    ? `https://orycom-backend.fly.devapi/content/${contentId}`
+    : `https://orycom-backend.fly.devapi/content/upload`;
 
   const method = contentId ? 'PUT' : 'POST';
 
