@@ -566,7 +566,7 @@
 
       try {
         // Fetch course details first
-        const courseResponse = await fetch(`https://orycom-backend.fly.dev/api/courses/${courseId}`, {
+        const courseResponse = await fetch(`https://backend-zbwu9q.fly.dev/api/courses/${courseId}`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }
@@ -580,7 +580,7 @@
         courseTitleElement.textContent = course.title || "Course Lessons";
 
         // Then fetch lessons
-        const lessonsResponse = await fetch(`https://orycom-backend.fly.dev/api/lessons/courses/${courseId}/lessons`, {
+        const lessonsResponse = await fetch(`https://backend-zbwu9q.fly.dev/api/lessons/courses/${courseId}/lessons`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }
@@ -593,7 +593,7 @@
         const lessons = await lessonsResponse.json();
 
         // Fetch user's purchased lessons
-        const purchasedResponse = await fetch(`https://orycom-backend.fly.dev/api/users/purchased-lessons`, {
+        const purchasedResponse = await fetch(`https://backend-zbwu9q.fly.dev/api/users/purchased-lessons`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }
@@ -658,7 +658,7 @@
             <div class="lesson-content">
               <div class="lesson-body">
                 ${lesson.thumbnail ? `
-                  <img src="https://orycom-backend.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
+                  <img src="https://backend-zbwu9q.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
                 ` : ''}
                 <p class="lesson-description">${lesson.description || 'No description available for this lesson.'}</p>
                 ${lesson.price ? `
