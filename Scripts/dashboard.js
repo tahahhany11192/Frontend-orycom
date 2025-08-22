@@ -1,6 +1,6 @@
 const token = localStorage.getItem("token");
 
-fetch("https://backend-g8fsuq.fly.devapi/users/dashboard", {
+fetch("https://orycom-backend.fly.devapi/users/dashboard", {
   method: "GET",
   headers: {
     Authorization: `Bearer ${token}`,
