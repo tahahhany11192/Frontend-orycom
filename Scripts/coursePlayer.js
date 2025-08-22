@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       return;
     }
 
-    const res = await fetch(`https://orycom-backend.fly.devapi/courses/${courseId}/content`, {
+    const res = await fetch(`https://backend-zbwu9q.fly.devapi/courses/${courseId}/content`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -189,7 +189,7 @@ async function submitAssignment(courseId, lessonId, assignmentId) {
       
       const token = localStorage.getItem('token');
       const res = await fetch(
-        `https://orycom-backend.fly.devapi/courses/${courseId}/lessons/${lessonId}/assignments/${assignmentId}/submit`, 
+        `https://backend-zbwu9q.fly.devapi/courses/${courseId}/lessons/${lessonId}/assignments/${assignmentId}/submit`, 
         {
           method: 'POST',
           headers: {
