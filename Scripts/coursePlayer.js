@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       return;
     }
 
-    const res = await fetch(`https://backend-zbwu9q.fly.devapi/courses/${courseId}/content`, {
+    const res = await fetch(`https://backend-zbwu9q.fly.dev/api/courses/${courseId}/content`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
