@@ -933,7 +933,7 @@ animation: logoFloat 4s ease-in-out infinite;
       }
 
       // API endpoints
-      const API_BASE_URL = "https://backend-g8fsuq.fly.dev/api";
+      const API_BASE_URL = "https://orycom-backend.fly.dev/api";
       const LESSONS_ENDPOINT = API_BASE_URL + "/lessons/courses/";
       
       // Global lessons data
@@ -1027,7 +1027,7 @@ animation: logoFloat 4s ease-in-out infinite;
           }
           
           card.innerHTML = `
-          <img src="https://backend-g8fsuq.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
+          <img src="https://orycom-backend.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
             <div class="lesson-header">
               <div class="lesson-title">
                 ${lesson.title}
@@ -1120,7 +1120,7 @@ animation: logoFloat 4s ease-in-out infinite;
         if (lesson.thumnail) {
           thumbnailElement.innerHTML= '';
           const so = document.createElement('so');
-          so.src= `https://backend-g8fsuq.fly.dev/uploads/${lesson.video}`;
+          so.src= `https://orycom-backend.fly.dev/uploads/${lesson.video}`;
           so.type= 'image/png','image/img';
           thumbnailElement.appendChild(so);
           thumbnailElement.load();
@@ -1130,7 +1130,7 @@ animation: logoFloat 4s ease-in-out infinite;
         if (lesson.video) {
           videoElement.innerHTML = '';
           const source = document.createElement('source');
-          source.src = `https://backend-g8fsuq.fly.dev/uploads/${lesson.video}`;
+          source.src = `https://orycom-backend.fly.dev/uploads/${lesson.video}`;
           source.type = 'video/mp4';
           videoElement.appendChild(source);
           videoElement.load();
@@ -1138,7 +1138,7 @@ animation: logoFloat 4s ease-in-out infinite;
         
         // Set PDF download link if available
         if (lesson.pdf) {
-          pdfDownload.href = `https://backend-g8fsuq.fly.dev/uploads/${lesson.pdf}`;
+          pdfDownload.href = `https://orycom-backend.fly.dev/uploads/${lesson.pdf}`;
           pdfDownload.style.display = 'block';
         } else {
           pdfDownload.style.display = 'none';
