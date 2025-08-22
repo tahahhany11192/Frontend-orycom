@@ -235,7 +235,7 @@ window.updateProfilePhoto = async function () {
 
       if (profileInfo) {
         
-          document.getElementById("profileImg").src = `https://orycom-backend.fly.devuploads/${user.photo}`;
+          document.getElementById("profileImg").src = `https://backend-zbwu9q.fly.dev/uploads/${user.photo}`;
           document.getElementById("profileDetails").innerHTML = `
           <p><b>Name:</b> ${user.name}</p>
           <p><b>Age:</b> ${user.age}</p>
