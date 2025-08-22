@@ -434,7 +434,7 @@
 
   function updateUserIcon() {
     const token = localStorage.getItem('token');
-    const profileImg = localStorage.getItem('profileImg').src = `http://localhost:5000/uploads/${user.photo}`; // Store user image URL after login
+    const profileImg = localStorage.getItem('profileImg').src = `https://orycom-backend.fly.dev/uploads/${user.photo}`; // Store user image URL after login
     const icon = document.getElementById('userIconImg');
     if (profileImg && icon) {
       userIconImg.src = profileImg;
