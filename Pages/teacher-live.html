@@ -886,7 +886,7 @@
         let screenStream = null;
         let cameraVideoTrack = null;
 
-        const socket = io("https://backend-g8fsuq.fly.dev", {
+        const socket = io("https://orycom-backend.fly.dev", {
             query: { teacherId },
             transports: ['polling'],
             reconnection: true,
@@ -1354,7 +1354,7 @@
         // Load instructor courses
         async function fetchInstructorCourses() {
             try {
-                const res = await fetch(`https://backend-g8fsuq.fly.dev/api/courses/instructor/${teacherId}`);
+                const res = await fetch(`https://orycom-backend.fly.dev/api/courses/instructor/${teacherId}`);
                 const data = await res.json();
 
                 courseSelect.innerHTML = data.data?.length 
