@@ -824,7 +824,7 @@
     // Fetch admin profile data
     async function fetchAdminProfile() {
       try {
-        const response = await fetch("https://backend-g8fsuq.fly.dev/api/admin/profile", {
+        const response = await fetch("https://orycom-backend.fly.dev/api/admin/profile", {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -836,8 +836,8 @@
         
         // Update profile image
         if (data.photo) {
-          document.getElementById("adminPhoto").src = `https://backend-g8fsuq.fly.dev/uploads/${data.photo}`;
-          document.getElementById("adminProfileImg").src = `https://backend-g8fsuq.fly.dev/uploads/${data.photo}`;
+          document.getElementById("adminPhoto").src = `https://orycom-backend.fly.dev/uploads/${data.photo}`;
+          document.getElementById("adminProfileImg").src = `https://orycom-backend.fly.dev/uploads/${data.photo}`;
         }
         
         // Update form fields
@@ -871,7 +871,7 @@
       try {
         const formData = new FormData(e.target);
         
-        const res = await fetch("https://backend-g8fsuq.fly.dev/api/admin/profile", {
+        const res = await fetch("https://orycom-backend.fly.dev/api/admin/profile", {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },
           body: formData,
@@ -885,8 +885,8 @@
         
         // Update profile image if changed
         if (result.updatedAdmin && result.updatedAdmin.photo) {
-          document.getElementById("adminPhoto").src = `https://backend-g8fsuq.fly.dev/uploads/admins/${result.updatedAdmin.photo}`;
-          document.getElementById("adminProfileImg").src = `https://backend-g8fsuq.fly.dev/uploads/admins/${result.updatedAdmin.photo}`;
+          document.getElementById("adminPhoto").src = `https://orycom-backend.fly.dev/uploads/admins/${result.updatedAdmin.photo}`;
+          document.getElementById("adminProfileImg").src = `https://orycom-backend.fly.dev/uploads/admins/${result.updatedAdmin.photo}`;
         }
         
         showNotification(result.message || "✅ Profile updated successfully");
@@ -925,7 +925,7 @@
           throw new Error('Passwords do not match');
         }
 
-        const res = await fetch("https://backend-g8fsuq.fly.dev/api/admin/change-password", {
+        const res = await fetch("https://orycom-backend.fly.dev/api/admin/change-password", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
