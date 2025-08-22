@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("password").value.trim();
 
       try {
-        const res = await fetch("https://backend-g8fsuq.fly.devapi/auth/login", {
+        const res = await fetch("https://orycom-backend.fly.devapi/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const formData = new FormData(registerForm);
       try {
-        const res = await fetch("https://backend-g8fsuq.fly.devapi/auth/register", {
+        const res = await fetch("https://orycom-backend.fly.devapi/auth/register", {
           method: "POST",
           body: formData,
         });
@@ -122,7 +122,7 @@ window.updateProfilePhoto = async function () {
 
   try {
     const token = localStorage.getItem("token");
-    const res = await fetch("https://backend-g8fsuq.fly.devapi/user/update-photo", {
+    const res = await fetch("https://orycom-backend.fly.devapi/user/update-photo", {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`
@@ -158,7 +158,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch(`https://backend-g8fsuq.fly.devapi/user/enroll/6868843691f59b8c38d3896c`, {
+      const res = await fetch(`https://orycom-backend.fly.devapi/user/enroll/6868843691f59b8c38d3896c`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -188,7 +188,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch(`https://backend-g8fsuq.fly.devapi/courses/buy/${courseId}`, {
+      const res = await fetch(`https://orycom-backend.fly.devapi/courses/buy/${courseId}`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -222,7 +222,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch("https://backend-g8fsuq.fly.devapi/user/profile", {
+      const res = await fetch("https://orycom-backend.fly.devapi/user/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -235,7 +235,7 @@ window.updateProfilePhoto = async function () {
 
       if (profileInfo) {
         
-          document.getElementById("profileImg").src = `https://backend-g8fsuq.fly.devuploads/${user.photo}`;
+          document.getElementById("profileImg").src = `https://orycom-backend.fly.devuploads/${user.photo}`;
           document.getElementById("profileDetails").innerHTML = `
           <p><b>Name:</b> ${user.name}</p>
           <p><b>Age:</b> ${user.age}</p>
@@ -262,7 +262,7 @@ window.updateProfilePhoto = async function () {
     }
 
     try {
-      const res = await fetch("https://backend-g8fsuq.fly.devapi/user/my-courses", {
+      const res = await fetch("https://orycom-backend.fly.devapi/user/my-courses", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
