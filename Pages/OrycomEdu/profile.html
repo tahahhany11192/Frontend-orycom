@@ -557,7 +557,7 @@
   <script>
     const token = localStorage.getItem("userToken"); 
     const role = localStorage.getItem("role"); // "student" or "instructor"
-    const backendUrl = "https://orycom-backend.fly.dev"; 
+    const backendUrl = "https://backend-zbwu9q.fly.dev"; 
     const apiBase = role === "instructor" ? `${backendUrl}/api/instructors` : `${backendUrl}/api/users`;
     
     // Load Profile
@@ -574,7 +574,7 @@
         document.getElementById("profileRole").textContent = role || "User";
         
         document.getElementById("profileImg").src = data.photo ? 
-          `https://orycom-backend.fly.dev/uploads/${data.photo}` : 
+          `https://backend-zbwu9q.fly.dev/uploads/${data.photo}` : 
           "https://via.placeholder.com/150/6a5af9/ffffff?text=" + (data.name ? data.name.charAt(0) : 'U');
 
         // Dynamic field
