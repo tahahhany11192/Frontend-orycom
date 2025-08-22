@@ -1224,7 +1224,7 @@
   <script>
     // Global token variable
     let adminToken = localStorage.getItem("adminToken");
-    const API_URL = "https://orycom-backend.fly.dev";
+    const API_URL = "https://backend-zbwu9q.fly.dev";
     let SELECTED_COURSE_ID = null;
 
     // DOM elements
@@ -1490,8 +1490,8 @@
 
           // Safely handle missing properties
           const safeDescription = lesson.description || "No description";
-          const safeVideo = lesson.video ? `<a href="https://orycom-backend.fly.dev/uploads/${lesson.video}" target="_blank">Watch Video</a>` : "—";
-          const safePdf = lesson.pdf ? `<a href="https://orycom-backend.fly.dev/uploads/${lesson.pdf}" target="_blank">Download PDF</a>` : "—";
+          const safeVideo = lesson.video ? `<a href="https://backend-zbwu9q.fly.dev/uploads/${lesson.video}" target="_blank">Watch Video</a>` : "—";
+          const safePdf = lesson.pdf ? `<a href="https://backend-zbwu9q.fly.dev/uploads/${lesson.pdf}" target="_blank">Download PDF</a>` : "—";
           
           // Safely handle quizzes and assignments
 // Safely handle quizzes
@@ -1809,7 +1809,7 @@ const safeAssignments = lesson.assignments && lesson.assignments.length > 0
         formData.append('assignments', JSON.stringify(assignments));
         
         try {
-          const res = await fetch(`https://orycom-backend.fly.dev/api/courses/${courseId}/lessons`, {
+          const res = await fetch(`https://backend-zbwu9q.fly.dev/api/courses/${courseId}/lessons`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${adminToken}` },
             body: formData
