@@ -441,7 +441,7 @@
     // Load payment requests
     async function loadRequests() {
       try {
-        const res = await makeAuthenticatedRequest('https://backend-g8fsuq.fly.dev/api/payment-requests/all');
+        const res = await makeAuthenticatedRequest('https://orycom-backend.fly.dev/api/payment-requests/all');
         
         if (!res.ok) {
           if (res.status === 401) {
@@ -464,7 +464,7 @@
             <td>${req.course?.title || '—'}</td>
             <td>${req.method}</td>
             <td>$${req.amount.toFixed(2)}</td>
-            <td>${req.screenshotUrl ? `<a href="https://backend-g8fsuq.fly.dev${req.screenshotUrl}" target="_blank" class="text-primary">View</a>` : '—'}</td>
+            <td>${req.screenshotUrl ? `<a href="https://orycom-backend.fly.dev${req.screenshotUrl}" target="_blank" class="text-primary">View</a>` : '—'}</td>
             <td class="status-${req.status}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</td>
             <td>
               ${req.status === 'pending' ? `
@@ -489,8 +489,8 @@
       
       try {
         const endpoint = action === 'approve'
-          ? `https://backend-g8fsuq.fly.dev/api/payment-requests/approve/${id}`
-          : `https://backend-g8fsuq.fly.dev/api/payment-requests/reject/${id}`;
+          ? `https://orycom-backend.fly.dev/api/payment-requests/approve/${id}`
+          : `https://orycom-backend.fly.dev/api/payment-requests/reject/${id}`;
 
         const payload = action === 'reject' ? { reason: 'Payment not verified' } : {};
 
