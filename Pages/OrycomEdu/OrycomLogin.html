@@ -733,15 +733,15 @@
 
         switch (currentRole) {
           case 'student':
-            apiUrl = "https://orycom-backend.fly.dev/api/auth/login";
+            apiUrl = "https://backend-zbwu9q.fly.dev/api/auth/login";
             requestBody = { email: identifier, password };
             break;
           case 'instructor':
-            apiUrl = "https://orycom-backend.fly.dev/api/instructor-auth/login";
+            apiUrl = "https://backend-zbwu9q.fly.dev/api/instructor-auth/login";
             requestBody = { email: identifier, password };
             break;
           case 'admin':
-            apiUrl = "https://orycom-backend.fly.dev/api/admin/login";
+            apiUrl = "https://backend-zbwu9q.fly.dev/api/admin/login";
             requestBody = identifier.includes('@')
               ? { email: identifier, password }
               : { username: identifier, password };
