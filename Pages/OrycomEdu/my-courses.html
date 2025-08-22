@@ -523,7 +523,7 @@
       }
 
       try {
-        const response = await fetch("https://orycom-backend.fly.dev/api/users/my-courses", {
+        const response = await fetch("https://backend-zbwu9q.fly.dev/api/users/my-courses", {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`
@@ -560,7 +560,7 @@
           courseCard.style.animationDelay = `${index * 0.1}s`;
           
           courseCard.innerHTML = `
-            <img src="https://orycom-backend.fly.dev/uploads/${course.thumbnail}" alt="${course.title}" class="course-thumbnail">
+            <img src="https://backend-zbwu9q.fly.dev/uploads/${course.thumbnail}" alt="${course.title}" class="course-thumbnail">
             <div class="course-content">
               <div class="course-header">
                 <h3 class="course-title">${course.title}</h3>
