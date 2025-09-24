@@ -908,7 +908,85 @@ animation: logoFloat 4s ease-in-out infinite;
   </div>
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script>
+  <script>
+    // API endpoints
+    const API_BASE_URL = "https://backend-zbwu9q.fly.dev/api";
+    const LESSONS_ENDPOINT = API_BASE_URL + "/lessons/courses/";
+    const USER_PROFILE_ENDPOINT = API_BASE_URL + "/users/profile";
+    
+    // Global variables
+    let lessonsData = [];
+    let filteredLessons = [];
+    let currentQuizCorrectAnswer = "";
+    let currentLessonId = "";
+    let currentLessonIndex = -1;
+    let userPaidCourses = [];
+
+    // Authentication and Authorization Check
+    async function checkUserAccess() {
+      const token = localStorage.getItem("userToken");
+      const courseId = getCourseIdFromURL();
+      
+      if (!token) {
+        window.location.href = "OrycomLogin.html";
+        return false;
+      }
+      
+      if (!courseId) {
+        showError("No course selected. Please select a course first.");
+        return false;
+      }
+      
+      try {
+        // Verify token and get user profile
+        const userRes = await fetch(USER_PROFILE_ENDPOINT, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        
+        if (!userRes.ok) {
+          if (userRes.status === 401) {
+            localStorage.removeItem("userToken");
+            window.location.href = "OrycomLogin.html";
+            return false;
+          }
+          throw new Error("Failed to fetch user profile");
+        }
+        
+        const userData = await userRes.json();
+        userPaidCourses = userData.paidcourses || [];
+        
+        // Check if user has access to this course
+        if (!userPaidCourses.includes(courseId)) {
+          showError("You don't have access to this course. Please purchase it first.");
+          return false;
+        }
+        
+        return true;
+        
+      } catch (error) {
+        console.error("Authorization error:", error);
+        showError("Authentication failed. Please login again.");
+        localStorage.removeItem("userToken");
+        window.location.href = "OrycomLogin.html";
+        return false;
+      }
+    }
+
+    // Show error message
+    function showError(message) {
+      const container = document.getElementById('lessons-list');
+      container.innerHTML = `
+        <div class="no-results animate__animated animate__fadeIn">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Access Denied</h3>
+          <p>${message}</p>
+          <button class="btn btn-start" onclick="window.location.href='MyCourses.html'" style="margin-top: 20px;">
+            <i class="fas fa-arrow-left"></i> Back to My Courses
+          </button>
+        </div>
+      `;
+    }
+
     // Initialize particles.js background
     document.addEventListener('DOMContentLoaded', function() {
       if (window.particlesJS) {
@@ -932,403 +1010,21 @@ animation: logoFloat 4s ease-in-out infinite;
         });
       }
 
-      // API endpoints
-      const API_BASE_URL = "https://backend-zbwu9q.fly.dev/api";
-      const LESSONS_ENDPOINT = API_BASE_URL + "/lessons/courses/";
-      
-      // Global lessons data
-      let lessonsData = [];
-      let filteredLessons = [];
-      let currentQuizCorrectAnswer = ""; // Store the correct answer for the current quiz
-      let currentLessonId = ""; // Store the current lesson ID
-      let currentLessonIndex = -1; // Store the current lesson index
-      
-      // Function to calculate lesson status
-      function calculateLessonStatus(lesson, index, completedLessons) {
-        if (completedLessons.includes(lesson._id)) {
-          return {
-            status: "completed",
-            statusText: "Completed",
-            class: "status-completed"
-          };
-        } else if (index === 0 || completedLessons.includes(lessonsData[index-1]._id)) {
-          return {
-            status: "available",
-            statusText: "Available",
-            class: "status-available"
-          };
-        } else {
-          return {
-            status: "locked",
-            statusText: "Locked",
-            class: "status-locked"
-          };
-        }
-      }
-      
-      // Function to update stats
-      function updateStats() {
-        const completedLessons = getCompletedLessons();
-        
-        const total = lessonsData.length;
-        const locked = lessonsData.filter((lesson, index) => {
-          return index > 0 && !completedLessons.includes(lessonsData[index-1]._id);
-        }).length;
-        
-        const available = lessonsData.filter((lesson, index) => {
-          return index === 0 || completedLessons.includes(lessonsData[index-1]._id);
-        }).length - completedLessons.length;
-        
-        const completed = completedLessons.length;
-        
-        document.getElementById('stat-total').textContent = total;
-        document.getElementById('stat-locked').textContent = locked;
-        document.getElementById('stat-available').textContent = available;
-        document.getElementById('stat-completed').textContent = completed;
-      }
-      
-      // Function to get completed lessons from localStorage
-      function getCompletedLessons() {
-        const courseId = getCourseIdFromURL();
-        const progressData = localStorage.getItem(`courseProgress_${courseId}`);
-        if (progressData) {
-          const progress = JSON.parse(progressData);
-          return progress.completedLessons || [];
-        }
-        return [];
-      }
-      
-      // Function to render lessons
-      function renderLessons(lessons) {
-        const container = document.getElementById('lessons-list');
-        const completedLessons = getCompletedLessons();
-        
-        if (lessons.length === 0) {
-          container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
-            <i class="fas fa-inbox"></i>
-            <h3>No Lessons Found</h3>
-            <p>This course doesn't have any lessons yet.</p>
-          </div>`;
-          return;
-        }
-        
-        container.innerHTML = '';
-        
-        lessons.forEach((lesson, index) => {
-          const statusInfo = calculateLessonStatus(lesson, index, completedLessons);
-          const isLocked = statusInfo.status === "locked";
-          
-          const card = document.createElement('div');
-          card.className = `lesson-card animate__animated animate__fadeInUp`;
-          card.style.animationDelay = `${index * 0.1}s`;
-          
-          if (isLocked) {
-            card.classList.add('locked');
-          }
-          
-          card.innerHTML = `
-          <img src="https://backend-zbwu9q.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
-            <div class="lesson-header">
-              <div class="lesson-title">
-                ${lesson.title}
-                <i class="fas ${isLocked ? 'fa-lock' : 'fa-book'}"></i>
-              </div>
-              <span class="lesson-course">Lesson ${index + 1}</span>
-              <p class="lesson-desc"> ${lesson.description || "No description provided"}</p>
-            </div>
-            
-            <div class="lesson-details">
-              <div class="detail-item">
-                <span class="detail-label">Status:</span>
-                <span class="status-badge ${statusInfo.class}">
-                  ${statusInfo.statusText}
-                </span>
-              </div>
-              <div class="detail-item">
-                <span class="detail-label">Duration:</span>
-                <span class="detail-value">${lesson.duration || 'N/A'}</span>
-              </div>
-            </div>
-            
-            <div class="lesson-actions">
-              <button class="btn ${isLocked ? 'btn-view' : 'btn-start'}" 
-                data-id="${lesson._id}" 
-                ${isLocked ? 'disabled' : ''}>
-                <i class="fas ${isLocked ? 'fa-lock' : 'fa-play'}"></i> 
-                ${isLocked ? 'Locked' : (statusInfo.status === "completed" ? 'Review' : 'Start')}
-              </button>
-            </div>
-          `;
-          
-          if (!isLocked) {
-            const startBtn = card.querySelector('.btn-start');
-            startBtn.addEventListener('click', function() {
-              openLessonModal(lesson, index);
-            });
-          }
-          
-          container.appendChild(card);
-        });
-      }
-      
-      // Function to filter lessons
-      function filterLessons(filter) {
-        const completedLessons = getCompletedLessons();
-        
-        switch(filter) {
-          case 'available':
-            filteredLessons = lessonsData.filter((lesson, index) => {
-              return index === 0 || completedLessons.includes(lessonsData[index-1]._id);
-            });
-            break;
-          case 'locked':
-            filteredLessons = lessonsData.filter((lesson, index) => {
-              return index > 0 && !completedLessons.includes(lessonsData[index-1]._id);
-            });
-            break;
-          case 'completed':
-            filteredLessons = lessonsData.filter(lesson => {
-              return completedLessons.includes(lesson._id);
-            });
-            break;
-          default:
-            filteredLessons = [...lessonsData];
-        }
-        
-        renderLessons(filteredLessons);
-      }
-      
-      // Function to open lesson modal
-      function openLessonModal(lesson, index) {
-        const modal = document.getElementById('lesson-modal');
-        const thumbnailElement=document.getElementById('modal-lesson-thumnail');
-        const modalTitle = document.getElementById('modal-lesson-title');
-        const modalDescription = document.getElementById('modal-lesson-description');
-        const videoElement = document.getElementById('lesson-video');
-        const pdfDownload = document.getElementById('pdf-download');
-        const keyConceptsList = document.getElementById('key-concepts-list');
-        const quizContent = document.getElementById('quiz-content');
-        
-        // Set modal content
-        modalTitle.textContent = lesson.title;
-        modalDescription.textContent = lesson.description || "No description available";
-        
-        // Store the current lesson ID and index
-        currentLessonId = lesson._id;
-        currentLessonIndex = index;
+      // Initialize the page with authentication check
+      initializePage();
+    });
 
-        if (lesson.thumnail) {
-          thumbnailElement.innerHTML= '';
-          const so = document.createElement('so');
-          so.src= `https://backend-zbwu9q.fly.dev/uploads/${lesson.video}`;
-          so.type= 'image/png','image/img';
-          thumbnailElement.appendChild(so);
-          thumbnailElement.load();
-        }
-        
-        // Set video source if available
-        if (lesson.video) {
-          videoElement.innerHTML = '';
-          const source = document.createElement('source');
-          source.src = `https://backend-zbwu9q.fly.dev/uploads/${lesson.video}`;
-          source.type = 'video/mp4';
-          videoElement.appendChild(source);
-          videoElement.load();
-        }
-        
-        // Set PDF download link if available
-        if (lesson.pdf) {
-          pdfDownload.href = `https://backend-zbwu9q.fly.dev/uploads/${lesson.pdf}`;
-          pdfDownload.style.display = 'block';
-        } else {
-          pdfDownload.style.display = 'none';
-        }
-        
-        // Set key concepts
-        keyConceptsList.innerHTML = '';
-        if (lesson.keyConcepts && lesson.keyConcepts.length > 0) {
-          lesson.keyConcepts.forEach(concept => {
-            const li = document.createElement('li');
-            li.textContent = concept;
-            keyConceptsList.appendChild(li);
-          });
-        } else {
-          keyConceptsList.innerHTML = '<li>No key concepts listed</li>';
-        }
-        
-        // Set quiz content if available
-        if (lesson.quizzes && lesson.quizzes.length > 0) {
-          quizContent.innerHTML = renderQuiz(lesson.quizzes[0]);
-          currentQuizCorrectAnswer = lesson.quizzes[0].correctAnswer;
-        } else {
-          quizContent.innerHTML = '<p>No quiz available for this lesson.</p>';
-          currentQuizCorrectAnswer = "";
-          
-          // Add a continue button for lessons without quizzes
-          const continueButton = document.createElement('button');
-          continueButton.className = 'quiz-submit';
-          continueButton.id = 'continue-btn';
-          continueButton.textContent = 'Continue to Next Lesson';
-          quizContent.appendChild(continueButton);
-          
-          // Add event listener to the continue button
-          continueButton.addEventListener('click', function() {
-            // Mark lesson as completed
-            markLessonCompleted();
-            
-            // Close current modal
-            modal.classList.remove('active');
-            
-            // Open next lesson if available
-            openNextLesson();
-          });
-        }
-        
-        // Show modal
-        modal.classList.add('active');
-        
-        // Set up tab switching
-        const modalTabs = document.querySelectorAll('.modal-tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        modalTabs.forEach(tab => {
-          tab.addEventListener('click', function() {
-            const tabId = this.dataset.tab;
-            
-            modalTabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            
-            this.classList.add('active');
-            document.getElementById(`${tabId}-tab`).classList.add('active');
-          });
-        });
+    // Initialize the page
+    async function initializePage() {
+      const hasAccess = await checkUserAccess();
+      if (hasAccess) {
+        loadLessons();
+        setupEventListeners();
       }
-      
-      // Function to mark lesson as completed
-      function markLessonCompleted() {
-        const completedLessons = getCompletedLessons();
-        
-        if (!completedLessons.includes(currentLessonId)) {
-          completedLessons.push(currentLessonId);
-          const courseId = getCourseIdFromURL();
-          const progress = {
-            courseId,
-            completedLessons,
-            timestamp: new Date().getTime()
-          };
-          localStorage.setItem(`courseProgress_${courseId}`, JSON.stringify(progress));
-          updateStats();
-          filterLessons(document.querySelector('.filter-btn.active').dataset.filter);
-        }
-      }
-      
-      // Function to open next lesson
-      function openNextLesson() {
-        if (currentLessonIndex < lessonsData.length - 1) {
-          const nextLesson = lessonsData[currentLessonIndex + 1];
-          const completedLessons = getCompletedLessons();
-          
-          // Check if next lesson is available (not locked)
-          if (currentLessonIndex === 0 || completedLessons.includes(lessonsData[currentLessonIndex]._id)) {
-            // Open the next lesson
-            openLessonModal(nextLesson, currentLessonIndex + 1);
-          }
-        }
-      }
-      
-      // Function to render quiz
-      function renderQuiz(quiz) {
-        return `
-          <h3>${quiz.question}</h3>
-          ${quiz.options.map((option, i) => `
-            <label class="quiz-option">
-              <input type="radio" name="quiz-answer" value="${option}">
-              ${option}
-            </label>
-          `).join('')}
-          <button class="quiz-submit" id="quiz-submit-btn">Submit Answer</button>
-          <div id="quiz-feedback"></div>
-        `;
-      }
-      
-      // Function to submit quiz
-      function submitQuiz() {
-        const selected = document.querySelector('input[name="quiz-answer"]:checked');
-        const feedback = document.getElementById('quiz-feedback');
-        
-        if (!selected) {
-          feedback.innerHTML = '<p style="color: var(--warning-color);">Please select an answer.</p>';
-          return;
-        }
-        
-        if (selected.value === currentQuizCorrectAnswer) {
-          feedback.innerHTML = '<p style="color: var(--success-color);">Correct! Well done.</p>';
-          // Mark lesson as completed
-          markLessonCompleted();
-        } else {
-          feedback.innerHTML = '<p style="color: var(--danger-color);">Incorrect. Try again.</p>';
-        }
-      }
-      
-      // Load lessons from API
-      async function loadLessons() {
-        const token = localStorage.getItem("userToken");
-        const courseId = getCourseIdFromURL();
-        const container = document.getElementById('lessons-list');
-        
-        if (!courseId) {
-          container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h3>No Course Selected</h3>
-          </div>`;
-          return;
-        }
-        
-        if (!token) {
-          window.location.href = "OrycomLogin.html";
-          return;
-        }
-        
-        try {
-          const res = await fetch(LESSONS_ENDPOINT + courseId + "/lessons", {
-            headers: { "Authorization": `Bearer ${token}` }
-          });
+    }
 
-          if (!res.ok) {
-            container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
-              <i class="fas fa-exclamation-triangle"></i>
-              <h3>Error Loading Lessons</h3>
-              <p>We couldn't load the lessons. Please try again.</p>
-            </div>`;
-            console.error("Error fetching lessons:", res.status);
-            return;
-          }
-
-          lessonsData = await res.json();
-          filteredLessons = [...lessonsData];
-          
-          updateStats();
-          renderLessons(lessonsData);
-          
-        } catch (err) {
-          container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h3>Connection Error</h3>
-            <p>Please check your connection and try again.</p>
-          </div>`;
-          console.error("Error:", err);
-        }
-      }
-      
-      // Get course ID from URL
-      function getCourseIdFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get("courseId");
-      }
-      
-      // Initialize the page
-      loadLessons();
-      
+    // Setup event listeners
+    function setupEventListeners() {
       // Set up filter buttons
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -1376,7 +1072,390 @@ animation: logoFloat 4s ease-in-out infinite;
           submitQuiz();
         }
       });
-    });
+    }
+
+    // Function to calculate lesson status
+    function calculateLessonStatus(lesson, index, completedLessons) {
+      if (completedLessons.includes(lesson._id)) {
+        return {
+          status: "completed",
+          statusText: "Completed",
+          class: "status-completed"
+        };
+      } else if (index === 0 || completedLessons.includes(lessonsData[index-1]._id)) {
+        return {
+          status: "available",
+          statusText: "Available",
+          class: "status-available"
+        };
+      } else {
+        return {
+          status: "locked",
+          statusText: "Locked",
+          class: "status-locked"
+        };
+      }
+    }
+    
+    // Function to update stats
+    function updateStats() {
+      const completedLessons = getCompletedLessons();
+      
+      const total = lessonsData.length;
+      const locked = lessonsData.filter((lesson, index) => {
+        return index > 0 && !completedLessons.includes(lessonsData[index-1]._id);
+      }).length;
+      
+      const available = lessonsData.filter((lesson, index) => {
+        return index === 0 || completedLessons.includes(lessonsData[index-1]._id);
+      }).length - completedLessons.length;
+      
+      const completed = completedLessons.length;
+      
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-locked').textContent = locked;
+      document.getElementById('stat-available').textContent = available;
+      document.getElementById('stat-completed').textContent = completed;
+    }
+    
+    // Function to get completed lessons from localStorage
+    function getCompletedLessons() {
+      const courseId = getCourseIdFromURL();
+      const progressData = localStorage.getItem(`courseProgress_${courseId}`);
+      if (progressData) {
+        const progress = JSON.parse(progressData);
+        return progress.completedLessons || [];
+      }
+      return [];
+    }
+    
+    // Function to render lessons
+    function renderLessons(lessons) {
+      const container = document.getElementById('lessons-list');
+      const completedLessons = getCompletedLessons();
+      
+      if (lessons.length === 0) {
+        container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
+          <i class="fas fa-inbox"></i>
+          <h3>No Lessons Found</h3>
+          <p>No lessons match your search criteria.</p>
+        </div>`;
+        return;
+      }
+      
+      container.innerHTML = '';
+      
+      lessons.forEach((lesson, index) => {
+        const statusInfo = calculateLessonStatus(lesson, index, completedLessons);
+        const isLocked = statusInfo.status === "locked";
+        
+        const card = document.createElement('div');
+        card.className = `lesson-card animate__animated animate__fadeInUp`;
+        card.style.animationDelay = `${index * 0.1}s`;
+        
+        if (isLocked) {
+          card.classList.add('locked');
+        }
+        
+        card.innerHTML = `
+        <img src="https://backend-zbwu9q.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
+          <div class="lesson-header">
+            <div class="lesson-title">
+              ${lesson.title}
+              <i class="fas ${isLocked ? 'fa-lock' : 'fa-book'}"></i>
+            </div>
+            <span class="lesson-course">Lesson ${index + 1}</span>
+            <p class="lesson-desc"> ${lesson.description || "No description provided"}</p>
+          </div>
+          
+          <div class="lesson-details">
+            <div class="detail-item">
+              <span class="detail-label">Status:</span>
+              <span class="status-badge ${statusInfo.class}">
+                ${statusInfo.statusText}
+              </span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Duration:</span>
+              <span class="detail-value">${lesson.duration || 'N/A'}</span>
+            </div>
+          </div>
+          
+          <div class="lesson-actions">
+            <button class="btn ${isLocked ? 'btn-view' : 'btn-start'}" 
+              data-id="${lesson._id}" 
+              ${isLocked ? 'disabled' : ''}>
+              <i class="fas ${isLocked ? 'fa-lock' : 'fa-play'}"></i> 
+              ${isLocked ? 'Locked' : (statusInfo.status === "completed" ? 'Review' : 'Start')}
+            </button>
+          </div>
+        `;
+        
+        if (!isLocked) {
+          const startBtn = card.querySelector('.btn-start');
+          startBtn.addEventListener('click', function() {
+            openLessonModal(lesson, index);
+          });
+        }
+        
+        container.appendChild(card);
+      });
+    }
+    
+    // Function to filter lessons
+    function filterLessons(filter) {
+      const completedLessons = getCompletedLessons();
+      
+      switch(filter) {
+        case 'available':
+          filteredLessons = lessonsData.filter((lesson, index) => {
+            return index === 0 || completedLessons.includes(lessonsData[index-1]._id);
+          });
+          break;
+        case 'locked':
+          filteredLessons = lessonsData.filter((lesson, index) => {
+            return index > 0 && !completedLessons.includes(lessonsData[index-1]._id);
+          });
+          break;
+        case 'completed':
+          filteredLessons = lessonsData.filter(lesson => {
+            return completedLessons.includes(lesson._id);
+          });
+          break;
+        default:
+          filteredLessons = [...lessonsData];
+      }
+      
+      renderLessons(filteredLessons);
+    }
+    
+    // Function to open lesson modal
+    function openLessonModal(lesson, index) {
+      const modal = document.getElementById('lesson-modal');
+      const thumbnailElement=document.getElementById('modal-lesson-thumnail');
+      const modalTitle = document.getElementById('modal-lesson-title');
+      const modalDescription = document.getElementById('modal-lesson-description');
+      const videoElement = document.getElementById('lesson-video');
+      const pdfDownload = document.getElementById('pdf-download');
+      const keyConceptsList = document.getElementById('key-concepts-list');
+      const quizContent = document.getElementById('quiz-content');
+      
+      // Set modal content
+      modalTitle.textContent = lesson.title;
+      modalDescription.textContent = lesson.description || "No description available";
+      
+      // Store the current lesson ID and index
+      currentLessonId = lesson._id;
+      currentLessonIndex = index;
+
+      if (lesson.thumnail) {
+        thumbnailElement.innerHTML= '';
+        const so = document.createElement('so');
+        so.src= `https://backend-zbwu9q.fly.dev/uploads/${lesson.video}`;
+        so.type= 'image/png','image/img';
+        thumbnailElement.appendChild(so);
+        thumbnailElement.load();
+      }
+      
+      // Set video source if available
+      if (lesson.video) {
+        videoElement.innerHTML = '';
+        const source = document.createElement('source');
+        source.src = `https://backend-zbwu9q.fly.dev/uploads/${lesson.video}`;
+        source.type = 'video/mp4';
+        videoElement.appendChild(source);
+        videoElement.load();
+      }
+      
+      // Set PDF download link if available
+      if (lesson.pdf) {
+        pdfDownload.href = `https://backend-zbwu9q.fly.dev/uploads/${lesson.pdf}`;
+        pdfDownload.style.display = 'block';
+      } else {
+        pdfDownload.style.display = 'none';
+      }
+      
+      // Set key concepts
+      keyConceptsList.innerHTML = '';
+      if (lesson.keyConcepts && lesson.keyConcepts.length > 0) {
+        lesson.keyConcepts.forEach(concept => {
+          const li = document.createElement('li');
+          li.textContent = concept;
+          keyConceptsList.appendChild(li);
+        });
+      } else {
+        keyConceptsList.innerHTML = '<li>No key concepts listed</li>';
+      }
+      
+      // Set quiz content if available
+      if (lesson.quizzes && lesson.quizzes.length > 0) {
+        quizContent.innerHTML = renderQuiz(lesson.quizzes[0]);
+        currentQuizCorrectAnswer = lesson.quizzes[0].correctAnswer;
+      } else {
+        quizContent.innerHTML = '<p>No quiz available for this lesson.</p>';
+        currentQuizCorrectAnswer = "";
+        
+        // Add a continue button for lessons without quizzes
+        const continueButton = document.createElement('button');
+        continueButton.className = 'quiz-submit';
+        continueButton.id = 'continue-btn';
+        continueButton.textContent = 'Continue to Next Lesson';
+        quizContent.appendChild(continueButton);
+        
+        // Add event listener to the continue button
+        continueButton.addEventListener('click', function() {
+          // Mark lesson as completed
+          markLessonCompleted();
+          
+          // Close current modal
+          modal.classList.remove('active');
+          
+          // Open next lesson if available
+          openNextLesson();
+        });
+      }
+      
+      // Show modal
+      modal.classList.add('active');
+      
+      // Set up tab switching
+      const modalTabs = document.querySelectorAll('.modal-tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      modalTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const tabId = this.dataset.tab;
+          
+          modalTabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          this.classList.add('active');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+      });
+    }
+    
+    // Function to mark lesson as completed
+    function markLessonCompleted() {
+      const completedLessons = getCompletedLessons();
+      
+      if (!completedLessons.includes(currentLessonId)) {
+        completedLessons.push(currentLessonId);
+        const courseId = getCourseIdFromURL();
+        const progress = {
+          courseId,
+          completedLessons,
+          timestamp: new Date().getTime()
+        };
+        localStorage.setItem(`courseProgress_${courseId}`, JSON.stringify(progress));
+        updateStats();
+        filterLessons(document.querySelector('.filter-btn.active').dataset.filter);
+      }
+    }
+    
+    // Function to open next lesson
+    function openNextLesson() {
+      if (currentLessonIndex < lessonsData.length - 1) {
+        const nextLesson = lessonsData[currentLessonIndex + 1];
+        const completedLessons = getCompletedLessons();
+        
+        // Check if next lesson is available (not locked)
+        if (currentLessonIndex === 0 || completedLessons.includes(lessonsData[currentLessonIndex]._id)) {
+          // Open the next lesson
+          openLessonModal(nextLesson, currentLessonIndex + 1);
+        }
+      }
+    }
+    
+    // Function to render quiz
+    function renderQuiz(quiz) {
+      return `
+        <h3>${quiz.question}</h3>
+        ${quiz.options.map((option, i) => `
+          <label class="quiz-option">
+            <input type="radio" name="quiz-answer" value="${option}">
+            ${option}
+          </label>
+        `).join('')}
+        <button class="quiz-submit" id="quiz-submit-btn">Submit Answer</button>
+        <div id="quiz-feedback"></div>
+      `;
+    }
+    
+    // Function to submit quiz
+    function submitQuiz() {
+      const selected = document.querySelector('input[name="quiz-answer"]:checked');
+      const feedback = document.getElementById('quiz-feedback');
+      
+      if (!selected) {
+        feedback.innerHTML = '<p style="color: var(--warning-color);">Please select an answer.</p>';
+        return;
+      }
+      
+      if (selected.value === currentQuizCorrectAnswer) {
+        feedback.innerHTML = '<p style="color: var(--success-color);">Correct! Well done.</p>';
+        // Mark lesson as completed
+        markLessonCompleted();
+      } else {
+        feedback.innerHTML = '<p style="color: var(--danger-color);">Incorrect. Try again.</p>';
+      }
+    }
+    
+    // Load lessons from API
+    async function loadLessons() {
+      const token = localStorage.getItem("userToken");
+      const courseId = getCourseIdFromURL();
+      const container = document.getElementById('lessons-list');
+      
+      if (!courseId) {
+        container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>No Course Selected</h3>
+          <p>Please select a course first.</p>
+        </div>`;
+        return;
+      }
+      
+      try {
+        const res = await fetch(LESSONS_ENDPOINT + courseId + "/lessons", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!res.ok) {
+          if (res.status === 403) {
+            showError("You don't have access to this course. Please purchase it first.");
+            return;
+          }
+          container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Error Loading Lessons</h3>
+            <p>We couldn't load the lessons. Please try again.</p>
+          </div>`;
+          console.error("Error fetching lessons:", res.status);
+          return;
+        }
+
+        lessonsData = await res.json();
+        filteredLessons = [...lessonsData];
+        
+        updateStats();
+        renderLessons(lessonsData);
+        
+      } catch (err) {
+        container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Connection Error</h3>
+          <p>Please check your connection and try again.</p>
+        </div>`;
+        console.error("Error:", err);
+      }
+    }
+    
+    // Get course ID from URL
+    function getCourseIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get("courseId");
+    }
   </script>
 </body>
 </html>
