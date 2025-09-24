@@ -906,13 +906,12 @@ animation: logoFloat 4s ease-in-out infinite;
       </div>
     </div>
   </div>
-
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
     // API endpoints
     const API_BASE_URL = "https://backend-zbwu9q.fly.dev/api";
     const LESSONS_ENDPOINT = API_BASE_URL + "/lessons/courses/";
-    const USER_PROFILE_ENDPOINT = API_BASE_URL + "/users/profile";
+    const USER_COURSES_ENDPOINT = API_BASE_URL + "/users/my-courses";
     
     // Global variables
     let lessonsData = [];
@@ -920,14 +919,16 @@ animation: logoFloat 4s ease-in-out infinite;
     let currentQuizCorrectAnswer = "";
     let currentLessonId = "";
     let currentLessonIndex = -1;
-    let userPaidCourses = [];
+    let userCourses = [];
 
-    // Authentication and Authorization Check
+    // Authentication and Authorization Check - Updated to match My Courses page
     async function checkUserAccess() {
       const token = localStorage.getItem("userToken");
+      const role = localStorage.getItem("userRole");
       const courseId = getCourseIdFromURL();
       
-      if (!token) {
+      if (!token || role !== "student") {
+        alert("You must be logged in as a student to view lessons.");
         window.location.href = "OrycomLogin.html";
         return false;
       }
@@ -938,25 +939,27 @@ animation: logoFloat 4s ease-in-out infinite;
       }
       
       try {
-        // Verify token and get user profile
-        const userRes = await fetch(USER_PROFILE_ENDPOINT, {
+        // Get user's enrolled courses (same as My Courses page)
+        const userRes = await fetch(USER_COURSES_ENDPOINT, {
           headers: { "Authorization": `Bearer ${token}` }
         });
         
         if (!userRes.ok) {
           if (userRes.status === 401) {
             localStorage.removeItem("userToken");
+            localStorage.removeItem("userRole");
             window.location.href = "OrycomLogin.html";
             return false;
           }
-          throw new Error("Failed to fetch user profile");
+          throw new Error("Failed to fetch user courses");
         }
         
-        const userData = await userRes.json();
-        userPaidCourses = userData.paidcourses || [];
+        userCourses = await userRes.json();
         
-        // Check if user has access to this course
-        if (!userPaidCourses.includes(courseId)) {
+        // Check if user has access to this specific course
+        const hasAccess = userCourses.some(course => course._id === courseId);
+        
+        if (!hasAccess) {
           showError("You don't have access to this course. Please purchase it first.");
           return false;
         }
@@ -967,6 +970,7 @@ animation: logoFloat 4s ease-in-out infinite;
         console.error("Authorization error:", error);
         showError("Authentication failed. Please login again.");
         localStorage.removeItem("userToken");
+        localStorage.removeItem("userRole");
         window.location.href = "OrycomLogin.html";
         return false;
       }
@@ -985,6 +989,10 @@ animation: logoFloat 4s ease-in-out infinite;
           </button>
         </div>
       `;
+      
+      // Hide stats and filter bar when there's an error
+      document.querySelector('.stats-container').style.display = 'none';
+      document.querySelector('.filter-bar').style.display = 'none';
     }
 
     // Initialize particles.js background
@@ -1020,6 +1028,16 @@ animation: logoFloat 4s ease-in-out infinite;
       if (hasAccess) {
         loadLessons();
         setupEventListeners();
+        updateCourseTitle();
+      }
+    }
+
+    // Update page title with course name
+    function updateCourseTitle() {
+      const courseId = getCourseIdFromURL();
+      const course = userCourses.find(c => c._id === courseId);
+      if (course) {
+        document.querySelector('.page-title').textContent = `Lessons - ${course.title}`;
       }
     }
 
@@ -1406,15 +1424,6 @@ animation: logoFloat 4s ease-in-out infinite;
       const token = localStorage.getItem("userToken");
       const courseId = getCourseIdFromURL();
       const container = document.getElementById('lessons-list');
-      
-      if (!courseId) {
-        container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
-          <i class="fas fa-exclamation-triangle"></i>
-          <h3>No Course Selected</h3>
-          <p>Please select a course first.</p>
-        </div>`;
-        return;
-      }
       
       try {
         const res = await fetch(LESSONS_ENDPOINT + courseId + "/lessons", {
