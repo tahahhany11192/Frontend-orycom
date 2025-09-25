@@ -731,23 +731,43 @@
       transform: translateY(-3px);
       box-shadow: 0 5px 15px rgba(157, 78, 221, 0.4);
     }
-            .logo {
-  display: flex;
-  align-items: center;
-animation: logoFloat 4s ease-in-out infinite;
-}
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      animation: logoFloat 4s ease-in-out infinite;
+    }
 
-
-.logo img {
-  height: 68px; /* Adjust as needed */
-  width: auto;
-  margin-right: 10px; /* Space between logo and text */
-}
+    .logo img {
+      height: 68px; /* Adjust as needed */
+      width: auto;
+      margin-right: 10px; /* Space between logo and text */
+    }
+    
     .lesson-thumbnail {
       width: 100%;
       height: 200px;
       object-fit: cover;
       border-bottom: 5px solid var(--secondary-color);
+    }
+    
+    /* Quiz result styling */
+    .quiz-feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    
+    .quiz-feedback.correct {
+      background: rgba(56, 176, 0, 0.1);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+    }
+    
+    .quiz-feedback.incorrect {
+      background: rgba(255, 0, 84, 0.1);
+      color: var(--danger-color);
+      border: 1px solid var(--danger-color);
     }
   </style>
 </head>
@@ -857,7 +877,6 @@ animation: logoFloat 4s ease-in-out infinite;
         <i class="fas fa-times"></i>
       </button>
       <div class="modal-header">
-        <h1 class="modal-thumnail" id="modal-lesson-thumbnail"></h2>
         <h2 class="modal-title" id="modal-lesson-title">Lesson Title</h2>
         <p id="modal-lesson-description">Lesson description goes here</p>
       </div>
@@ -916,7 +935,7 @@ animation: logoFloat 4s ease-in-out infinite;
     // Global variables
     let lessonsData = [];
     let filteredLessons = [];
-    let currentQuizCorrectAnswer = "";
+    let currentQuizzes = [];
     let currentLessonId = "";
     let currentLessonIndex = -1;
     let userCourses = [];
@@ -1083,13 +1102,6 @@ animation: logoFloat 4s ease-in-out infinite;
           this.classList.remove('active');
         }
       });
-      
-      // Add event listener for quiz submission
-      document.addEventListener('click', function(e) {
-        if (e.target && e.target.id === 'quiz-submit-btn') {
-          submitQuiz();
-        }
-      });
     }
 
     // Function to calculate lesson status
@@ -1176,14 +1188,14 @@ animation: logoFloat 4s ease-in-out infinite;
         }
         
         card.innerHTML = `
-        <img src="https://backend-zbwu9q.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
+          <img src="https://backend-zbwu9q.fly.dev/uploads/${lesson.thumbnail}" alt="${lesson.title}" class="lesson-thumbnail">
           <div class="lesson-header">
             <div class="lesson-title">
               ${lesson.title}
               <i class="fas ${isLocked ? 'fa-lock' : 'fa-book'}"></i>
             </div>
             <span class="lesson-course">Lesson ${index + 1}</span>
-            <p class="lesson-desc"> ${lesson.description || "No description provided"}</p>
+            <p class="lesson-desc">${lesson.description || "No description provided"}</p>
           </div>
           
           <div class="lesson-details">
@@ -1250,7 +1262,6 @@ animation: logoFloat 4s ease-in-out infinite;
     // Function to open lesson modal
     function openLessonModal(lesson, index) {
       const modal = document.getElementById('lesson-modal');
-      const thumbnailElement=document.getElementById('modal-lesson-thumnail');
       const modalTitle = document.getElementById('modal-lesson-title');
       const modalDescription = document.getElementById('modal-lesson-description');
       const videoElement = document.getElementById('lesson-video');
@@ -1265,15 +1276,6 @@ animation: logoFloat 4s ease-in-out infinite;
       // Store the current lesson ID and index
       currentLessonId = lesson._id;
       currentLessonIndex = index;
-
-      if (lesson.thumnail) {
-        thumbnailElement.innerHTML= '';
-        const so = document.createElement('so');
-        so.src= `https://backend-zbwu9q.fly.dev/uploads/${lesson.video}`;
-        so.type= 'image/png','image/img';
-        thumbnailElement.appendChild(so);
-        thumbnailElement.load();
-      }
       
       // Set video source if available
       if (lesson.video) {
@@ -1307,11 +1309,11 @@ animation: logoFloat 4s ease-in-out infinite;
       
       // Set quiz content if available
       if (lesson.quizzes && lesson.quizzes.length > 0) {
-        quizContent.innerHTML = renderQuiz(lesson.quizzes[0]);
-        currentQuizCorrectAnswer = lesson.quizzes[0].correctAnswer;
+        currentQuizzes = lesson.quizzes;
+        quizContent.innerHTML = renderQuizzes(lesson.quizzes);
       } else {
         quizContent.innerHTML = '<p>No quiz available for this lesson.</p>';
-        currentQuizCorrectAnswer = "";
+        currentQuizzes = [];
         
         // Add a continue button for lessons without quizzes
         const continueButton = document.createElement('button');
@@ -1385,37 +1387,85 @@ animation: logoFloat 4s ease-in-out infinite;
       }
     }
     
-    // Function to render quiz
-    function renderQuiz(quiz) {
-      return `
-        <h3>${quiz.question}</h3>
-        ${quiz.options.map((option, i) => `
-          <label class="quiz-option">
-            <input type="radio" name="quiz-answer" value="${option}">
-            ${option}
-          </label>
-        `).join('')}
-        <button class="quiz-submit" id="quiz-submit-btn">Submit Answer</button>
-        <div id="quiz-feedback"></div>
+    // Function to render all quizzes
+    function renderQuizzes(quizzes) {
+      let html = `<h3>Quiz: ${quizzes.length} Question${quizzes.length > 1 ? 's' : ''}</h3>`;
+      
+      quizzes.forEach((quiz, quizIndex) => {
+        html += `
+          <div class="quiz-question" id="quiz-question-${quizIndex}">
+            <h4>Question ${quizIndex + 1}: ${quiz.question}</h4>
+            ${quiz.options.map((option, optionIndex) => `
+              <label class="quiz-option">
+                <input type="radio" name="quiz-answer-${quizIndex}" value="${option}" data-quiz-index="${quizIndex}">
+                ${option}
+              </label>
+            `).join('')}
+            <div class="quiz-feedback" id="quiz-feedback-${quizIndex}" style="display: none;"></div>
+          </div>
+        `;
+      });
+      
+      html += `
+        <button class="quiz-submit" id="quiz-submit-btn">Submit All Answers</button>
+        <div id="quiz-overall-feedback" style="margin-top: 20px;"></div>
       `;
+      
+      return html;
     }
     
-    // Function to submit quiz
-    function submitQuiz() {
-      const selected = document.querySelector('input[name="quiz-answer"]:checked');
-      const feedback = document.getElementById('quiz-feedback');
+    // Function to submit all quiz answers
+    function submitAllQuizzes() {
+      let allCorrect = true;
+      let allAnswered = true;
       
-      if (!selected) {
-        feedback.innerHTML = '<p style="color: var(--warning-color);">Please select an answer.</p>';
+      currentQuizzes.forEach((quiz, quizIndex) => {
+        const selectedOption = document.querySelector(`input[name="quiz-answer-${quizIndex}"]:checked`);
+        const feedbackElement = document.getElementById(`quiz-feedback-${quizIndex}`);
+        
+        if (!selectedOption) {
+          allAnswered = false;
+          feedbackElement.innerHTML = '<p style="color: var(--warning-color);">Please select an answer.</p>';
+          feedbackElement.style.display = 'block';
+          allCorrect = false;
+          return;
+        }
+        
+        if (selectedOption.value === quiz.correctAnswer) {
+          feedbackElement.innerHTML = '<p style="color: var(--success-color);">✓ Correct! Well done.</p>';
+          feedbackElement.className = 'quiz-feedback correct';
+        } else {
+          feedbackElement.innerHTML = `<p style="color: var(--danger-color);">✗ Incorrect. The correct answer is: ${quiz.correctAnswer}</p>`;
+          feedbackElement.className = 'quiz-feedback incorrect';
+          allCorrect = false;
+        }
+        feedbackElement.style.display = 'block';
+      });
+      
+      const overallFeedback = document.getElementById('quiz-overall-feedback');
+      
+      if (!allAnswered) {
+        overallFeedback.innerHTML = '<p style="color: var(--warning-color);">Please answer all questions before submitting.</p>';
         return;
       }
       
-      if (selected.value === currentQuizCorrectAnswer) {
-        feedback.innerHTML = '<p style="color: var(--success-color);">Correct! Well done.</p>';
+      if (allCorrect) {
+        overallFeedback.innerHTML = '<p style="color: var(--success-color); font-weight: bold;">Congratulations! All answers are correct. Lesson completed!</p>';
         // Mark lesson as completed
         markLessonCompleted();
+        
+        // Add continue button
+        const continueButton = document.createElement('button');
+        continueButton.className = 'quiz-submit';
+        continueButton.textContent = 'Continue to Next Lesson';
+        continueButton.style.marginTop = '15px';
+        continueButton.onclick = function() {
+          document.getElementById('lesson-modal').classList.remove('active');
+          openNextLesson();
+        };
+        overallFeedback.appendChild(continueButton);
       } else {
-        feedback.innerHTML = '<p style="color: var(--danger-color);">Incorrect. Try again.</p>';
+        overallFeedback.innerHTML = '<p style="color: var(--danger-color);">Some answers are incorrect. Please review and try again.</p>';
       }
     }
     
@@ -1445,10 +1495,21 @@ animation: logoFloat 4s ease-in-out infinite;
         }
 
         lessonsData = await res.json();
+        
+        // FIX 1: Reverse the lessons array to show the most recent first
+        lessonsData.reverse();
+        
         filteredLessons = [...lessonsData];
         
         updateStats();
         renderLessons(lessonsData);
+        
+        // Add event listener for quiz submission after lessons are loaded
+        document.addEventListener('click', function(e) {
+          if (e.target && e.target.id === 'quiz-submit-btn') {
+            submitAllQuizzes();
+          }
+        });
         
       } catch (err) {
         container.innerHTML = `<div class="no-results animate__animated animate__fadeIn">
