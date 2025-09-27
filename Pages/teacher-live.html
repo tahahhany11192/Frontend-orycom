@@ -866,291 +866,181 @@
     </div>
 
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-<script>
-    // Enhanced Multi-Teacher Live Stream Platform
-    
-    // Get teacher ID from local storage
-    const userData = JSON.parse(localStorage.getItem('user') || '{}');
-    const teacherId = userData._id || localStorage.getItem('userId') || '';
-    const teacherName = userData.name || 'Teacher';
+    <script>
+        // Get teacher ID from local storage
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const teacherId = userData._id || localStorage.getItem('userId') || '';
 
-    // Verify user is logged in
-    if (!teacherId) {
-        alert('Please login as an instructor first');
-        window.location.href = '/login';
-        throw new Error('No teacher ID found');
-    }
-
-    // Enhanced WebRTC configuration
-    const rtcConfig = {
-        iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
-            { urls: 'stun:stun2.l.google.com:19302' },
-            { urls: 'stun:stun3.l.google.com:19302' },
-            { urls: 'stun:stun4.l.google.com:19302' }
-        ],
-        iceCandidatePoolSize: 10
-    };
-
-    // Global variables
-    const peerConnections = new Map(); // studentId → RTCPeerConnection
-    const remoteStreams = new Map(); // studentId → MediaStream
-    let localStream;
-    let currentRoomId;
-    let isScreenSharing = false;
-    let screenStream = null;
-    let cameraVideoTrack = null;
-
-    // Connection state management
-    let connectionState = 'disconnected';
-    const connectionStates = {
-        connecting: 'connecting',
-        connected: 'connected',
-        reconnecting: 'reconnecting',
-        disconnected: 'disconnected'
-    };
-
-    // Enhanced socket configuration
-    const socket = io("https://backend-zbwu9q.fly.dev", {
-        query: { 
-            teacherId,
-            userType: 'teacher',
-            timestamp: Date.now()
-        },
-        transports: ['websocket', 'polling'],
-        reconnection: true,
-        reconnectionAttempts: 10,
-        reconnectionDelay: 1000,
-        reconnectionDelayMax: 5000,
-        timeout: 20000,
-        auth: {
-            token: localStorage.getItem('userToken') || 'dev-token-bypass',
-            userId: teacherId
+        // Verify user is logged in
+        if (!teacherId) {
+            alert('Please login as an instructor first');
+            window.location.href = '/login';
+            throw new Error('No teacher ID found');
         }
-    });
 
-    // Enhanced Room Management for Multiple Teachers
-    class RoomManager {
-        constructor() {
-            this.rooms = new Map();
-            this.currentRoom = null;
+        const peerConnections = new Map(); // studentId → RTCPeerConnection
+        const remoteStreams = new Map(); // studentId → MediaStream
+        let localStream;
+        let currentRoomId;
+        let isScreenSharing = false;
+        let screenStream = null;
+        let cameraVideoTrack = null;
+
+        const socket = io("https://backend-zbwu9q.fly.dev", {
+            query: { teacherId },
+            transports: ['polling'],
+            reconnection: true,
+            reconnectionAttempts: 5,
+            reconnectionDelay: 1000,
+            auth: {
+                token: localStorage.getItem('userToken') || 'dev-token-bypass'
+            }
+        });
+
+        // DOM elements
+        const startBtn = document.getElementById('startBtn');
+        const micBtn = document.getElementById('micBtn');
+        const camBtn = document.getElementById('camBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const endClassBtn = document.getElementById('endClassBtn');
+        const localVideo = document.getElementById('localVideo');
+        const videoPlaceholder = document.getElementById('videoPlaceholder');
+        const remoteVideosContainer = document.getElementById('remoteVideosContainer');
+        const courseSelect = document.getElementById('courseSelect');
+        const chatBox = document.getElementById('chatBox');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const participantList = document.getElementById('participantList');
+        const participantCount = document.getElementById('participantCount');
+        const raisedHandsList = document.getElementById('raisedHandsList');
+        const raisedHandsCount = document.getElementById('raisedHandsCount');
+        const sendTaskBtn = document.getElementById('sendTaskBtn');
+        const submissionsList = document.getElementById('submissionsList');
+
+        // Track participants and raised hands
+        const participants = new Set();
+        const raisedHands = new Set();
+
+        // Render participant list
+        function renderParticipants() {
+            if (participants.size === 0) {
+                participantList.innerHTML = '<p>No participants yet</p>';
+                participantCount.textContent = '(0)';
+                return;
+            }
+
+            participantList.innerHTML = '';
+            participantCount.textContent = `(${participants.size})`;
+            
+            Array.from(participants).forEach(studentId => {
+                const item = document.createElement('div');
+                item.className = 'participant-item';
+                item.dataset.id = studentId;
+                
+                item.innerHTML = `
+                    <span class="participant-id">${studentId}</span>
+                    <div class="participant-controls">
+                        <button class="mute-btn" data-action="mute">Mute</button>
+                        <button class="unmute-btn" data-action="unmute">Unmute</button>
+                        <button class="kick-btn" data-action="kick">Kick</button>
+                    </div>
+                `;
+                
+                participantList.appendChild(item);
+            });
         }
-        
-        async createRoom(courseId, teacherId) {
-            try {
-                // Check if teacher already has an active room
-                for (let [roomId, room] of this.rooms) {
-                    if (room.teacherId === teacherId && room.active) {
-                        const reuse = confirm('You already have an active class. Would you like to switch to it?');
-                        if (reuse) {
-                            await this.joinRoom(roomId, teacherId);
-                            return roomId;
-                        } else {
-                            await this.leaveRoom(roomId, teacherId);
-                        }
-                    }
-                }
-                
-                const roomData = {
-                    roomId: courseId,
-                    courseId: courseId,
-                    teacherId: teacherId,
-                    active: true,
-                    participants: new Set(),
-                    createdAt: Date.now(),
-                    lastActivity: Date.now()
-                };
-                
-                this.rooms.set(courseId, roomData);
-                this.currentRoom = courseId;
-                
-                return courseId;
-            } catch (error) {
-                console.error('Room creation error:', error);
-                throw error;
+
+        // Render raised hands list
+        function renderRaisedHands() {
+            raisedHandsCount.textContent = `(${raisedHands.size})`;
+            
+            if (raisedHands.size === 0) {
+                raisedHandsList.innerHTML = '<li>No raised hands</li>';
+                return;
+            }
+
+            raisedHandsList.innerHTML = '';
+            
+            Array.from(raisedHands).forEach(studentId => {
+                const li = document.createElement('li');
+                li.className = 'raised-hand-item';
+                li.dataset.id = studentId;
+                li.innerHTML = `
+                    <span>${studentId}</span>
+                    <button class="lower-hand-btn" onclick="lowerHandForStudent('${studentId}')">Lower Hand</button>
+                `;
+                raisedHandsList.appendChild(li);
+            });
+        }
+
+        // Add remote video element
+        function addRemoteVideo(studentId, stream) {
+            if (document.querySelector(`.remote-video-wrapper[data-id="${studentId}"]`)) return;
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'remote-video-wrapper';
+            wrapper.dataset.id = studentId;
+            
+            const video = document.createElement('video');
+            video.autoplay = true;
+            video.playsinline = true;
+            video.srcObject = stream;
+            
+            const label = document.createElement('div');
+            label.className = 'remote-video-label';
+            label.textContent = studentId;
+            
+            wrapper.appendChild(video);
+            wrapper.appendChild(label);
+            remoteVideosContainer.appendChild(wrapper);
+        }
+
+        // Remove remote video element
+        function removeRemoteVideo(studentId) {
+            const element = document.querySelector(`.remote-video-wrapper[data-id="${studentId}"]`);
+            if (element) {
+                element.remove();
             }
         }
-        
-        async joinRoom(roomId, teacherId) {
-            const room = this.rooms.get(roomId);
-            if (room && room.teacherId === teacherId) {
-                this.currentRoom = roomId;
-                room.lastActivity = Date.now();
-                return true;
-            }
-            return false;
-        }
-        
-        async leaveRoom(roomId, teacherId) {
-            const room = this.rooms.get(roomId);
-            if (room && room.teacherId === teacherId) {
-                room.active = false;
-                room.endedAt = Date.now();
-                
-                if (this.currentRoom === roomId) {
-                    this.currentRoom = null;
-                }
-                
-                return true;
-            }
-            return false;
-        }
-        
-        getActiveRoom(teacherId) {
-            for (let [roomId, room] of this.rooms) {
-                if (room.teacherId === teacherId && room.active) {
-                    return room;
-                }
-            }
-            return null;
-        }
-        
-        cleanupInactiveRooms(maxAge = 3600000) {
-            const now = Date.now();
-            for (let [roomId, room] of this.rooms) {
-                if (!room.active && (now - room.endedAt) > maxAge) {
-                    this.rooms.delete(roomId);
-                }
-            }
-        }
-    }
 
-    // Initialize room manager
-    const roomManager = new RoomManager();
+        // Participant controls
+        participantList.addEventListener('click', (e) => {
+            const btn = e.target.closest('button[data-action]');
+            if (!btn) return;
+            
+            const item = btn.closest('.participant-item');
+            const studentId = item?.dataset.id;
+            if (!studentId || !currentRoomId) return;
 
-    // DOM elements
-    const startBtn = document.getElementById('startBtn');
-    const micBtn = document.getElementById('micBtn');
-    const camBtn = document.getElementById('camBtn');
-    const shareBtn = document.getElementById('shareBtn');
-    const endClassBtn = document.getElementById('endClassBtn');
-    const localVideo = document.getElementById('localVideo');
-    const videoPlaceholder = document.getElementById('videoPlaceholder');
-    const remoteVideosContainer = document.getElementById('remoteVideosContainer');
-    const courseSelect = document.getElementById('courseSelect');
-    const chatBox = document.getElementById('chatBox');
-    const messageInput = document.getElementById('messageInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const participantList = document.getElementById('participantList');
-    const participantCount = document.getElementById('participantCount');
-    const raisedHandsList = document.getElementById('raisedHandsList');
-    const raisedHandsCount = document.getElementById('raisedHandsCount');
-    const sendTaskBtn = document.getElementById('sendTaskBtn');
-    const submissionsList = document.getElementById('submissionsList');
-
-    // Track participants and raised hands
-    const participants = new Set();
-    const raisedHands = new Set();
-
-    // Enhanced Media Stream Handling
-    async function getMediaStream() {
-        try {
-            const constraints = {
-                video: {
-                    width: { ideal: 1280, min: 640, max: 1920 },
-                    height: { ideal: 720, min: 480, max: 1080 },
-                    frameRate: { ideal: 30, min: 15, max: 60 },
-                    facingMode: 'user'
-                },
-                audio: {
-                    echoCancellation: true,
-                    noiseSuppression: true,
-                    autoGainControl: true,
-                    channelCount: 2,
-                    sampleRate: 48000,
-                    sampleSize: 16
-                }
-            };
-
-            // Try optimal constraints first
-            let stream;
-            try {
-                stream = await navigator.mediaDevices.getUserMedia(constraints);
-            } catch (optimalError) {
-                console.warn('Optimal constraints failed, trying basic constraints:', optimalError);
-                
-                // Fallback to basic constraints
-                stream = await navigator.mediaDevices.getUserMedia({
-                    video: true,
-                    audio: true
+            const action = btn.dataset.action;
+            if (action === 'mute' || action === 'unmute') {
+                socket.emit('teacher-mute-student', { 
+                    roomId: currentRoomId, 
+                    targetId: studentId, 
+                    mute: action === 'mute' 
                 });
-            }
-
-            // Monitor stream health
-            monitorStreamHealth(stream);
-            return stream;
-
-        } catch (error) {
-            console.error('Media stream error:', error);
-            
-            // Provide specific error messages
-            if (error.name === 'NotAllowedError') {
-                showNotice('Camera/microphone access denied. Please check permissions.', 'error');
-            } else if (error.name === 'NotFoundError') {
-                showNotice('No camera/microphone found. Please check your devices.', 'error');
-            } else if (error.name === 'NotReadableError') {
-                showNotice('Camera/microphone in use by another application.', 'error');
-            } else {
-                showNotice('Error accessing camera/microphone: ' + error.message, 'error');
-            }
-            
-            throw error;
-        }
-    }
-
-    // Stream health monitoring
-    function monitorStreamHealth(stream) {
-        const audioTrack = stream.getAudioTracks()[0];
-        const videoTrack = stream.getVideoTracks()[0];
-        
-        if (audioTrack) {
-            audioTrack.addEventListener('mute', () => {
-                showNotice('Microphone muted', 'warning');
-            });
-            
-            audioTrack.addEventListener('unmute', () => {
-                showNotice('Microphone active', 'success');
-            });
-        }
-        
-        if (videoTrack) {
-            videoTrack.addEventListener('mute', () => {
-                showNotice('Camera muted', 'warning');
-            });
-            
-            videoTrack.addEventListener('unmute', () => {
-                showNotice('Camera active', 'success');
-            });
-            
-            // Monitor video dimensions
-            setInterval(() => {
-                if (videoTrack.readyState === 'live') {
-                    const settings = videoTrack.getSettings();
-                    console.log('Video resolution:', settings.width, 'x', settings.height);
+            } else if (action === 'kick') {
+                const ok = confirm(`Kick student ${studentId}?`);
+                if (ok) {
+                    socket.emit('teacher-kick-student', { 
+                        roomId: currentRoomId, 
+                        targetId: studentId 
+                    });
                 }
-            }, 10000);
-        }
-    }
+            }
+        });
 
-    // Enhanced WebRTC connection with retry logic
-    async function initializeWebRTCForStudent(roomId, studentId, retryCount = 0) {
-        const maxRetries = 3;
-        
-        try {
+        // Initialize WebRTC connection for a specific student
+        async function initializeWebRTCForStudent(roomId, studentId) {
+            const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
             const pc = new RTCPeerConnection(rtcConfig);
             peerConnections.set(studentId, pc);
 
-            // Add local tracks with error handling
-            try {
-                const audioTrack = localStream.getAudioTracks()[0];
-                const videoTrack = localStream.getVideoTracks()[0];
-                
-                if (audioTrack) pc.addTrack(audioTrack, localStream);
-                if (videoTrack) pc.addTrack(videoTrack, localStream);
-            } catch (trackError) {
-                console.warn('Error adding tracks:', trackError);
-            }
+            // Add local tracks
+            const audioTrack = localStream.getAudioTracks()[0];
+            const videoTrack = localStream.getVideoTracks()[0];
+            pc.addTrack(audioTrack, localStream);
+            pc.addTrack(videoTrack, localStream);
 
             pc.onicecandidate = (event) => {
                 if (event.candidate) {
@@ -1163,55 +1053,22 @@
             };
 
             pc.ontrack = (event) => {
-                if (event.streams && event.streams[0]) {
-                    const stream = event.streams[0];
-                    remoteStreams.set(studentId, stream);
-                    addRemoteVideo(studentId, stream);
-                }
+                const stream = event.streams[0];
+                remoteStreams.set(studentId, stream);
+                addRemoteVideo(studentId, stream);
             };
 
             pc.onconnectionstatechange = () => {
                 console.log(`Connection state with ${studentId}: ${pc.connectionState}`);
-                
                 if (pc.connectionState === 'disconnected' || pc.connectionState === 'failed') {
-                    if (retryCount < maxRetries) {
-                        console.log(`Retrying connection with ${studentId}...`);
-                        setTimeout(() => {
-                            cleanupStudentConnection(studentId);
-                            initializeWebRTCForStudent(roomId, studentId, retryCount + 1);
-                        }, 2000 * (retryCount + 1));
-                    } else {
-                        cleanupStudentConnection(studentId);
-                    }
-                }
-                
-                if (pc.connectionState === 'connected') {
-                    showNotice(`Connected to student ${studentId.substring(0, 8)}`, 'success');
+                    cleanupStudentConnection(studentId);
                 }
             };
 
-            pc.oniceconnectionstatechange = () => {
-                console.log(`ICE connection state with ${studentId}: ${pc.iceConnectionState}`);
-            };
-
-            // Create and send offer with timeout
-            const offerTimeout = setTimeout(() => {
-                if (pc.signalingState !== 'stable') {
-                    console.error('Offer timeout for student:', studentId);
-                    if (retryCount < maxRetries) {
-                        initializeWebRTCForStudent(roomId, studentId, retryCount + 1);
-                    }
-                }
-            }, 10000);
-
+            // Create and send offer
             try {
-                const offer = await pc.createOffer({
-                    offerToReceiveAudio: true,
-                    offerToReceiveVideo: true
-                });
-                
+                const offer = await pc.createOffer();
                 await pc.setLocalDescription(offer);
-                clearTimeout(offerTimeout);
                 
                 socket.emit('webrtc-offer', {
                     roomId,
@@ -1219,839 +1076,602 @@
                     sdp: offer
                 });
             } catch (err) {
-                clearTimeout(offerTimeout);
                 console.error('Error creating offer:', err);
-                if (retryCount < maxRetries) {
-                    setTimeout(() => {
-                        initializeWebRTCForStudent(roomId, studentId, retryCount + 1);
-                    }, 1000);
+                cleanupStudentConnection(studentId);
+            }
+        }
+
+        // Clean up student connection
+        function cleanupStudentConnection(studentId) {
+            const pc = peerConnections.get(studentId);
+            if (pc) {
+                pc.close();
+                peerConnections.delete(studentId);
+            }
+            
+            remoteStreams.delete(studentId);
+            removeRemoteVideo(studentId);
+            
+            if (participants.has(studentId)) {
+                participants.delete(studentId);
+                renderParticipants();
+            }
+            
+            if (raisedHands.has(studentId)) {
+                raisedHands.delete(studentId);
+                                renderRaisedHands();
+            }
+        }
+
+        // Setup chat functionality
+        function setupChat() {
+            // Remove any existing listeners to prevent duplicates
+            socket.off('new-message');
+            
+            // Handle incoming messages
+            socket.on('new-message', (userId, message) => {
+                const isTeacher = userId === 'teacher';
+                const isSystem = userId === 'system';
+                
+                const messageElement = document.createElement('div');
+                messageElement.className = `chat-message ${isTeacher ? 'teacher' : isSystem ? 'system' : 'student'}`;
+                
+                if (isTeacher) {
+                    messageElement.innerHTML = `
+                        <div class="chat-sender">You</div>
+                        <div>${message}</div>
+                    `;
+                } else if (isSystem) {
+                    messageElement.textContent = message;
                 } else {
-                    cleanupStudentConnection(studentId);
+                    messageElement.innerHTML = `
+                        <div class="chat-sender">${userId}</div>
+                        <div>${message}</div>
+                    `;
+                }
+                
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+
+            // Send message with debounce to prevent duplicates
+            let lastSendTime = 0;
+            function sendMessage() {
+                const now = Date.now();
+                if (now - lastSendTime < 1000) return; // Debounce 1 second
+                
+                const message = messageInput.value.trim();
+                if (message && currentRoomId) {
+                    socket.emit('send-message', currentRoomId, 'teacher', message);
+                    messageInput.value = '';
+                    lastSendTime = now;
                 }
             }
 
-        } catch (err) {
-            console.error('WebRTC initialization error:', err);
-            if (retryCount < maxRetries) {
-                setTimeout(() => {
-                    initializeWebRTCForStudent(roomId, studentId, retryCount + 1);
-                }, 1000);
-            }
-        }
-    }
-
-    // Clean up student connection
-    function cleanupStudentConnection(studentId) {
-        const pc = peerConnections.get(studentId);
-        if (pc) {
-            pc.close();
-            peerConnections.delete(studentId);
-        }
-        
-        remoteStreams.delete(studentId);
-        removeRemoteVideo(studentId);
-        
-        if (participants.has(studentId)) {
-            participants.delete(studentId);
-            renderParticipants();
-        }
-        
-        if (raisedHands.has(studentId)) {
-            raisedHands.delete(studentId);
-            renderRaisedHands();
-        }
-    }
-
-    // Render participant list
-    function renderParticipants() {
-        if (participants.size === 0) {
-            participantList.innerHTML = '<p>No participants yet</p>';
-            participantCount.textContent = '(0)';
-            return;
-        }
-
-        participantList.innerHTML = '';
-        participantCount.textContent = `(${participants.size})`;
-        
-        Array.from(participants).forEach(studentId => {
-            const item = document.createElement('div');
-            item.className = 'participant-item';
-            item.dataset.id = studentId;
-            
-            item.innerHTML = `
-                <span class="participant-id">${studentId.substring(0, 12)}...</span>
-                <div class="participant-controls">
-                    <button class="mute-btn" data-action="mute">Mute</button>
-                    <button class="unmute-btn" data-action="unmute">Unmute</button>
-                    <button class="kick-btn" data-action="kick">Kick</button>
-                </div>
-            `;
-            
-            participantList.appendChild(item);
-        });
-    }
-
-    // Render raised hands list
-    function renderRaisedHands() {
-        raisedHandsCount.textContent = `(${raisedHands.size})`;
-        
-        if (raisedHands.size === 0) {
-            raisedHandsList.innerHTML = '<li>No raised hands</li>';
-            return;
-        }
-
-        raisedHandsList.innerHTML = '';
-        
-        Array.from(raisedHands).forEach(studentId => {
-            const li = document.createElement('li');
-            li.className = 'raised-hand-item';
-            li.dataset.id = studentId;
-            li.innerHTML = `
-                <span>${studentId.substring(0, 12)}...</span>
-                <button class="lower-hand-btn" onclick="lowerHandForStudent('${studentId}')">Lower Hand</button>
-            `;
-            raisedHandsList.appendChild(li);
-        });
-    }
-
-    // Add remote video element
-    function addRemoteVideo(studentId, stream) {
-        if (document.querySelector(`.remote-video-wrapper[data-id="${studentId}"]`)) return;
-        
-        const wrapper = document.createElement('div');
-        wrapper.className = 'remote-video-wrapper';
-        wrapper.dataset.id = studentId;
-        
-        const video = document.createElement('video');
-        video.autoplay = true;
-        video.playsinline = true;
-        video.srcObject = stream;
-        
-        const label = document.createElement('div');
-        label.className = 'remote-video-label';
-        label.textContent = studentId.substring(0, 12) + '...';
-        
-        wrapper.appendChild(video);
-        wrapper.appendChild(label);
-        remoteVideosContainer.appendChild(wrapper);
-    }
-
-    // Remove remote video element
-    function removeRemoteVideo(studentId) {
-        const element = document.querySelector(`.remote-video-wrapper[data-id="${studentId}"]`);
-        if (element) {
-            element.remove();
-        }
-    }
-
-    // Participant controls
-    participantList.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-action]');
-        if (!btn) return;
-        
-        const item = btn.closest('.participant-item');
-        const studentId = item?.dataset.id;
-        if (!studentId || !currentRoomId) return;
-
-        const action = btn.dataset.action;
-        if (action === 'mute' || action === 'unmute') {
-            socket.emit('teacher-mute-student', { 
-                roomId: currentRoomId, 
-                targetId: studentId, 
-                mute: action === 'mute' 
+            // Event listeners for sending messages
+            sendBtn.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
             });
-        } else if (action === 'kick') {
-            const ok = confirm(`Kick student ${studentId.substring(0, 12)}...?`);
-            if (ok) {
-                socket.emit('teacher-kick-student', { 
-                    roomId: currentRoomId, 
-                    targetId: studentId 
-                });
-            }
         }
-    });
 
-    // Setup chat functionality
-    function setupChat() {
-        // Remove any existing listeners to prevent duplicates
-        socket.off('new-message');
-        
-        // Handle incoming messages
-        socket.on('new-message', (userId, message) => {
-            const isTeacher = userId === 'teacher';
-            const isSystem = userId === 'system';
+        // Socket event handlers
+        socket.on('connect', () => {
+            console.log('✅ Connected to server with ID:', socket.id);
+            startBtn.disabled = false;
+            setupChat();
+            showNotice('Connected to server', 'success');
+        });
+
+        socket.on('connect_error', (err) => {
+            console.error('❌ Connection error:', err.message);
+            startBtn.disabled = true;
+            micBtn.disabled = camBtn.disabled = shareBtn.disabled = endClassBtn.disabled = true;
+            showNotice('Connection error: ' + err.message, 'error');
+
+            if (err.message.includes('Authentication')) {
+                alert('Please login again');
+                window.location.href = '/login';
+            }
+        });
+
+        socket.on('disconnect', () => {
+            showNotice('Disconnected from server', 'error');
+        });
+
+        socket.on('reconnect', () => {
+            showNotice('Reconnected to server', 'success');
+        });
+
+        socket.on('room-created', (data) => {
+            console.log('Room created:', data);
+            addChatMessage('system', `Live class started for course ${data.courseId}`);
+            showNotice('Class session started', 'success');
             
+            // Enable controls
+            micBtn.disabled = false;
+            camBtn.disabled = false;
+            shareBtn.disabled = false;
+            endClassBtn.disabled = false;
+            
+            // Update UI
+            startBtn.textContent = 'Class in Progress';
+            startBtn.disabled = true;
+            document.querySelector('.status-indicator span').textContent = 'Live';
+        });
+
+        socket.on('user-joined', async (studentId) => {
+            console.log('Student joined:', studentId);
+            if (studentId && !participants.has(studentId)) {
+                participants.add(studentId);
+                renderParticipants();
+                await initializeWebRTCForStudent(currentRoomId, studentId);
+                addChatMessage('system', `Student ${studentId} joined the class`);
+            }
+        });
+
+        socket.on('user-left', (studentId) => {
+            console.log('Student left:', studentId);
+            cleanupStudentConnection(studentId);
+            addChatMessage('system', `Student ${studentId} left the class`);
+        });
+
+        socket.on('webrtc-answer', async (data) => {
+            if (data.roomId === currentRoomId && data.studentId) {
+                const pc = peerConnections.get(data.studentId);
+                if (pc) {
+                    await pc.setRemoteDescription(data.sdp);
+                }
+            }
+        });
+
+        socket.on('ice-candidate', async (data) => {
+            if (data.roomId === currentRoomId && data.studentId) {
+                const pc = peerConnections.get(data.studentId);
+                if (pc && data.candidate) {
+                    try {
+                        await pc.addIceCandidate(data.candidate);
+                    } catch (err) {
+                        console.error('Error adding ICE candidate:', err);
+                    }
+                }
+            }
+        });
+
+        // Handle received emojis
+        socket.on('receive-emoji', (senderId, emoji) => {
+            const msg = document.createElement('div');
+            msg.className = 'chat-message system';
+            msg.textContent = `${senderId} reacted with ${emoji}`;
+            chatBox.appendChild(msg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+        // Handle raised hands
+        socket.on('student-raised-hand', (studentId) => {
+            if (!raisedHands.has(studentId)) {
+                raisedHands.add(studentId);
+                renderRaisedHands();
+                
+                // Show notification
+                const notification = document.createElement('div');
+                notification.className = 'chat-message system';
+                notification.textContent = `${studentId} raised their hand`;
+                chatBox.appendChild(notification);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+
+        socket.on('student-lowered-hand', (studentId) => {
+            if (raisedHands.has(studentId)) {
+                raisedHands.delete(studentId);
+                renderRaisedHands();
+            }
+        });
+
+        // Lower hand function
+        window.lowerHandForStudent = (studentId) => {
+            if (currentRoomId) {
+                socket.emit('teacher-lower-hand', { roomId: currentRoomId, studentId });
+            }
+        };
+
+        // Handle task submissions
+        socket.on('task-submitted', ({ studentId, submission }) => {
+            const submissionItem = document.createElement('div');
+            submissionItem.className = 'submission-item';
+            
+            let content = '';
+            if (submission.text) {
+                content += `<p>${submission.text}</p>`;
+            }
+            if (submission.file) {
+                if (submission.file.type.startsWith('image/')) {
+                    content += `<img src="${submission.file.data}" alt="Submission">`;
+                } else {
+                    content += `<a href="${submission.file.data}" download="${submission.file.name}">
+                        <i class="fas fa-file-download"></i> Download ${submission.file.name}
+                    </a>`;
+                }
+            }
+            
+            submissionItem.innerHTML = `
+                <div class="submission-header">${studentId}</div>
+                <div class="submission-content">${content}</div>
+            `;
+            
+            submissionsList.prepend(submissionItem);
+            addChatMessage('system', `${studentId} submitted a task`);
+        });
+
+        // Helper function to show notices
+        function showNotice(message, type = 'info') {
+            const notice = document.getElementById('notice');
+            notice.textContent = message;
+            notice.style.display = 'block';
+            
+            // Set color based on type
+            if (type === 'error') {
+                notice.style.background = 'rgba(239, 68, 68, 0.2)';
+                notice.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+            } else if (type === 'success') {
+                notice.style.background = 'rgba(16, 185, 129, 0.2)';
+                notice.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+            } else {
+                notice.style.background = 'rgba(59, 130, 246, 0.2)';
+                notice.style.border = '1px solid rgba(59, 130, 246, 0.3)';
+            }
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                notice.style.display = 'none';
+            }, 5000);
+        }
+
+        // Helper function to add chat messages
+        function addChatMessage(sender, message) {
             const messageElement = document.createElement('div');
-            messageElement.className = `chat-message ${isTeacher ? 'teacher' : isSystem ? 'system' : 'student'}`;
+            messageElement.className = `chat-message ${sender === 'teacher' ? 'teacher' : sender === 'system' ? 'system' : 'student'}`;
             
-            if (isTeacher) {
+            if (sender === 'teacher') {
                 messageElement.innerHTML = `
                     <div class="chat-sender">You</div>
                     <div>${message}</div>
                 `;
-            } else if (isSystem) {
+            } else if (sender === 'system') {
                 messageElement.textContent = message;
             } else {
                 messageElement.innerHTML = `
-                    <div class="chat-sender">${userId.substring(0, 12)}...</div>
+                    <div class="chat-sender">${sender}</div>
                     <div>${message}</div>
                 `;
             }
             
             chatBox.appendChild(messageElement);
             chatBox.scrollTop = chatBox.scrollHeight;
-        });
+        }
 
-        // Send message with debounce to prevent duplicates
-        let lastSendTime = 0;
-        function sendMessage() {
-            const now = Date.now();
-            if (now - lastSendTime < 1000) return;
-            
-            const message = messageInput.value.trim();
-            if (message && currentRoomId) {
-                socket.emit('send-message', currentRoomId, 'teacher', message);
-                messageInput.value = '';
-                lastSendTime = now;
+        // Load instructor courses
+        async function fetchInstructorCourses() {
+            try {
+                const res = await fetch(`https://backend-zbwu9q.fly.dev/api/courses/instructor/${teacherId}`);
+                const data = await res.json();
+
+                courseSelect.innerHTML = data.data?.length 
+                    ? data.data.map(course => `<option value="${course._id}">${course.title}</option>`).join('')
+                    : '<option value="">No courses available</option>';
+            } catch (err) {
+                console.error("Error fetching courses:", err);
+                courseSelect.innerHTML = '<option value="">Error loading courses</option>';
+                showNotice('Error loading courses', 'error');
             }
         }
 
-        // Event listeners for sending messages
-        sendBtn.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-    }
-
-    // Connection status monitoring
-    function updateConnectionStatus() {
-        const statusIndicator = document.querySelector('.status-indicator span');
-        const dot = document.querySelector('.status-dot');
-        
-        switch(connectionState) {
-            case connectionStates.connected:
-                statusIndicator.textContent = 'Connected';
-                dot.style.background = 'var(--success)';
-                break;
-            case connectionStates.connecting:
-            case connectionStates.reconnecting:
-                statusIndicator.textContent = 'Connecting...';
-                dot.style.background = 'var(--warning)';
-                break;
-            case connectionStates.disconnected:
-                statusIndicator.textContent = 'Disconnected';
-                dot.style.background = 'var(--danger)';
-                break;
-        }
-    }
-
-    // Socket event handlers
-    socket.on('connect', () => {
-        connectionState = connectionStates.connected;
-        console.log('✅ Connected to server with ID:', socket.id);
-        startBtn.disabled = false;
-        setupChat();
-        showNotice('Connected to server', 'success');
-        updateConnectionStatus();
-    });
-
-    socket.on('connect_error', (err) => {
-        connectionState = connectionStates.disconnected;
-        console.error('❌ Connection error:', err.message);
-        startBtn.disabled = true;
-        micBtn.disabled = camBtn.disabled = shareBtn.disabled = endClassBtn.disabled = true;
-        showNotice(`Connection error: ${err.message} - Retrying...`, 'error');
-        updateConnectionStatus();
-
-        if (err.message.includes('Authentication')) {
-            alert('Please login again');
-            window.location.href = '/login';
-        }
-    });
-
-    socket.on('disconnect', (reason) => {
-        connectionState = connectionStates.disconnected;
-        console.log('Disconnected:', reason);
-        
-        if (reason === 'io server disconnect') {
-            socket.connect();
-        }
-        updateConnectionStatus();
-    });
-
-    socket.on('reconnect', (attempt) => {
-        connectionState = connectionStates.connected;
-        console.log(`Reconnected after ${attempt} attempts`);
-        showNotice('Reconnected to server', 'success');
-        updateConnectionStatus();
-        
-        // Rejoin room if class was active
-        if (currentRoomId && localStream) {
-            socket.emit('teacher-rejoin-room', {
-                roomId: currentRoomId,
-                teacherId: teacherId
-            });
-        }
-    });
-
-    socket.on('reconnect_attempt', (attempt) => {
-        connectionState = connectionStates.reconnecting;
-        console.log(`Reconnection attempt ${attempt}`);
-        showNotice(`Attempting to reconnect... (${attempt}/10)`, 'info');
-        updateConnectionStatus();
-    });
-
-    socket.on('reconnect_error', (error) => {
-        console.error('Reconnection error:', error);
-    });
-
-    socket.on('reconnect_failed', () => {
-        connectionState = connectionStates.disconnected;
-        showNotice('Failed to reconnect. Please refresh the page.', 'error');
-        updateConnectionStatus();
-    });
-
-    socket.on('room-created', (data) => {
-        console.log('Room created:', data);
-        addChatMessage('system', `Live class started for course ${data.courseId}`);
-        showNotice('Class session started', 'success');
-        
-        // Enable controls
-        micBtn.disabled = false;
-        camBtn.disabled = false;
-        shareBtn.disabled = false;
-        endClassBtn.disabled = false;
-        
-        // Update UI
-        startBtn.textContent = 'Class in Progress';
-        startBtn.disabled = true;
-        document.querySelector('.status-indicator span').textContent = 'Live';
-    });
-
-    socket.on('user-joined', async (studentId) => {
-        console.log('Student joined:', studentId);
-        if (studentId && !participants.has(studentId)) {
-            participants.add(studentId);
-            renderParticipants();
-            await initializeWebRTCForStudent(currentRoomId, studentId);
-            addChatMessage('system', `Student ${studentId.substring(0, 12)}... joined the class`);
-        }
-    });
-
-    socket.on('user-left', (studentId) => {
-        console.log('Student left:', studentId);
-        cleanupStudentConnection(studentId);
-        addChatMessage('system', `Student ${studentId.substring(0, 12)}... left the class`);
-    });
-
-    socket.on('webrtc-answer', async (data) => {
-        if (data.roomId === currentRoomId && data.studentId) {
-            const pc = peerConnections.get(data.studentId);
-            if (pc) {
-                await pc.setRemoteDescription(data.sdp);
+        // Start stream handler
+        startBtn.addEventListener('click', async () => {
+            const selectedCourseId = courseSelect.value;
+            if (!selectedCourseId) {
+                showNotice("Please select a course first", 'error');
+                return;
             }
-        }
-    });
 
-    socket.on('ice-candidate', async (data) => {
-        if (data.roomId === currentRoomId && data.studentId) {
-            const pc = peerConnections.get(data.studentId);
-            if (pc && data.candidate) {
-                try {
-                    await pc.addIceCandidate(data.candidate);
-                } catch (err) {
-                    console.error('Error adding ICE candidate:', err);
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: {
+                        width: { ideal: 1060 },
+                        height: { ideal: 720 },
+                        frameRate: { ideal: 30 }
+                    }, 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
+                
+                // Show local video
+                localVideo.srcObject = stream;
+                localVideo.classList.remove('hidden');
+                videoPlaceholder.classList.add('hidden');
+                localStream = stream;
+                currentRoomId = selectedCourseId;
+                cameraVideoTrack = localStream.getVideoTracks()[0];
+
+                socket.emit("create-room", {
+                    roomId: selectedCourseId,
+                    courseId: selectedCourseId,
+                    teacherId: teacherId
+                }, (response) => {
+                    if (response.error) throw new Error(response.error);
+                    
+                    // Add welcome message
+                    addChatMessage('system', 'Class session started. Waiting for students...');
+                    
+                    // Update controls
+                    micBtn.querySelector('.control-label').textContent = 'Mute';
+                    micBtn.querySelector('i').className = 'fas fa-microphone';
+                    camBtn.querySelector('.control-label').textContent = 'Turn Camera Off';
+                    camBtn.querySelector('i').className = 'fas fa-video';
+                });
+            } catch (err) {
+                console.error("Stream error:", err);
+                showNotice("Error: " + err.message, 'error');
+                
+                // Clean up on error
+                if (localStream) {
+                    localStream.getTracks().forEach(track => track.stop());
+                    localStream = null;
                 }
             }
-        }
-    });
-
-    // Handle received emojis
-    socket.on('receive-emoji', (senderId, emoji) => {
-        const msg = document.createElement('div');
-        msg.className = 'chat-message system';
-        msg.textContent = `${senderId.substring(0, 12)}... reacted with ${emoji}`;
-        chatBox.appendChild(msg);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    });
-
-    // Handle raised hands
-    socket.on('student-raised-hand', (studentId) => {
-        if (!raisedHands.has(studentId)) {
-            raisedHands.add(studentId);
-            renderRaisedHands();
-            
-            // Show notification
-            const notification = document.createElement('div');
-            notification.className = 'chat-message system';
-            notification.textContent = `${studentId.substring(0, 12)}... raised their hand`;
-            chatBox.appendChild(notification);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    });
-
-    socket.on('student-lowered-hand', (studentId) => {
-        if (raisedHands.has(studentId)) {
-            raisedHands.delete(studentId);
-            renderRaisedHands();
-        }
-    });
-
-    // Lower hand function
-    window.lowerHandForStudent = (studentId) => {
-        if (currentRoomId) {
-            socket.emit('teacher-lower-hand', { roomId: currentRoomId, studentId });
-        }
-    };
-
-    // Handle task submissions
-    socket.on('task-submitted', ({ studentId, submission }) => {
-        const submissionItem = document.createElement('div');
-        submissionItem.className = 'submission-item';
-        
-        let content = '';
-        if (submission.text) {
-            content += `<p>${submission.text}</p>`;
-        }
-        if (submission.file) {
-            if (submission.file.type.startsWith('image/')) {
-                content += `<img src="${submission.file.data}" alt="Submission">`;
-            } else {
-                content += `<a href="${submission.file.data}" download="${submission.file.name}">
-                    <i class="fas fa-file-download"></i> Download ${submission.file.name}
-                </a>`;
-            }
-        }
-        
-        submissionItem.innerHTML = `
-            <div class="submission-header">${studentId.substring(0, 12)}...</div>
-            <div class="submission-content">${content}</div>
-        `;
-        
-        submissionsList.prepend(submissionItem);
-        addChatMessage('system', `${studentId.substring(0, 12)}... submitted a task`);
-    });
-
-    // Helper function to show notices
-    function showNotice(message, type = 'info') {
-        const notice = document.getElementById('notice');
-        notice.textContent = message;
-        notice.style.display = 'block';
-        
-        // Set color based on type
-        if (type === 'error') {
-            notice.style.background = 'rgba(239, 68, 68, 0.2)';
-            notice.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-        } else if (type === 'success') {
-            notice.style.background = 'rgba(16, 185, 129, 0.2)';
-            notice.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-        } else {
-            notice.style.background = 'rgba(59, 130, 246, 0.2)';
-            notice.style.border = '1px solid rgba(59, 130, 246, 0.3)';
-        }
-        
-        // Hide after 5 seconds
-        setTimeout(() => {
-            notice.style.display = 'none';
-        }, 5000);
-    }
-
-    // Helper function to add chat messages
-    function addChatMessage(sender, message) {
-        const messageElement = document.createElement('div');
-        messageElement.className = `chat-message ${sender === 'teacher' ? 'teacher' : sender === 'system' ? 'system' : 'student'}`;
-        
-        if (sender === 'teacher') {
-            messageElement.innerHTML = `
-                <div class="chat-sender">You</div>
-                <div>${message}</div>
-            `;
-        } else if (sender === 'system') {
-            messageElement.textContent = message;
-        } else {
-            messageElement.innerHTML = `
-                <div class="chat-sender">${sender.substring(0, 12)}...</div>
-                <div>${message}</div>
-            `;
-        }
-        
-        chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    // Load instructor courses
-    async function fetchInstructorCourses() {
-        try {
-            const res = await fetch(`https://backend-zbwu9q.fly.dev/api/courses/instructor/${teacherId}`);
-            const data = await res.json();
-
-            courseSelect.innerHTML = data.data?.length 
-                ? data.data.map(course => `<option value="${course._id}">${course.title}</option>`).join('')
-                : '<option value="">No courses available</option>';
-        } catch (err) {
-            console.error("Error fetching courses:", err);
-            courseSelect.innerHTML = '<option value="">Error loading courses</option>';
-            showNotice('Error loading courses', 'error');
-        }
-    }
-
-    // Enhanced start class function
-    startBtn.addEventListener('click', async () => {
-        const selectedCourseId = courseSelect.value;
-        if (!selectedCourseId) {
-            showNotice("Please select a course first", 'error');
-            return;
-        }
-
-        try {
-            // Show loading state
-            startBtn.disabled = true;
-            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
-
-            // Get media stream
-            const stream = await getMediaStream();
-            
-            // Show local video
-            localVideo.srcObject = stream;
-            localVideo.classList.remove('hidden');
-            videoPlaceholder.classList.add('hidden');
-            localStream = stream;
-            cameraVideoTrack = localStream.getVideoTracks()[0];
-
-            // Create room
-            currentRoomId = await roomManager.createRoom(selectedCourseId, teacherId);
-            
-            socket.emit("create-room", {
-                roomId: currentRoomId,
-                courseId: selectedCourseId,
-                teacherId: teacherId,
-                teacherName: teacherName
-            }, (response) => {
-                if (response.error) {
-                    throw new Error(response.error);
-                }
-                
-                // Success
-                addChatMessage('system', `Class session started for ${response.courseTitle || 'selected course'}`);
-                
-                // Update controls
-                micBtn.disabled = false;
-                camBtn.disabled = false;
-                shareBtn.disabled = false;
-                endClassBtn.disabled = false;
-                
-                micBtn.querySelector('.control-label').textContent = 'Mute';
-                micBtn.querySelector('i').className = 'fas fa-microphone';
-                camBtn.querySelector('.control-label').textContent = 'Turn Camera Off';
-                camBtn.querySelector('i').className = 'fas fa-video';
-                
-                // Update UI
-                startBtn.textContent = 'Class in Progress';
-                startBtn.disabled = true;
-                document.querySelector('.status-indicator span').textContent = 'Live';
-                
-                showNotice('Class session started successfully', 'success');
-            });
-
-        } catch (err) {
-            console.error("Stream error:", err);
-            showNotice("Error starting class: " + err.message, 'error');
-            
-            // Reset button state
-            startBtn.disabled = false;
-            startBtn.textContent = 'Start Live Class';
-            
-            // Clean up on error
-            if (localStream) {
-                localStream.getTracks().forEach(track => track.stop());
-                localStream = null;
-            }
-        }
-    });
-
-    // Media controls
-    micBtn.addEventListener('click', () => {
-        if (!localStream) return;
-        const track = localStream.getAudioTracks()[0];
-        if (!track) return;
-        track.enabled = !track.enabled;
-        
-        // Update UI
-        const isMuted = !track.enabled;
-        micBtn.querySelector('.control-label').textContent = isMuted ? 'Unmute' : 'Mute';
-        micBtn.querySelector('i').className = isMuted ? 'fas fa-microphone-slash' : 'fas fa-microphone';
-        
-        // Update all peer connections
-        peerConnections.forEach(pc => {
-            const senders = pc.getSenders();
-            const audioSender = senders.find(s => s.track?.kind === 'audio');
-            if (audioSender) {
-                audioSender.replaceTrack(track);
-            }
         });
-    });
 
-    camBtn.addEventListener('click', () => {
-        if (!localStream) return;
-        const track = localStream.getVideoTracks()[0];
-        if (!track) return;
-        track.enabled = !track.enabled;
-        
-        // Update UI
-        const isCameraOff = !track.enabled;
-        camBtn.querySelector('.control-label').textContent = isCameraOff ? 'Turn Camera On' : 'Turn Camera Off';
-        camBtn.querySelector('i').className = isCameraOff ? 'fas fa-video-slash' : 'fas fa-video';
-        
-        // Update all peer connections (except screen sharing)
-        if (!isScreenSharing) {
+        // Media controls
+        micBtn.addEventListener('click', () => {
+            if (!localStream) return;
+            const track = localStream.getAudioTracks()[0];
+            if (!track) return;
+            track.enabled = !track.enabled;
+            
+            // Update UI
+            const isMuted = !track.enabled;
+            micBtn.querySelector('.control-label').textContent = isMuted ? 'Unmute' : 'Mute';
+            micBtn.querySelector('i').className = isMuted ? 'fas fa-microphone-slash' : 'fas fa-microphone';
+            
+            // Update all peer connections
             peerConnections.forEach(pc => {
                 const senders = pc.getSenders();
-                const videoSender = senders.find(s => s.track?.kind === 'video');
-                if (videoSender) {
-                    videoSender.replaceTrack(track);
+                const audioSender = senders.find(s => s.track?.kind === 'audio');
+                if (audioSender) {
+                    audioSender.replaceTrack(track);
                 }
             });
-        }
-    });
+        });
 
-    shareBtn.addEventListener('click', async () => {
-        if (!localStream) return;
-
-        try {
+        camBtn.addEventListener('click', () => {
+            if (!localStream) return;
+            const track = localStream.getVideoTracks()[0];
+            if (!track) return;
+            track.enabled = !track.enabled;
+            
+            // Update UI
+            const isCameraOff = !track.enabled;
+            camBtn.querySelector('.control-label').textContent = isCameraOff ? 'Turn Camera On' : 'Turn Camera Off';
+            camBtn.querySelector('i').className = isCameraOff ? 'fas fa-video-slash' : 'fas fa-video';
+            
+            // Update all peer connections (except screen sharing)
             if (!isScreenSharing) {
-                screenStream = await navigator.mediaDevices.getDisplayMedia({ 
-                    video: {
-                        displaySurface: 'monitor',
-                        frameRate: { ideal: 60 }
-                    },
-                    audio: false 
-                });
-                const screenTrack = screenStream.getVideoTracks()[0];
-                
-                // Replace video track in all peer connections
                 peerConnections.forEach(pc => {
                     const senders = pc.getSenders();
                     const videoSender = senders.find(s => s.track?.kind === 'video');
                     if (videoSender) {
-                        videoSender.replaceTrack(screenTrack);
+                        videoSender.replaceTrack(track);
+                    }
+                });
+            }
+        });
+
+        shareBtn.addEventListener('click', async () => {
+            if (!localStream) return;
+
+            try {
+                if (!isScreenSharing) {
+                    screenStream = await navigator.mediaDevices.getDisplayMedia({ 
+                        video: {
+                            displaySurface: 'monitor',
+                            frameRate: { ideal: 60 }
+                        },
+                        audio: false 
+                    });
+                    const screenTrack = screenStream.getVideoTracks()[0];
+                    
+                    // Replace video track in all peer connections
+                    peerConnections.forEach(pc => {
+                        const senders = pc.getSenders();
+                        const videoSender = senders.find(s => s.track?.kind === 'video');
+                        if (videoSender) {
+                            videoSender.replaceTrack(screenTrack);
+                        }
+                    });
+                    
+                    localVideo.srcObject = screenStream;
+                    isScreenSharing = true;
+                    shareBtn.querySelector('.control-label').textContent = 'Stop Share';
+                    shareBtn.querySelector('i').className = 'fas fa-stop-circle';
+                    addChatMessage('system', 'Teacher started screen sharing');
+
+                    screenTrack.onended = async () => {
+                        await stopScreenShare();
+                        addChatMessage('system', 'Teacher stopped screen sharing');
+                    };
+                } else {
+                    await stopScreenShare();
+                    addChatMessage('system', 'Teacher stopped screen sharing');
+                }
+            } catch (err) {
+                console.error('Screen share error:', err);
+                showNotice('Screen share failed: ' + err.message, 'error');
+            }
+        });
+
+        async function stopScreenShare() {
+            if (screenStream) {
+                screenStream.getTracks().forEach(t => t.stop());
+            }
+            
+            // Restore camera track in all peer connections
+            if (localStream) {
+                const videoTrack = localStream.getVideoTracks()[0];
+                peerConnections.forEach(pc => {
+                    const senders = pc.getSenders();
+                    const videoSender = senders.find(s => s.track?.kind === 'video');
+                    if (videoSender && videoTrack) {
+                        videoSender.replaceTrack(videoTrack);
                     }
                 });
                 
-                localVideo.srcObject = screenStream;
-                isScreenSharing = true;
-                shareBtn.querySelector('.control-label').textContent = 'Stop Share';
-                shareBtn.querySelector('i').className = 'fas fa-stop-circle';
-                addChatMessage('system', 'Teacher started screen sharing');
-
-                screenTrack.onended = async () => {
-                    await stopScreenShare();
-                    addChatMessage('system', 'Teacher stopped screen sharing');
-                };
-            } else {
-                await stopScreenShare();
-                addChatMessage('system', 'Teacher stopped screen sharing');
-            }
-        } catch (err) {
-            console.error('Screen share error:', err);
-            showNotice('Screen share failed: ' + err.message, 'error');
-        }
-    });
-
-    async function stopScreenShare() {
-        if (screenStream) {
-            screenStream.getTracks().forEach(t => t.stop());
-        }
-        
-        // Restore camera track in all peer connections
-        if (localStream) {
-            const videoTrack = localStream.getVideoTracks()[0];
-            peerConnections.forEach(pc => {
-                const senders = pc.getSenders();
-                const videoSender = senders.find(s => s.track?.kind === 'video');
-                if (videoSender && videoTrack) {
-                    videoSender.replaceTrack(videoTrack);
-                }
-            });
-            
-            localVideo.srcObject = localStream;
-        }
-        
-        isScreenSharing = false;
-        shareBtn.querySelector('.control-label').textContent = 'Share Screen';
-        shareBtn.querySelector('i').className = 'fas fa-share-square';
-        screenStream = null;
-    }
-
-    // End class handler
-    endClassBtn.addEventListener('click', () => {
-        const ok = confirm('Are you sure you want to end the class session?');
-        if (ok) {
-            endClass();
-        }
-    });
-
-    function endClass() {
-        try {
-            // Close all peer connections
-            peerConnections.forEach(pc => pc.close());
-            peerConnections.clear();
-            
-            // Stop all media tracks
-            if (screenStream) screenStream.getTracks().forEach(t => t.stop());
-            if (localStream) localStream.getTracks().forEach(t => t.stop());
-            
-            // Notify server we're leaving
-            if (currentRoomId) {
-                socket.emit('leave-room', currentRoomId);
-                roomManager.leaveRoom(currentRoomId, teacherId);
-                addChatMessage('system', 'Class session ended');
+                localVideo.srcObject = localStream;
             }
             
-            // Reset UI
-            localVideo.srcObject = null;
-            localVideo.classList.add('hidden');
-            videoPlaceholder.classList.remove('hidden');
-            remoteVideosContainer.innerHTML = '';
-            participants.clear();
-            raisedHands.clear();
-            renderParticipants();
-            renderRaisedHands();
-            
-            // Disable controls
-            micBtn.disabled = true;
-            camBtn.disabled = true;
-            shareBtn.disabled = true;
-            endClassBtn.disabled = true;
-            
-            // Reset buttons
-            micBtn.querySelector('.control-label').textContent = 'Enable Mic';
-            micBtn.querySelector('i').className = 'fas fa-microphone-slash';
-            camBtn.querySelector('.control-label').textContent = 'Enable Camera';
-            camBtn.querySelector('i').className = 'fas fa-video-slash';
+            isScreenSharing = false;
             shareBtn.querySelector('.control-label').textContent = 'Share Screen';
             shareBtn.querySelector('i').className = 'fas fa-share-square';
-            
-            // Enable start button
-            startBtn.disabled = false;
-            startBtn.textContent = 'Start Live Class';
-            
-            // Update status
-            document.querySelector('.status-indicator span').textContent = 'Ready';
-            showNotice('Class session ended', 'success');
-            
-            currentRoomId = null;
-            localStream = null;
-        } catch (e) {
-            console.error('Error ending class:', e);
-            showNotice('Error ending class: ' + e.message, 'error');
+            screenStream = null;
         }
-    }
 
-    // Emoji button handlers
-    document.querySelectorAll('.emoji-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const emoji = btn.dataset.emoji;
-            if (currentRoomId) {
-                socket.emit('send-emoji', currentRoomId, emoji);
+        // End class handler
+        endClassBtn.addEventListener('click', () => {
+            const ok = confirm('Are you sure you want to end the class session?');
+            if (ok) {
+                endClass();
             }
         });
-    });
 
-    // Task management
-    sendTaskBtn.addEventListener('click', () => {
-        if (!currentRoomId) {
-            showNotice('Please start a class session first', 'error');
-            return;
+        function endClass() {
+            try {
+                // Close all peer connections
+                peerConnections.forEach(pc => pc.close());
+                peerConnections.clear();
+                
+                // Stop all media tracks
+                if (screenStream) screenStream.getTracks().forEach(t => t.stop());
+                if (localStream) localStream.getTracks().forEach(t => t.stop());
+                
+                // Notify server we're leaving
+                if (currentRoomId) {
+                    socket.emit('leave-room', currentRoomId);
+                    addChatMessage('system', 'Class session ended');
+                }
+                
+                // Reset UI
+                localVideo.srcObject = null;
+                localVideo.classList.add('hidden');
+                videoPlaceholder.classList.remove('hidden');
+                remoteVideosContainer.innerHTML = '';
+                participants.clear();
+                raisedHands.clear();
+                renderParticipants();
+                renderRaisedHands();
+                
+                // Disable controls
+                micBtn.disabled = true;
+                camBtn.disabled = true;
+                shareBtn.disabled = true;
+                endClassBtn.disabled = true;
+                
+                // Reset buttons
+                micBtn.querySelector('.control-label').textContent = 'Enable Mic';
+                micBtn.querySelector('i').className = 'fas fa-microphone-slash';
+                camBtn.querySelector('.control-label').textContent = 'Enable Camera';
+                camBtn.querySelector('i').className = 'fas fa-video-slash';
+                shareBtn.querySelector('.control-label').textContent = 'Share Screen';
+                shareBtn.querySelector('i').className = 'fas fa-share-square';
+                
+                // Enable start button
+                startBtn.disabled = false;
+                startBtn.textContent = 'Start Live Class';
+                
+                // Update status
+                document.querySelector('.status-indicator span').textContent = 'Ready';
+                showNotice('Class session ended', 'success');
+                
+                currentRoomId = null;
+                localStream = null;
+            } catch (e) {
+                console.error('Error ending class:', e);
+                showNotice('Error ending class: ' + e.message, 'error');
+            }
         }
-        
-        const taskText = document.getElementById('taskText').value;
-        const taskFile = document.getElementById('taskFile').files[0];
-        
-        if (!taskText && !taskFile) {
-            showNotice('Please enter a task or attach a file', 'error');
-            return;
-        }
-        
-        const taskData = { text: taskText };
-        
-        if (taskFile) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                taskData.file = {
-                    name: taskFile.name,
-                    type: taskFile.type,
-                    data: e.target.result
+
+        // Emoji button handlers
+        document.querySelectorAll('.emoji-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const emoji = btn.dataset.emoji;
+                if (currentRoomId) {
+                    socket.emit('send-emoji', currentRoomId, emoji);
+                }
+            });
+        });
+
+        // Task management
+        sendTaskBtn.addEventListener('click', () => {
+            if (!currentRoomId) {
+                showNotice('Please start a class session first', 'error');
+                return;
+            }
+            
+            const taskText = document.getElementById('taskText').value;
+            const taskFile = document.getElementById('taskFile').files[0];
+            
+            if (!taskText && !taskFile) {
+                showNotice('Please enter a task or attach a file', 'error');
+                return;
+            }
+            
+            const taskData = { text: taskText };
+            
+            if (taskFile) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    taskData.file = {
+                        name: taskFile.name,
+                        type: taskFile.type,
+                        data: e.target.result
+                    };
+                    socket.emit('send-task', currentRoomId, taskData);
+                    showNotice('Task sent to students', 'success');
                 };
+                reader.readAsDataURL(taskFile);
+            } else {
                 socket.emit('send-task', currentRoomId, taskData);
                 showNotice('Task sent to students', 'success');
-            };
-            reader.readAsDataURL(taskFile);
-        } else {
-            socket.emit('send-task', currentRoomId, taskData);
-            showNotice('Task sent to students', 'success');
-        }
-        
-        // Clear form
-        document.getElementById('taskText').value = '';
-        document.getElementById('taskFile').value = '';
-    });
-
-    // Connection quality monitoring
-    function monitorConnectionQuality() {
-        setInterval(() => {
-            if (currentRoomId && peerConnections.size > 0) {
-                peerConnections.forEach((pc, studentId) => {
-                    if (pc.iceConnectionState === 'connected') {
-                        // Get connection statistics
-                        pc.getStats().then(stats => {
-                            let reports = Array.from(stats.values());
-                            let remoteReport = reports.find(report => 
-                                report.type === 'remote-inbound-rtp' && report.kind === 'video'
-                            );
-                            
-                            if (remoteReport) {
-                                const packetLoss = remoteReport.packetsLost / remoteReport.packetsReceived;
-                                if (packetLoss > 0.1) {
-                                    console.warn(`High packet loss for ${studentId}: ${(packetLoss * 100).toFixed(1)}%`);
-                                }
-                            }
-                        });
-                    }
-                });
             }
-        }, 30000);
-    }
+            
+            // Clear form
+            document.getElementById('taskText').value = '';
+            document.getElementById('taskFile').value = '';
+        });
 
-    // Clean up when the page is closed/refreshed
-    window.addEventListener('beforeunload', () => {
-        try {
-            // Close all peer connections
-            peerConnections.forEach(pc => pc.close());
-            
-            // Stop all media tracks
-            if (screenStream) screenStream.getTracks().forEach(t => t.stop());
-            if (localStream) localStream.getTracks().forEach(t => t.stop());
-            
-            // Notify server we're leaving
-            if (currentRoomId) {
-                socket.emit('leave-room', currentRoomId);
-                roomManager.leaveRoom(currentRoomId, teacherId);
+        // Clean up when the page is closed/refreshed
+        window.addEventListener('beforeunload', () => {
+            try {
+                // Close all peer connections
+                peerConnections.forEach(pc => pc.close());
+                
+                // Stop all media tracks
+                if (screenStream) screenStream.getTracks().forEach(t => t.stop());
+                if (localStream) localStream.getTracks().forEach(t => t.stop());
+                
+                // Notify server we're leaving
+                if (currentRoomId) {
+                    socket.emit('leave-room', currentRoomId);
+                }
+            } catch (e) {
+                console.error('Cleanup error:', e);
             }
-        } catch (e) {
-            console.error('Cleanup error:', e);
-        }
-    });
+        });
 
-    // Clean up inactive rooms every 30 minutes
-    setInterval(() => {
-        roomManager.cleanupInactiveRooms();
-    }, 1800000);
-
-    // Start connection quality monitoring
-    monitorConnectionQuality();
-
-    // Initial load
-    fetchInstructorCourses();
-</script>
+        // Initial load
+        fetchInstructorCourses();
+    </script>
 </body>
 </html>
