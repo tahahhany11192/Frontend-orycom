@@ -776,19 +776,22 @@
           if (currentRole === 'student') {
             localStorage.setItem("userToken", data.token);
             localStorage.setItem("userRole", data.user?.role || "student");
-             localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem('name', data.user.name);
             
             window.location.href = "MyDashboard.html";
           } else if (currentRole === 'instructor') {
             localStorage.setItem("userToken", data.token);
             localStorage.setItem("userRole", data.user?.role || "instructor");
             localStorage.setItem("user", JSON.stringify(data.instructor));
+             localStorage.setItem('name', data.instructor.name);
             
             window.location.href = "MyDashboard.html";
           } else if (currentRole === 'admin') {
             localStorage.setItem("adminToken", data.token);
             localStorage.setItem("user", JSON.stringify(data.user)); // use full user object
             localStorage.setItem("userRole", data.user?.role || "admin");
+            localStorage.setItem('name', data.user.name);
             
             window.location.href = "../Admin Page/Analytics.html";
           }
