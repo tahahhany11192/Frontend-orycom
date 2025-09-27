@@ -68,8 +68,6 @@
       margin-bottom: 20px;
     }
     
-
-    
     .sidebar-menu {
       list-style: none;
     }
@@ -204,6 +202,20 @@
       color: var(--secondary-color);
     }
     
+    .schedule-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    
+    .schedule-info i {
+      color: var(--accent-color);
+    }
+    
     .live-badge {
       position: absolute;
       top: 15px;
@@ -247,6 +259,18 @@
     .join-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(157, 78, 221, 0.5);
+    }
+    
+    .join-btn.disabled {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .join-btn.disabled:hover {
+      transform: none;
+      box-shadow: none;
     }
     
     .no-streams {
@@ -313,18 +337,85 @@
         grid-template-columns: 1fr;
       }
     }
-                .logo {
-  display: flex;
-  align-items: center;
-animation: logoFloat 4s ease-in-out infinite;
-}
-
-
-.logo img {
-  height: 68px; /* Adjust as needed */
-  width: auto;
-  margin-right: 10px; /* Space between logo and text */
-}
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      animation: logoFloat 4s ease-in-out infinite;
+    }
+    
+    .logo img {
+      height: 68px;
+      width: auto;
+      margin-right: 10px;
+    }
+    
+    @keyframes logoFloat {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .session-status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+    
+    .status-live {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    
+    .status-upcoming {
+      background-color: var(--warning-color);
+      color: var(--dark-bg);
+    }
+    
+    .status-available {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .payment-required {
+      text-align: center;
+      padding: 15px;
+      background: rgba(255, 0, 84, 0.1);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .payment-required i {
+      color: var(--danger-color);
+      margin-right: 8px;
+    }
+    
+    .purchase-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px;
+      background: var(--accent-color);
+      color: var(--dark-bg);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    .purchase-btn:hover {
+      background: #ffb833;
+      transform: translateY(-3px);
+    }
   </style>
 </head>
 <body>
@@ -333,7 +424,7 @@ animation: logoFloat 4s ease-in-out infinite;
   <!-- Sidebar Navigation -->
   <div class="sidebar">
     <div class="sidebar-header">
-            <div class="logo">
+      <div class="logo">
         <img src="../uploads/orycomLogo.png" alt="Orycom Logo">
       </div>
     </div>
@@ -417,12 +508,33 @@ animation: logoFloat 4s ease-in-out infinite;
 
       try {
         const token = localStorage.getItem('userToken');
-        if (!token) {
+        const role = localStorage.getItem('userRole');
+        
+        if (!token || role !== 'student') {
           window.location.href = 'OrycomEdu/OrycomLogin.html';
           return;
         }
 
-        const response = await fetch('https://backend-zbwu9q.fly.dev/api/users/available-live-sessions', {
+        // First, get the user's enrolled courses (paid courses)
+        const coursesResponse = await fetch('https://backend-zbwu9q.fly.dev/api/users/my-courses', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (coursesResponse.status === 401) {
+          localStorage.removeItem('userToken');
+          localStorage.removeItem('userRole');
+          window.location.href = 'OrycomEdu/OrycomLogin.html';
+          return;
+        }
+
+        const coursesData = await coursesResponse.json();
+        const enrolledCourseIds = coursesData.map(course => course._id);
+        
+        // Now get all available live sessions
+        const streamsResponse = await fetch('https://backend-zbwu9q.fly.dev/api/users/available-live-sessions', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -430,51 +542,76 @@ animation: logoFloat 4s ease-in-out infinite;
           credentials: 'include'
         });
 
-        if (response.status === 401) {
+        if (streamsResponse.status === 401) {
           localStorage.removeItem('userToken');
+          localStorage.removeItem('userRole');
           window.location.href = 'OrycomEdu/OrycomLogin.html';
           return;
         }
 
-        const data = await response.json();
+        const streamsData = await streamsResponse.json();
         const streamsContainer = document.getElementById('streamsContainer');
         
-        if (!data.data || data.data.length === 0) {
+        // Filter streams to only show those for courses the user has paid for
+        const availableStreams = streamsData.data ? 
+          streamsData.data.filter(stream => enrolledCourseIds.includes(stream.courseId)) : [];
+        
+        if (availableStreams.length === 0) {
           streamsContainer.innerHTML = `
             <div class="no-streams animate__animated animate__fadeIn">
               <i class="fas fa-video-slash"></i>
               <h3>No Live Sessions Available</h3>
-              <p>There are no live streams available for your courses right now.</p>
+              <p>There are no live streams available for your enrolled courses right now.</p>
               <p>Check back later or contact your instructors for schedule updates.</p>
             </div>
           `;
           return;
         }
 
-        streamsContainer.innerHTML = data.data.map(stream => `
-          <div class="stream-card animate__animated animate__fadeInUp">
-            <div class="stream-header">
-              <span class="live-badge">LIVE NOW</span>
-              <h3 class="stream-title">${stream.courseTitle}</h3>
-              <p class="stream-instructor">
-                <i class="fas fa-chalkboard-teacher"></i>
-                Instructor: ${stream.instructorName}
-              </p>
-            </div>
-            <div class="stream-body">
-              <div class="stream-meta">
-                <span>${stream.subject || 'General Session'}</span>
-                <span class="stream-participants">
-                  <i class="fas fa-users"></i>
-                  ${stream.studentCount} participants
-                </span>
+        streamsContainer.innerHTML = availableStreams.map(stream => {
+          // Determine session status
+          let statusClass, statusText;
+          if (stream.isLive) {
+            statusClass = 'status-live';
+            statusText = 'LIVE NOW';
+          } else {
+            statusClass = 'status-available';
+            statusText = 'AVAILABLE';
+          }
+          
+          return `
+            <div class="stream-card animate__animated animate__fadeInUp">
+              <div class="stream-header">
+                <span class="live-badge ${statusClass}">${statusText}</span>
+                <h3 class="stream-title">${stream.courseTitle}</h3>
+                <p class="stream-instructor">
+                  <i class="fas fa-chalkboard-teacher"></i>
+                  Instructor: ${stream.instructorName}
+                </p>
               </div>
-              <a href="student-live.html?roomId=${stream.roomId}" class="join-btn">
-                <i class="fas fa-sign-in-alt"></i> Join Live Session
-              </a>
+              <div class="stream-body">
+                <div class="stream-meta">
+                  <span>${stream.subject || 'General Session'}</span>
+                  <span class="stream-participants">
+                    <i class="fas fa-users"></i>
+                    ${stream.studentCount || 0} participants
+                  </span>
+                </div>
+                <div class="schedule-info">
+                  <i class="fas fa-clock"></i>
+                  <span>Scheduled for: ${stream.schedule || 'Flexible'}</span>
+                </div>
+                <a href="${stream.liveSessionLink}" target="_blank" class="join-btn">
+                  <i class="fas fa-video"></i> Join Zoom Meeting
+                </a>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: rgba(255,255,255,0.6); text-align: center;">
+                  You can join this meeting at any time
+                </p>
+              </div>
             </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
+        
       } catch (error) {
         console.error('Error loading streams:', error);
         document.getElementById('streamsContainer').innerHTML = `
