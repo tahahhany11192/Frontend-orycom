@@ -1,570 +1,904 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-    <link rel="icon" type="image/jpg" href="uploads/orycomLogo.png">
+    <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orycom</title>
+    <title>Orycom - Educational Excellence</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="Styles/style2.css">
-	<script src="Script/script2.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6a5af9;
+            --secondary: #d66efd;
+            --accent: #ff8c8c;
+            --light: #f7f9fc;
+            --dark: #2d3748;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --radius: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f5ff;
+            background-image: radial-gradient(#d66efd33 1px, transparent 1px), 
+                              radial-gradient(#6a5af933 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            color: var(--dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.5rem 2rem;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        nav ul li a:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            min-width: 220px;
+            padding: 1rem 0;
+            display: none;
+            z-index: 10;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .dropdown-content a {
+            padding: 0.7rem 1.5rem;
+            display: block;
+            color: var(--dark);
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-content a:hover {
+            background: rgba(106, 90, 249, 0.1);
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .login-btn, .Register-btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+        }
+        
+        .login-btn:hover, .Register-btn:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-3px);
+            border-color: transparent;
+        }
+        
+        .profile-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .profile-icon:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 3rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .hero-content {
+            flex: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 20px rgba(106, 90, 249, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(106, 90, 249, 0.4);
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #ff8c8c, #ffc58c);
+            top: -50px;
+            left: -50px;
+            animation: pulse 4s infinite;
+        }
+        
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #6a5af9, #d66efd);
+            bottom: -30px;
+            right: -30px;
+            animation: pulse 5s infinite;
+        }
+        
+        .main-image {
+            position: relative;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 10px solid white;
+            z-index: 2;
+        }
+        
+        .main-image img {
+            width: 100%;
+            display: block;
+        }
+        
+        /* Features Section */
+        .features {
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            z-index: 2;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: rgba(106, 90, 249, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 5rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            text-decoration: none;
+            color: #a0aec0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--gradient);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes logoFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .header-container {
+                padding: 0.5rem 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            padding: 2rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .close-menu {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+        }
+        
+        .mobile-nav ul li {
+            margin-bottom: 1rem;
+        }
+        
+        .mobile-nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+    .logo {
+  display: flex;
+  align-items: center;
+animation: logoFloat 4s ease-in-out infinite;
+}
+
+
+.logo img {
+  height: 68px; /* Adjust as needed */
+  width: auto;
+  margin-right: 10px; /* Space between logo and text */
+}
+
+
+  </style>
 </head>
 <body>
-
-
-    <!-- Preview Header -->
-    <div class="preview-header">
-        <img src="uploads/orycomLogo.png" alt="Orycom Theme" width="105" height="75">
-        <a href="Pages/products.html" target="_blank">Get Your Course</a>
-
-        
-    </div>
-
-
-    <!-- Main Header -->
-    <header class="header">
-        <div class="header-top">
-            <div class="container">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+20 01010909404</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>Info@Orycom.com</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="header-main">
-            <div class="container">
-                <div class="logo">
-                    <a href="#"><img src="uploads/orycomLogo.png" alt="Orycom theme" width="158" height="85"></a>
-                </div>
-                <button class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul class="nav-menu">
-                    <li><a href="#" class="active">Home</a></li>
-                    <li><a href="Pages/aboutus.html">About</a></li>
-                    <li><a href="Pages/OrycomEdu/OrycomLearnings.html">Orycom Learnings</a></li>
-					<li><a href="Pages/home.html">Courses</a></li>
-                    <li><a href="Pages/OrycomEdu/OutOfService.html">Projects</a></li>
-					<li><a href="Pages/Review1.html">FAQ's</a></li>
-                    <li><a href="Pages/contact.html">Contact</a></li>
-                    <li><a href="Pages/OrycomEdu/OrycomLogin.html">Login</a></li>
-                    <li><a href="Pages/OrycomEdu/OrycomRegister.html">Rigester</a></li>
+  <!-- Header with Navigation -->
+  <header>
+    <div class="header-container">
+   <div class="logo">
+  <img src="../../uploads/orycomLogo.png" alt="Orycom Logo">
+</div>
+    
+            
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="Pages/OrycomEdu/MyDashboard.html"><i class="fas fa-tachometer-alt"></i> My Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-school"></i> Egyptian Education (ar)</a>
+                        <div class="dropdown-content">
+                            <a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a>
+                            <a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a>
+                            <a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-book-open"></i> Egyptian Schools (en)</a>
+                        <div class="dropdown-content">
+                            <a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a>
+                            <a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a>
+                            <a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a>
+                        </div>
+                    </li>
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-globe"></i> IG Education</a></li>
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-flag-usa"></i> American Education</a></li>
                 </ul>
+            </nav>
+            
+            <div class="profile-section">
+                <a href="Pages/OrycomEdu/OrycomLogin.html"><button class="login-btn">Login</button></a>
+                <a href="Pages/OrycomEdu/OrycomRegister.html"><button class="Register-btn">Register</button></a>
+                <div class="profile-icon">
+                    <i class="fas fa-user"></i>
+                </div>
             </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
-
-<!-- Hero Slider -->
-<section class="hero-slider">
-    <div class="slide slide-1 active" style="background-image: url('uploads/Slider2.png'); background-size: cover; background-position: center;">
-        <div class="container">
-            <div class="slide-content">
-                <h2>WE MAKE QUALITY</h2>
-                <p>Our Mission</p>
-                <p>Orycom builds modern solutions for web, design, and business. We empower the next generation of creators and leaders.</p>
-                <div class="btn-group">
-                    <a href="Pages/products.html" class="btn">Our Courses</a>
-                    <a href="Pages/icdlcourse-details.html" class="btn btn-light">Get a Free Course</a>
-                </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Orycom</span>
             </div>
+            <button class="close-menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="Pages/OrycomEdu/MyDashboard.html"><i class="fas fa-tachometer-alt"></i> My Dashboard</a></li>
+                <li>
+                    <a href=""><i class="fas fa-school"></i> Egyptian Education (ar)</a>
+                    <ul>
+                        <li><a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a></li>
+                        <li><a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a></li>
+                        <li><a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-book-open"></i> Egyptian Schools (en)</a>
+                    <ul>
+                        <li><a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a></li>
+                        <li><a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a></li>
+                        <li><a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a></li>
+                    </ul>
+                </li>
+                <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-globe"></i> IG Education</a></li>
+                <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-flag-usa"></i> American Education</a></li>
+            </ul>
+        </nav>
+        
+        <div class="profile-section">
+           <a href="Pages/OrycomEdu/OrycomLogin.html"><button class="login-btn">Login</button></a>
+            <a href="Pages/OrycomEdu/OrycomRegister.html"><button class="Register-btn">Register</button></a>
         </div>
     </div>
-    <div class="slide slide-2" style="background-image: url('uploads/slider3.png'); background-size: cover; background-position: center;">
-        <div class="container">
-            <div class="slide-content">
-                <h2>LEARN SAFELY, GROW SMARTLY</h2>
-                <p>Our Services</p>
-                <p>From tech to creative, Orycom offers safe, reliable, and innovative services for all your needs.</p>
-                <div class="btn-group">
-                    <a href="Pages/aboutus.html" class="btn">Our Services</a>
-                    <a href="Pages/contact.html" class="btn btn-light">Contact Us</a>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Transform Your Learning Experience with Orycom</h1>
+            <p>Join Egypt's leading educational platform for all school levels and types. We offer personalized learning paths, interactive content, and expert teachers to help you succeed.</p>
+            <div class="cta-buttons">
+                <a href="Pages/OrycomEdu/OrycomRegister.html"><button class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button></a>
+               <a href="Pages/OrycomEdu/OutOfService.html"><button class="btn btn-secondary">
+                    <i class="fas fa-play-circle"></i> Watch Demo
+                </button></a>
+            </div>
+        </div>
+                   
+        <div class="hero-image">
+            <div class="hero-image-container">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="main-image">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Students Learning">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="slide slide-3" style="background-image: url('uploads/Slider1.png'); background-size: cover; background-position: center;">
-        <div class="container">
-            <div class="slide-content">
-                <h2>COMPANY OF QUALITY</h2>
-                <p>About Us</p>
-                <p>Discover how Orycom is changing the future of learning, freelancing, and business growth.</p>
-                <div class="btn-group">
-                    <a href="Pages/projects.html" class="btn">Our Projects</a>
-                    <a href="Pages/aboutus.html" class="btn btn-light">Read More</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="slider-controls">
-        <div class="slider-dot active"></div>
-        <div class="slider-dot"></div>
-        <div class="slider-dot"></div>
-    </div>
-</section>
-
-<!-- Services Section -->
-<section class="services-section">
-    <div class="container">
-        <div class="section-title">
-            <div class="shape"></div>
-            <p>OUR SERVICES</p>
-            <h2>WHAT WE DO?</h2>
-            <p>We deliver modern web solutions, creative design, business growth, and global learning opportunities for everyone.</p>
-        </div>
-        <div class="services-grid">
-            <div class="service-box">
-                <div class="service-icon">
-                    <img src="uploads/webicon.png" alt="Web Development">
-                </div>
-                <h3>Web Development</h3>
-                <p>Fast, scalable, and beautiful websites for individuals and businesses.</p>
-            </div>
-            <div class="service-box">
-                <div class="service-icon">
-                    <img src="uploads/designicon.png" alt="Creative Design">
-                </div>
-                <h3>Creative Design</h3>
-                <p>Logos, graphics, videos, and animations that bring ideas to life.</p>
-            </div>
-            <div class="service-box">
-                <div class="service-icon">
-                    <img src="uploads/marketingicon.png" alt="Marketing & Growth">
-                </div>
-                <h3>Marketing & Growth</h3>
-                <p>Smart campaigns and brand management for business success.</p>
-            </div>
-            <div class="service-box">
-                <div class="service-icon">
-                    <img src="uploads/teachingicon.png" alt="Teaching Center">
-                </div>
-                <h3>Teaching Center</h3>
-                <p>Connect teachers and students worldwide for future-ready skills.</p>
-            </div>
-        </div>
-        <div class="cta-container">
-            <a href="Pages/products.html" class="btn">VIEW ALL COURSES</a>
-        </div>
-    </div>
-</section>
-
-<!-- Stats Section -->
-<section class="stats-section">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-box">
-                <div class="stat-number">500<i>+</i></div>
-                <div class="stat-text">Graduates</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">120<i>+</i></div>
-                <div class="stat-text">Projects Delivered</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">30<i>+</i></div>
-                <div class="stat-text">Partners</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="features-section">
-    <div class="container">
-        <div class="section-title">
-            <p>WHY Orycom?</p>
-            <h2>ALL-IN-ONE DIGITAL HUB</h2>
-            <p>Double everything. Create anything. Grow everywhere.</p>
-        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why Choose Orycom?</h2>
         <div class="features-grid">
-            <div class="feature-box">
+            <div class="feature-card">
                 <div class="feature-icon">
-                    <img src="uploads/freelance-icon.png" alt="Freelancing" height="170" style="margin-bottom: 20px;">
+                    <i class="fas fa-book"></i>
                 </div>
-                <h3>Freelancing Ecosystem</h3>
-                <p>We train and empower full-stack freelancers for any project.</p>
-                <a href="Pages/aboutus.html" class="btn">Read more</a>
+                <h3>Comprehensive Curriculum</h3>
+                <p>Covering all Egyptian, IG, and American curricula with materials for all grade levels and subjects.</p>
             </div>
-            <div class="feature-box">
+            
+            <div class="feature-card">
                 <div class="feature-icon">
-                    <img src="uploads/global-icon.png" alt="Global Teaching" height="170" style="margin-bottom: 20px;">
+                    <i class="fas fa-chalkboard-teacher"></i>
                 </div>
-                <h3>Global Teaching Center</h3>
-                <p>Teachers and students connect, learn, and grow with our platform.</p>
-                <a href="Pages/products.html" class="btn">Read more</a>
+                <h3>Expert Teachers</h3>
+                <p>Learn from certified teachers with years of experience in their respective fields.</p>
             </div>
-            <div class="feature-box">
+            
+            <div class="feature-card">
                 <div class="feature-icon">
-                    <img src="uploads/support-icon.png" alt="Support"height="170" style="margin-bottom: 20px;">
+                    <i class="fas fa-video"></i>
                 </div>
-                <h3>End-to-End Support</h3>
-                <p>From tech to creative to business, we support every step.</p>
-                <a href="Pages/contact.html" class="btn">Contact Us</a>
+                <h3>Interactive Lessons</h3>
+                <p>Engaging video lessons, quizzes, and interactive exercises to enhance understanding.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Friendly</h3>
+                <p>Access your lessons anytime, anywhere on any device with our responsive platform.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Progress Tracking</h3>
+                <p>Monitor your progress with detailed analytics and personalized recommendations.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3>Bilingual Content</h3>
+                <p>All content available in both Arabic and English to suit your learning preferences.</p>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Projects Section -->
-<section class="projects-section">
-    <div class="container">
-        <div class="section-title">
-            <div class="shape"></div>
-            <p>OUR PROJECTS</p>
-            <h2>WHAT WE'VE DONE?</h2>
-        </div>
-        <div class="projects-carousel">
-            <div class="projects-container">
-                <div class="project-item">
-                    <div class="project-image" style="background-image: url('uploads/learning.png');"></div>
-                    <div class="project-overlay">
-                        <h3>Online Learning Platform</h3>
-                        <p>Education</p>
-                        <a href="Pages/home.html" class="btn">View Project</a>
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-image" style="background-image: url('uploads/brandsproject.jpg');"></div>
-                    <div class="project-overlay">
-                        <h3>Brand Identity for Startups</h3>
-                        <p>Design</p>
-                        <a href="Pages/home.html" class="btn">View Project</a>
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-image" style="background-image: url('uploads/marketing.jpg');"></div>
-                    <div class="project-overlay">
-                        <h3>Marketing Campaigns</h3>
-                        <p>Business Growth</p>
-                        <a href="Pages/home.html" class="btn">View Project</a>
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-image" style="background-image: url('uploads/training.png');"></div>
-                    <div class="project-overlay">
-                        <h3>Freelancer Training Bootcamp</h3>
-                        <p>Freelancing</p>
-                        <a href="Pages/home.html" class="btn">View Project</a>
-                    </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Orycom</h3>
+                <p>Egypt's premier educational platform for all school levels and curricula. Empowering students to achieve academic excellence.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61581342564232" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="Pages/OrycomEdu/OutOfService.html" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/orycomsocial/" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCaUFCzHcKet_Ai3i0Up6rpQ" class="social-icon"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            <div class="carousel-controls">
-                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="container">
-        <div class="section-title">
-            <p>JOIN Orycom</p>
-            <h2>EMPOWER YOUR FUTURE</h2>
-            <p>Ready to learn, create, and grow? Explore our courses and join the Orycom movement today!</p>
-        </div>
-        <a href="Pages/products.html" class="btn">READ MORE</a>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-widget">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="Pages/aboutus.html">About Us</a></li>
-					<li><a href="Pages/home.html">Orycom Learnings</a></li>
-                    <li><a href="Pages/products.html">Courses</a></li>
-                    <li><a href="Pages/projects.html">Projects</a></li>
-                    <li><a href="Pages/contact.html">Contact Us</a></li>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="Pages/aboutus.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Courses</a></li>
+                    <li><a href="Pages/OrycomEdu/Instructors.html"><i class="fas fa-chevron-right"></i> Teachers</a></li>
                 </ul>
             </div>
-            <div class="footer-widget">
-                <h4>Courses</h4>
-                <ul>
-                    <li><a href="Pages/product1.html">Full ICDL Course</a></li>
-                    <li><a href="Pages/product2.html">Programming Course</a></li>
-                    <li><a href="Pages/product3.html">Graphic Design Course</a></li>
-                    <li><a href="Pages/product4.html">Digital Marketing Course</a></li>
-                    <li><a href="Pages/product5.html">Finance Management Course</a></li>
+            
+            <div class="footer-column">
+                <h3>Education Systems</h3>
+                <ul class="footer-links">
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Egyptian Education (ar)</a></li>
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Egyptian Schools (en)</a></li>
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> IG Education</a></li>
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> American Education</a></li>
+                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Special Needs</a></li>
                 </ul>
             </div>
-            <div class="footer-widget">
-                <h4>Partners</h4>
-                <ul>
-                    <li><a href="https://www.facebook.com/th.hany.th?locale=ar_AR">Eng.Taha Hany Taha</a></li>
-                    <li><a href="https://www.facebook.com/gamaleldin.ahmedyasser?locale=ar_AR">Eng.Gamal Eldin</a></li>
-                    <li><a href="https://www.facebook.com/eyadking.eyad.9?locale=ar_AR">Prof.Eyad Osman</a></li>
-                    <li><a href="https://www.facebook.com/hasan.aboali.7967?locale=ar_AR">Prof.Hassan Mohamed</a></li>
-                </ul>
-            </div>
-            <div class="footer-widget">
-                <h4>Contact Us</h4>
-                <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/c5EE2cdQ4kxpXhED7">123 Orycom Cairo, Egypt</a></li>
-                    <li><i class="fas fa-phone"></i> <a href="tel:+200101909404">+20 0101909404</a></li>
-                    <li><i class="fas fa-envelope"></i> <a href="mailto:info@Orycom.com">info@Orycom.com</a></li>
-                    <li><i class="fas fa-clock"></i> Mon-Fri: 9AM - 6PM</li>
+            
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="https://maps.app.goo.gl/z5dNGHfgoDWjaERw5"><i class="fas fa-map-marker-alt"></i> Cairo, Egypt</a></li>
+                    <li><a href="+201010909404"><i class="fas fa-phone"></i> +20 1010909404</a></li>
+                    <li><a href="info@orycom.com"><i class="fas fa-envelope"></i> info@orycom.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Sun-Thu: 8AM - 8PM</a></li>
                 </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Orycom. Empowering your future in tech.</p>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Orycom Educational Platform. All rights reserved.</p>
         </div>
-    </div>
-
-</footer>
+    </footer>
+    
     <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navMenu = document.querySelector('.nav-menu');
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeMenu = document.querySelector('.close-menu');
         
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
         });
         
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-                navMenu.classList.remove('active');
-            }
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
         });
         
-        // Hero Slider
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        let currentSlide = 0;
+        // Feature card animation on scroll
+        const featureCards = document.querySelectorAll('.feature-card');
         
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-            
-            currentSlide = (n + slides.length) % slides.length;
-            
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }
-        
-        // Dot click events
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                showSlide(index);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
             });
+        }, { threshold: 0.1 });
+        
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            observer.observe(card);
         });
         
-        // Auto slide change
-        setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 5000);
+        // Login button animation
+        const loginBtn = document.querySelector('.login-btn');
         
-        // Projects Carousel
-        const projectsContainer = document.querySelector('.projects-container');
-        const projectItems = document.querySelectorAll('.project-item');
-        const prevBtn = document.querySelector('.carousel-btn.prev');
-        const nextBtn = document.querySelector('.carousel-btn.next');
-        let currentProject = 0;
-        
-        function updateProjects() {
-            const itemWidth = projectItems[0].offsetWidth;
-            projectsContainer.style.transform = `translateX(-${currentProject * (itemWidth + 30)}px)`;
-        }
-        
-        prevBtn.addEventListener('click', () => {
-            if (currentProject > 0) {
-                currentProject--;
-                updateProjects();
-            }
+        loginBtn.addEventListener('mouseenter', () => {
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
         });
         
-        nextBtn.addEventListener('click', () => {
-            if (currentProject < projectItems.length - 3) {
-                currentProject++;
-                updateProjects();
-            }
+        loginBtn.addEventListener('mouseleave', () => {
+            loginBtn.innerHTML = 'Login';
         });
         
-        // Initialize on window resize
-        window.addEventListener('resize', updateProjects);
+        // Profile icon animation
+        const profileIcon = document.querySelector('.profile-icon');
+        
+        profileIcon.addEventListener('click', () => {
+            profileIcon.innerHTML = '<i class="fas fa-user-check"></i>';
+            setTimeout(() => {
+                profileIcon.innerHTML = '<i class="fas fa-user"></i>';
+            }, 2000);
+        });
     </script>
-    <script>
-  function toggleUserDropdown() {
-    document.getElementById('userDropdown').classList.toggle('open');
-  }
-  document.addEventListener('click', function(event) {
-    const dropdown = document.getElementById('userDropdown');
-    if (!dropdown.contains(event.target)) {
-      dropdown.classList.remove('open');
-    }
-  });
-  function renderUserDropdown() {
-    const content = document.getElementById('userDropdownContent');
-    const token = localStorage.getItem('token');
-    if (token) {
-      content.innerHTML = `
-        <a href="Pages/profile.html">Profile</a>
-        <button onclick="logout()">Logout</button>
-      `;
-    } else {
-      content.innerHTML = `
-        <a href="Pages/OrycomEdu/OrycomLogin.html">Login</a>
-        <a href="Pages/OrycomEdu/OrycomRegister.html">Register</a>
-      `;
-    }
-  }
-  function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    window.location.href = "Pages/OrycomEdu/OrycomLogin.html";
-  }
-  renderUserDropdown();
-
-</script>
-<script>
-  // ...existing code...
-
-  function updateUserIcon() {
-    const token = localStorage.getItem('token');
-    const profileImg = localStorage.getItem('profileImg').src = `https://orycom-backend.fly.dev/uploads/${user.photo}`; // Store user image URL after login
-    const icon = document.getElementById('userIconImg');
-    if (profileImg && icon) {
-      userIconImg.src = profileImg;
-    } else if (icon) {
-      icon.src = "8847419.png"; // Default icon
-    }
-  }
-
-  // Call after rendering dropdown
-  renderUserDropdown();
-  updateUserIcon();
-
-  // Example: After successful login, set user image in localStorage
-  // localStorage.setItem('userImage', 'path/to/user-image.jpg');
-</script>
-<script>
-// Count-up animation for .stat-number
-document.querySelectorAll('.stat-number').forEach(function(el) {
-  const target = parseInt(el.textContent);
-  let start = 0;
-  const duration = 2000; // 2 seconds
-  const stepTime = Math.max(Math.floor(duration / target), 20);
-
-  function updateNumber() {
-    start++;
-    el.textContent = start + '+';
-    if (start < target) {
-      setTimeout(updateNumber, stepTime);
-    } else {
-      el.textContent = target + '+';
-    }
-  }
-  el.textContent = '0+';
-  updateNumber();
-});
-</script>
-
-
-
-
-<script>
-// Typewriter effect for .slide-content h2
-function typeWriter(element, text, speed = 50, callback) {
-  let i = 0;
-  element.textContent = "";
-  function typing() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      setTimeout(typing, speed);
-    } else if (callback) {
-      callback();
-    }
-  }
-  typing();
-}
-
-// Apply typewriter effect when slide becomes active
-function applyTypewriterToActiveSlide() {
-  document.querySelectorAll('.slide-content h2').forEach(h2 => {
-    h2.textContent = h2.getAttribute('data-original') || h2.textContent;
-  });
-  const activeSlide = document.querySelector('.slide.active .slide-content h2');
-  if (activeSlide) {
-    if (!activeSlide.getAttribute('data-original')) {
-      activeSlide.setAttribute('data-original', activeSlide.textContent);
-    }
-    typeWriter(activeSlide, activeSlide.getAttribute('data-original'));
-  }
-}
-
-// Initial run
-applyTypewriterToActiveSlide();
-
-// Re-run on slide change
-dots = document.querySelectorAll('.slider-dot');
-dots.forEach((dot, index) => {
-  dot.addEventListener('click', () => {
-    setTimeout(applyTypewriterToActiveSlide, 300); // Wait for slide transition
-  });
-});
-setInterval(() => {
-  setTimeout(applyTypewriterToActiveSlide, 300);
-}, 5000);
-</script>
-<script>
-// Typewriter effect for .slide-content h2
-function typeWriter(element, text, speed = 50, callback) {
-  let i = 0;
-  element.textContent = "";
-  function typing() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      setTimeout(typing, speed);
-    } else if (callback) {
-      callback();
-    }
-  }
-  typing();
-}
-
-// Apply typewriter effect when slide becomes active
-function applyTypewriterToActiveSlide() {
-  document.querySelectorAll('.slide-content p').forEach(p => {
-    p.textContent = p.getAttribute('data-original') || p.textContent;
-  });
-  const activeSlide = document.querySelector('.slide.active .slide-content p');
-  if (activeSlide) {
-    if (!activeSlide.getAttribute('data-original')) {
-      activeSlide.setAttribute('data-original', activeSlide.textContent);
-    }
-    typeWriter(activeSlide, activeSlide.getAttribute('data-original'));
-  }
-}
-
-// Initial run
-applyTypewriterToActiveSlide();
-
-// Re-run on slide change
-dots = document.querySelectorAll('.slider-dot');
-dots.forEach((dot, index) => {
-  dot.addEventListener('click', () => {
-    setTimeout(applyTypewriterToActiveSlide, 300); // Wait for slide transition
-  });
-});
-setInterval(() => {
-  setTimeout(applyTypewriterToActiveSlide, 300);
-}, 5000);
-</script>
-
 </body>
 </html>
