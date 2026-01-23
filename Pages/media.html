@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orycom Agency | Complete Media Coverage & Digital Marketing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A0F1E;
+            --secondary: #1A2238;
+            --accent: #FF6B35;
+            --accent-light: #FF8B5C;
+            --text: #F5F7FA;
+            --text-light: #B8C1D9;
+            --card-bg: rgba(26, 34, 56, 0.8);
+            --border: #2D3748;
+            --success: #10B981;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: rgba(10, 15, 30, 0.95);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--text);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 120px;
+            background: linear-gradient(135deg, var(--primary) 0%, #121a32 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-light);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            background-color: var(--secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            color: var(--accent);
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        .service-icon {
+            font-size: 40px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+
+        /* Additional Services */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .pricing-table th {
+            background-color: var(--secondary);
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .pricing-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pricing-table tr:hover {
+            background-color: rgba(255, 107, 53, 0.05);
+        }
+
+        .price-tag {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Why Choose Us */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .reason-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0 auto 20px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, #1f2b4a 100%);
+            text-align: center;
+            border-radius: 20px;
+            padding: 80px 40px;
+            margin: 100px auto;
+            max-width: 900px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon {
+            background-color: var(--secondary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 20px;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-about p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-links h4::after, .footer-contact h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            z-index: 100;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .pricing-card.popular {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                border-top: 1px solid var(--border);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 150px 0 80px;
+            }
+
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+
+            .cta-section {
+                padding: 60px 20px;
+                margin: 70px 20px;
+            }
+
+            .cta-section h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 14px 28px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">ORYCOM <span>AGENCY</span></a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#pricing">Packages</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content fade-in">
+            <h1>Complete Media Coverage That Builds Your Brand & Grows Your Business</h1>
+            <p>Social Media Management, Video Production, Creative Design & Full Campaign Execution. We deliver premium digital marketing solutions that drive real results.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Get a Free Consultation</a>
+                <a href="#pricing" class="btn btn-secondary">View Packages</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>About Our Program</h2>
+                <p>Our comprehensive media coverage program is designed to elevate your brand and deliver measurable results through strategic planning and creative execution.</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h3>Strategic Media Coverage for Modern Brands</h3>
+                    <p>At Orycom Agency, we combine creativity with data-driven strategies to build powerful brand narratives that resonate with your target audience and drive business growth.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h4>Brand Growth</h4>
+                                <p>Strategic campaigns designed to increase brand awareness and market share.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div>
+                                <h4>Professional Content</h4>
+                                <p>High-quality video, photography, and design that reflects your brand's excellence.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h4>Consistent Online Presence</h4>
+                                <p>Regular, engaging content across all platforms to keep your audience connected.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image fade-in">
+                    <div class="service-card" style="height: 100%;">
+                        <div class="service-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Results-Driven Campaigns</h3>
+                        <p>Every campaign we execute is measured against clear KPIs to ensure we're delivering tangible ROI for your business. We focus on what matters most - your success.</p>
+                        <p>Our team of experts continuously analyzes performance data to optimize strategies and maximize results across all digital channels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" style="background-color: var(--secondary);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Services</h2>
+                <p>Comprehensive digital marketing and media production services to cover all your brand's needs.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+                    <h3>Social Media Management</h3>
+                    <p>Complete management of your social media presence with strategic content planning, community engagement, and performance analysis.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Shooting & Editing</h3>
+                    <p>Professional video production from concept to final edit, including commercials, corporate videos, and social media content.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Photo Shooting & Editing</h3>
+                    <p>High-quality photography for products, events, and brand imagery with professional editing and retouching.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Ads Design & Creative Designs</h3>
+                    <p>Eye-catching designs for digital ads, social media graphics, branding materials, and marketing collateral.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Campaign Planning & Execution</h3>
+                    <p>End-to-end campaign management from strategy development to implementation and performance tracking.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>Influencer & Model Marketing</h3>
+                    <p>Strategic partnerships with influencers and models to amplify your brand message and reach new audiences.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3>Reels & Short-Form Content</h3>
+                    <p>Creation of engaging short-form video content optimized for Instagram Reels, TikTok, and YouTube Shorts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Monthly Packages</h2>
+                <p>Choose the perfect package for your business needs. All packages include strategic planning and regular performance reports.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in">
+                    <h3>Basic Package</h3>
+                    <div class="price">10,000 <span>EGP / month</span></div>
+                    <p>Perfect for small businesses starting their digital journey</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Social Media Management</li>
+                        <li><i class="fas fa-check"></i> 4 Graphic Designs per month</li>
+                        <li><i class="fas fa-check"></i> 2 Reels per month</li>
+                        <li><i class="fas fa-check"></i> Basic Analytics Report</li>
+                    </ul>
+                    <a href="https://wa.me/2001010909404" class="btn btn-secondary" style="width: 100%;">Choose Plan</a>
+                </div>
+                
+                <div class="pricing-card popular fade-in">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Pro Package</h3>
+                    <div class="price">25,000 <span>EGP / month</span></div>
+                    <p>Ideal for growing businesses seeking comprehensive coverage</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Basic</li>
+                        <li><i class="fas fa-check"></i> 2 Video Productions</li>
+                        <li><i class="fas fa-check"></i> 8 Graphic Designs per month</li>
+                        <li><i class="fas fa-check"></i> 5 Reels per month</li>
+                        <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                        <li><i class="fas fa-check"></i> Monthly Strategy Session</li>
+                    </ul>
+                    <a href="https://wa.me/2001010909404" class="btn btn-primary" style="width: 100%;">Choose Plan</a>
+                </div>
+                
+                <div class="pricing-card fade-in">
+                    <h3>Super Pro Package</h3>
+                    <div class="price">60,000 <span>EGP / month</span></div>
+                    <p>For established brands needing premium full-service coverage</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Pro</li>
+                        <li><i class="fas fa-check"></i> 5 Video Productions</li>
+                        <li><i class="fas fa-check"></i> 15 Graphic Designs per month</li>
+                        <li><i class="fas fa-check"></i> 10 Reels per month</li>
+                        <li><i class="fas fa-check"></i> Influencer Collaboration</li>
+                        <li><i class="fas fa-check"></i> Dedicated Account Manager</li>
+                    </ul>
+                    <a href="https://wa.me/2001010909404" class="btn btn-secondary" style="width: 100%;">Choose Plan</a>
+                </div>
+                
+                <div class="pricing-card fade-in">
+                    <h3>Extremely Pro Package</h3>
+                    <div class="price">150,000 <span>EGP / month</span></div>
+                    <p>Enterprise-level solution for maximum brand impact</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Super Pro</li>
+                        <li><i class="fas fa-check"></i> Unlimited Content Creation</li>
+                        <li><i class="fas fa-check"></i> Full Campaign Execution</li>
+                        <li><i class="fas fa-check"></i> Premium Influencer Partnerships</li>
+                        <li><i class="fas fa-check"></i> 24/7 Priority Support</li>
+                        <li><i class="fas fa-check"></i> Customized Analytics Dashboard</li>
+                    </ul>
+                    <a href="https://wa.me/2001010909404" class="btn btn-secondary" style="width: 100%;">Choose Plan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Services -->
+    <section id="additional-services" style="background-color: var(--secondary);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Additional Services & Custom Costs</h2>
+                <p>Need individual services or custom solutions? Here's our transparent pricing for standalone services.</p>
+            </div>
+            <div class="table-container fade-in">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🎥 Day Shooting</td>
+                            <td>Full day of professional video shooting</td>
+                            <td class="price-tag">800 EGP</td>
+                        </tr>
+                        <tr>
+                            <td>🎬 Video Editing</td>
+                            <td>Professional video editing per project</td>
+                            <td class="price-tag">800 EGP</td>
+                        </tr>
+                        <tr>
+                            <td>📸 Photo Editing</td>
+                            <td>Professional photo retouching and editing</td>
+                            <td class="price-tag">400 EGP</td>
+                        </tr>
+                        <tr>
+                            <td>🎨 Design Creation</td>
+                            <td>Custom graphic design for ads or social media</td>
+                            <td class="price-tag">700 EGP</td>
+                        </tr>
+                        <tr>
+                            <td>👤 Models</td>
+                            <td>Professional model per shooting session</td>
+                            <td class="price-tag">500 EGP</td>
+                        </tr>
+                        <tr>
+                            <td>🎞️ 5 Reels per Model</td>
+                            <td>Package of 5 reels featuring one model</td>
+                            <td class="price-tag">Included</td>
+                        </tr>
+                        <tr>
+                            <td>🤝 Influencer Models</td>
+                            <td>Collaboration with influencers (varies by reach)</td>
+                            <td class="price-tag">5,000 - 100,000 EGP</td>
+                        </tr>
+                        <tr>
+                            <td>📱 Social Media Management</td>
+                            <td>Standalone management without full package</td>
+                            <td class="price-tag">5,000 EGP / month</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="why-us">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Why Choose Orycom Agency</h2>
+                <p>We're not just another marketing agency. Here's what sets us apart from the competition.</p>
+            </div>
+            <div class="reasons-grid">
+                <div class="reason-card fade-in">
+                    <div class="reason-number">1</div>
+                    <h3>Creative & Professional Team</h3>
+                    <p>Our team combines creative excellence with professional expertise to deliver outstanding results.</p>
+                </div>
+                <div class="reason-card fade-in">
+                    <div class="reason-number">2</div>
+                    <h3>High-Quality Content Production</h3>
+                    <p>We use state-of-the-art equipment and techniques to produce content that stands out.</p>
+                </div>
+                <div class="reason-card fade-in">
+                    <div class="reason-number">3</div>
+                    <h3>Clear Pricing & Scalable Packages</h3>
+                    <p>Transparent pricing with flexible packages that grow with your business.</p>
+                </div>
+                <div class="reason-card fade-in">
+                    <div class="reason-number">4</div>
+                    <h3>Strong Brand Storytelling</h3>
+                    <p>We craft compelling narratives that connect your brand with your audience emotionally.</p>
+                </div>
+                <div class="reason-card fade-in">
+                    <div class="reason-number">5</div>
+                    <h3>Results-Focused Campaigns</h3>
+                    <p>Every campaign is designed with specific business objectives and measurable KPIs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section>
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2>Ready to Elevate Your Brand?</h2>
+                <p>Take the next step in growing your business with our premium media coverage and digital marketing solutions. Let's create something amazing together.</p>
+                <div class="cta-buttons">
+                    <a href="https://wa.me/2001010909404" class="btn btn-primary">Book a Call</a>
+                    <a href="https://wa.me/2001010909404" class="btn btn-secondary">Get a Custom Offer</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background-color: var(--secondary);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Contact Us</h2>
+                <p>Get in touch with our team to discuss how we can help grow your brand.</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info fade-in">
+                    <h3>Let's Start Your Project</h3>
+                    <p>Fill out the form and we'll get back to you within 24 hours. Or contact us directly through any of the channels below.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>01010909404</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>administration@orycom.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h4>WhatsApp</h4>
+                                <p>01010909404</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 40px;">Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/orycom_platform/" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@orycomagency?is_from_webapp=1&sender_device=pc" target="_blank" class="social-link">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form fade-in">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Your Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="business">Business Type</label>
+                            <select id="business" class="form-control" required>
+                                <option value="">Select Business Type</option>
+                                <option value="startup">Startup</option>
+                                <option value="small">Small Business</option>
+                                <option value="medium">Medium Business</option>
+                                <option value="enterprise">Enterprise</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" class="form-control" rows="5" placeholder="Tell us about your project and goals..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">ORYCOM AGENCY</a>
+                    <p>We provide complete media coverage and digital marketing solutions that build brands and grow businesses through creative excellence and strategic execution.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Program</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#pricing">Packages</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone"></i> 01010909404</p>
+                    <p><i class="fas fa-envelope"></i> administration@orycom.com</p>
+                    <p><i class="fab fa-whatsapp"></i> 01010909404</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Orycom Agency. All rights reserved. | Professional Media Coverage & Digital Marketing Solutions</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/2001010909404" target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('active');
+            this.innerHTML = document.getElementById('navMenu').classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+                document.getElementById('mobileMenuBtn').innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Form Submission
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate form first
+    if (!validateForm()) {
+        return;
+    }
+    
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Opening WhatsApp...';
+    submitBtn.disabled = true;
+    
+    // Get form data
+    const formData = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        business: document.getElementById('business').value,
+        message: document.getElementById('message').value.trim()
+    };
+    
+    // Format message for WhatsApp
+    const whatsappMessage = formatWhatsAppMessage(formData);
+    
+    // Create WhatsApp link
+    const whatsappNumber = "01010909404"; // Your WhatsApp number
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappLink, '_blank');
+    
+    // Show success message
+    showNotification('success', 'WhatsApp opened! Please send the pre-filled message to contact us.');
+    
+    // Reset form
+    setTimeout(() => {
+        this.reset();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }, 1000);
+});
+
+// Format the message for WhatsApp
+function formatWhatsAppMessage(data) {
+    return `
+🌟 *NEW CONTACT FORM SUBMISSION* 🌟
+
+*Name:* ${data.name}
+*Email:* ${data.email}
+*Phone:* ${data.phone}
+*Business Type:* ${data.business}
+
+*Message:*
+${data.message}
+
+---
+📱 *Submitted via Orycom Agency Website*
+⏰ ${new Date().toLocaleString()}
+    `.trim();
+}
+
+// Form validation function (same as before)
+function validateForm() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const message = document.getElementById('message').value.trim();
+    
+    let isValid = true;
+    
+    // Clear previous errors
+    document.querySelectorAll('.error-message').forEach(el => el.remove());
+    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+    
+    // Name validation
+    if (!name) {
+        showError('name', 'Name is required');
+        isValid = false;
+    }
+    
+    // Email validation
+    if (!email) {
+        showError('email', 'Email is required');
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        showError('email', 'Please enter a valid email address');
+        isValid = false;
+    }
+    
+    // Phone validation
+    if (!phone) {
+        showError('phone', 'Phone number is required');
+        isValid = false;
+    } else if (phone.length < 10) {
+        showError('phone', 'Please enter a valid phone number');
+        isValid = false;
+    }
+    
+    // Message validation
+    if (!message) {
+        showError('message', 'Message is required');
+        isValid = false;
+    }
+    
+    return isValid;
+}
+
+function showError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+    field.classList.add('error');
+    
+    const errorEl = document.createElement('div');
+    errorEl.className = 'error-message';
+    errorEl.style.color = '#FF6B35';
+    errorEl.style.fontSize = '14px';
+    errorEl.style.marginTop = '5px';
+    errorEl.textContent = message;
+    
+    field.parentNode.appendChild(errorEl);
+}
+
+function isValidEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function showNotification(type, message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        max-width: 400px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    `;
+    
+    if (type === 'success') {
+        notification.style.backgroundColor = '#25D366'; // WhatsApp green
+        // Add WhatsApp icon
+        notification.innerHTML = `<i class="fab fa-whatsapp" style="margin-right: 10px;"></i> ${message}`;
+    } else {
+        notification.style.backgroundColor = '#EF4444';
+        notification.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 10px;"></i> ${message}`;
+    }
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+}
+
+// Add WhatsApp click tracking
+document.querySelector('.whatsapp-btn').addEventListener('click', function(e) {
+    // Track direct WhatsApp button clicks
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'whatsapp_click', {
+            'event_category': 'Contact',
+            'event_label': 'Direct WhatsApp Button'
+        });
+    }
+});
+
+        // Scroll Animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = () => {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        // Check on load and scroll
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Set current year in footer
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearSpan = document.querySelector('.copyright p');
+            if(yearSpan) {
+                yearSpan.innerHTML = yearSpan.innerHTML.replace('2023', new Date().getFullYear());
+            }
+            
+            // Initial check for fade-in elements
+            fadeInOnScroll();
+        });
+    </script>
+</body>
+</html>
