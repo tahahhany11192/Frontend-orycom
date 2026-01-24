@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers Media Production | Orycom Agency</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A0F1E;
+            --secondary: #1A2238;
+            --accent: #4F46E5;
+            --accent-light: #6366F1;
+            --teacher-accent: #8B5CF6;
+            --text: #F5F7FA;
+            --text-light: #B8C1D9;
+            --card-bg: rgba(26, 34, 56, 0.8);
+            --border: #2D3748;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: rgba(10, 15, 30, 0.95);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--text);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--teacher-accent);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--teacher-accent);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section for Teachers */
+        .teacher-hero {
+            padding: 180px 0 120px;
+            background: linear-gradient(135deg, #1A2238 0%, #0F172A 100%);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .teacher-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .teacher-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .teacher-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #8B5CF6 0%, #6366F1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .teacher-hero p {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .teacher-tag {
+            display: inline-block;
+            background-color: rgba(139, 92, 246, 0.2);
+            color: var(--teacher-accent);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--teacher-accent);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: #7C3AED;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--teacher-accent);
+            color: var(--teacher-accent);
+            transform: translateY(-3px);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--teacher-accent);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Package Comparison Table */
+        .package-comparison {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin-top: 40px;
+        }
+
+        .teachers-pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .teachers-pricing-table th {
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .teachers-pricing-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .teachers-pricing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .package-header {
+            padding: 25px 15px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .package-header.basic {
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+        }
+
+        .package-header.pro {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .package-header.premium {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+        }
+
+        .package-header h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .package-header .price {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .package-header .price span {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .popular-badge {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .teachers-pricing-table td.basic {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3B82F6;
+        }
+
+        .teachers-pricing-table td.pro {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10B981;
+        }
+
+        .teachers-pricing-table td.premium {
+            background-color: rgba(139, 92, 246, 0.1);
+            border-left: 3px solid #8B5CF6;
+        }
+
+        .teachers-pricing-table td.highlight {
+            font-weight: 700;
+            color: var(--teacher-accent);
+        }
+
+        /* Custom Services Grid */
+        .custom-pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .custom-service-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .custom-service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--teacher-accent);
+        }
+
+        .custom-service-card .service-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+        }
+
+        .custom-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--teacher-accent);
+            margin: 15px 0;
+        }
+
+        .custom-price span {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .service-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-features li i {
+            color: var(--success);
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--teacher-accent);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(139, 92, 246, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--teacher-accent);
+            font-size: 24px;
+        }
+
+        /* Process Section */
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background-color: var(--border);
+            z-index: 0;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background-color: var(--teacher-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            border: 5px solid var(--primary);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 60px;
+            color: var(--teacher-accent);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-content {
+            margin-top: 30px;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--teacher-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(139, 92, 246, 0.05);
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 25px;
+            max-height: 500px;
+        }
+
+        .faq-toggle {
+            color: var(--teacher-accent);
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--teacher-accent);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23B8C1D9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border);
+            margin-top: 100px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--teacher-accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-about p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-links h4::after, .footer-contact h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--teacher-accent);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--teacher-accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            z-index: 100;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .teacher-hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                border-top: 1px solid var(--border);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .teacher-hero {
+                padding: 150px 0 80px;
+            }
+
+            .teacher-hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .teacher-hero p {
+                font-size: 1.1rem;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+
+            .teachers-pricing-table {
+                font-size: 0.9rem;
+            }
+            
+            .teachers-pricing-table td {
+                padding: 15px 10px;
+            }
+            
+            .package-header h3 {
+                font-size: 1.5rem;
+            }
+            
+            .package-header .price {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .teacher-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 14px 28px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .custom-pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">ORYCOM <span>AGENCY</span></a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#packages">Packages</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#process">Process</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="teacher-hero" id="home">
+        <div class="container teacher-hero-content">
+            <div class="teacher-tag">
+                <i class="fas fa-chalkboard-teacher"></i> Specialized for Online Educators
+            </div>
+            <h1>Professional Media Production for Learning Platform Teachers</h1>
+            <p>Transform your educational content with studio-quality video production and editing. Our specialized packages help you create engaging, professional courses that stand out and drive student success.</p>
+            <div class="cta-buttons">
+                <a href="#packages" class="btn btn-primary">View Teacher Packages</a>
+                <a href="#contact" class="btn btn-secondary">Get Free Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section id="packages">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Teacher Media Packages</h2>
+                <p>Choose the perfect package for your course creation needs. All packages include professional shooting and editing.</p>
+            </div>
+
+            <div class="package-comparison fade-in">
+                <table class="teachers-pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>
+                                <div class="package-header basic">
+                                    <h3>Basic</h3>
+                                    <div class="price">1,500 <span>EGP / month</span></div>
+                                    <span class="popular-badge">Perfect for Starting</span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="package-header pro">
+                                    <h3>Pro</h3>
+                                    <div class="price">3,000 <span>EGP / month</span></div>
+                                    <span class="popular-badge">Most Popular</span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="package-header premium">
+                                    <h3>Premium</h3>
+                                    <div class="price">5,000 <span>EGP / month</span></div>
+                                    <span class="popular-badge">Best Value</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Shooting Hours</td>
+                            <td class="basic">4 Hours / Month</td>
+                            <td class="pro">8 Hours / Month</td>
+                            <td class="premium">12 Hours / Month</td>
+                        </tr>
+                        <tr>
+                            <td>Montage/Editing Hours</td>
+                            <td class="basic">4 Hours / Month</td>
+                            <td class="pro">8 Hours / Month</td>
+                            <td class="premium">12 Hours / Month</td>
+                        </tr>
+                        <tr>
+                            <td>Special Gift</td>
+                            <td class="basic highlight"><i class="fas fa-gift"></i> +1 Hour Free Shooting</td>
+                            <td class="pro highlight"><i class="fas fa-gift"></i> +2 Hours Free Shooting</td>
+                            <td class="premium highlight"><i class="fas fa-gift"></i> Unlimited Editing (Timeline Free)</td>
+                        </tr>
+                        <tr>
+                            <td>Total Effective Hours</td>
+                            <td class="basic">5 Shooting + 4 Editing</td>
+                            <td class="pro">10 Shooting + 8 Editing</td>
+                            <td class="premium">12 Shooting + Unlimited Editing</td>
+                        </tr>
+                        <tr>
+                            <td>Video Resolution</td>
+                            <td class="basic">Full HD (1080p)</td>
+                            <td class="pro">Full HD (1080p)</td>
+                            <td class="premium">4K Ultra HD</td>
+                        </tr>
+                        <tr>
+                            <td>Audio Quality</td>
+                            <td class="basic">Lavalier Microphone</td>
+                            <td class="pro">Professional Shotgun Mic</td>
+                            <td class="premium">Studio Quality Audio</td>
+                        </tr>
+                        <tr>
+                            <td>Educational Graphics</td>
+                            <td class="basic">Basic Text & Lower Thirds</td>
+                            <td class="pro">Animated Graphics</td>
+                            <td class="premium">Premium Custom Graphics</td>
+                        </tr>
+                        <tr>
+                            <td>Delivery Time</td>
+                            <td class="basic">5-7 Days</td>
+                            <td class="pro">3-5 Days</td>
+                            <td class="premium">48 Hours Priority</td>
+                        </tr>
+                        <tr>
+                            <td>Dedicated Editor</td>
+                            <td class="basic"><i class="fas fa-times" style="color: #EF4444;"></i></td>
+                            <td class="pro"><i class="fas fa-check" style="color: #10B981;"></i></td>
+                            <td class="premium"><i class="fas fa-check" style="color: #10B981;"></i></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="basic">
+                                <button class="btn btn-secondary choose-package" data-package="Basic" style="width: 100%; margin-top: 10px;">Choose Basic</button>
+                            </td>
+                            <td class="pro">
+                                <button class="btn btn-primary choose-package" data-package="Pro" style="width: 100%; margin-top: 10px;">Choose Pro</button>
+                            </td>
+                            <td class="premium">
+                                <button class="btn btn-secondary choose-package" data-package="Premium" style="width: 100%; margin-top: 10px; background-color: #8B5CF6; color: white;">Choose Premium</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="package-note fade-in" style="text-align: center; margin-top: 30px; padding: 20px; background-color: rgba(139, 92, 246, 0.1); border-radius: 12px; border-left: 4px solid var(--teacher-accent);">
+                <p><i class="fas fa-info-circle"></i> <strong>Note:</strong> All packages include setup, equipment, and basic graphics. Additional services available Customized below.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Services -->
+    <section id="services" style="background-color: var(--secondary);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Customized Services</h2>
+                <p>Need specific services or have custom requirements? Here are our standalone rates for teachers.</p>
+            </div>
+            
+            <div class="custom-pricing-grid">
+                <div class="custom-service-card fade-in" data-service="Shooting Only">
+                    <div class="service-icon" style="background-color: rgba(37, 99, 235, 0.1); color: #2563EB;">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Shooting Only</h3>
+                    <div class="custom-price">250 <span>EGP / Hour</span></div>
+                    <p>Professional shooting with 4K camera, lighting setup, and audio equipment</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Professional Camera Operator</li>
+                        <li><i class="fas fa-check"></i> Studio Lighting Setup</li>
+                        <li><i class="fas fa-check"></i> High-Quality Audio Recording</li>
+                        <li><i class="fas fa-check"></i> Raw Footage Delivery</li>
+                    </ul>
+                </div>
+                
+                <div class="custom-service-card fade-in" data-service="Montage Only">
+                    <div class="service-icon" style="background-color: rgba(16, 185, 129, 0.1); color: #10B981;">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Montage Only</h3>
+                    <div class="custom-price">170 <span>EGP / Hour of Video</span></div>
+                    <p>Professional video editing including cutting, transitions, graphics, and effects</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Professional Video Editing</li>
+                        <li><i class="fas fa-check"></i> Educational Graphics & Text</li>
+                        <li><i class="fas fa-check"></i> Color Correction & Grading</li>
+                        <li><i class="fas fa-check"></i> Audio Enhancement & Mixing</li>
+                    </ul>
+                </div>
+                
+                <div class="custom-service-card fade-in" data-service="Teacher Special">
+                    <div class="service-icon" style="background-color: rgba(139, 92, 246, 0.1); color: #8B5CF6;">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Teacher Special Package</h3>
+                    <div class="custom-price">400 <span>EGP / Hour Combined</span></div>
+                    <p>Shooting + Editing package for teachers (Save 20 EGP per hour)</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> 1 Hour Professional Shooting</li>
+                        <li><i class="fas fa-check"></i> 1 Hour Professional Editing</li>
+                        <li><i class="fas fa-check"></i> Educational Graphics Package</li>
+                        <li><i class="fas fa-check"></i> Screen Recording Integration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Why Teachers Love Our Media Services</h2>
+                <p>Join hundreds of successful educators who've transformed their teaching with professional media production.</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Save Time</h4>
+                    <p>Focus on teaching while we handle the complex media production work. Get back hours of your week.</p>
+                </div>
+                
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Increase Engagement</h4>
+                    <p>High-quality videos increase student retention, completion rates, and course ratings.</p>
+                </div>
+                
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Build Authority</h4>
+                    <p>Professional content establishes you as an expert and increases your course value.</p>
+                </div>
+                
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h4>Cost Effective</h4>
+                    <p>Studio-quality results at a fraction of traditional production costs. Great ROI for your courses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" style="background-color: var(--secondary);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Simple 4-Step Process</h2>
+                <p>From consultation to delivery, we make professional media production easy for teachers.</p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="process-step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>Consultation</h3>
+                    <p>We discuss your course goals, style, and requirements to create a custom plan.</p>
+                </div>
+                
+                <div class="process-step fade-in">
+                    <div class="step-number">2</div>
+                    <h3>Shooting Day</h3>
+                    <p>We come to your location with professional equipment and capture your content.</p>
+                </div>
+                
+                <div class="process-step fade-in">
+                    <div class="step-number">3</div>
+                    <h3>Editing & Review</h3>
+                    <p>We edit your videos, add graphics, and send for your review and feedback.</p>
+                </div>
+                
+                <div class="process-step fade-in">
+                    <div class="step-number">4</div>
+                    <h3>Final Delivery</h3>
+                    <p>Receive your final videos in all required formats for your learning platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>What Teachers Say</h2>
+                <p>Hear from educators who transformed their courses with our media production services.</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-content">
+                        "Working with Orycom Agency completely transformed my online course. The professional quality increased my course completion rate by 40%. The team understood exactly what educators need."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AM</div>
+                        <div>
+                            <h4>Ahmed Mohamed</h4>
+                            <p>Math Teacher, 5,000+ students</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-content">
+                        "As a busy teacher, I don't have time for video editing. The Pro package saved me 15+ hours per month. The quality is studio-level and my students love the professional feel."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SR</div>
+                        <div>
+                            <h4>Sara Ramadan</h4>
+                            <p>Science Educator, YouTube Creator</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-content">
+                        "The Premium package with unlimited editing is a game-changer. I can create as much content as I want without worrying about extra costs. Best investment for my teaching business."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MK</div>
+                        <div>
+                            <h4>Mohamed Khalil</h4>
+                            <p>Programming Instructor, 10+ Courses</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" style="background-color: var(--secondary);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Frequently Asked Questions</h2>
+                <p>Get answers to common questions about our teacher media services.</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        What equipment do you use for shooting?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        We use professional 4K cameras, studio lighting kits, and high-quality audio equipment including lavalier and shotgun microphones. All equipment is maintained to professional standards.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        Can I roll over unused hours to the next month?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! Unused hours can be rolled over for up to 3 months. This gives you flexibility during exam seasons or holidays.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        What does "unlimited editing" mean in the Premium package?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Unlimited editing means we edit whatever footage you provide, regardless of timeline length. You get 12 hours of shooting per month, and we'll edit all resulting footage at no extra cost.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        Do you provide screen recording for software tutorials?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! We can integrate screen recordings with your camera footage, add callouts and annotations, and sync everything professionally.
+                    </div>
+                </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        How long does it take to get started?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        We can usually start within 3-5 days of signing up. The first step is a free consultation to plan your content strategy.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Get Started Today</h2>
+                <p>Ready to transform your educational content? Contact us for a free consultation.</p>
+            </div>
+            
+            <div class="contact-form fade-in">
+                <form id="teacherContactForm">
+                    <div class="form-group">
+                        <label for="teacherName">Full Name *</label>
+                        <input type="text" id="teacherName" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherEmail">Email Address *</label>
+                        <input type="email" id="teacherEmail" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherPhone">Phone Number *</label>
+                        <input type="tel" id="teacherPhone" class="form-control" placeholder="Your Phone Number" required>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="teacherInterest">Package Interest</label>
+                        <select id="teacherInterest" class="form-control">
+                            <option value="">Select Package Interest</option>
+                            <option value="basic">Basic (1,500 EGP/month)</option>
+                            <option value="pro">Pro (3,000 EGP/month)</option>
+                            <option value="premium">Premium (5,000 EGP/month)</option>
+                            <option value="custom">Custom Services</option>
+                            <option value="notsure">Not Sure - Need Advice</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherMessage">Your Message *</label>
+                        <textarea id="teacherMessage" class="form-control" rows="5" placeholder="Tell us about your courses, subjects, and goals..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                    
+                    <p style="text-align: center; margin-top: 20px; color: var(--text-light); font-size: 14px;">
+                        <i class="fas fa-clock"></i> We respond within 2 hours during business hours
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">ORYCOM AGENCY</a>
+                    <p>Specialized media production services for learning platform teachers and online educators. We help you create professional, engaging educational content.</p>
+                    <div class="social-links" style="display: flex; gap: 15px; margin-top: 20px;">
+                        <a href="https://www.instagram.com/orycom_platform/" target="_blank" style="color: var(--text-light); font-size: 20px;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@orycomagency" target="_blank" style="color: var(--text-light); font-size: 20px;">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#packages">Packages</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#process">Our Process</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone"></i> 01010909404</p>
+                    <p><i class="fas fa-envelope"></i> socialmedia@orycom.com</p>
+                    <p><i class="fab fa-whatsapp"></i> 01010909404</p>
+                    <p style="margin-top: 15px; font-size: 14px; color: var(--teacher-accent);">
+                        <i class="fas fa-chalkboard-teacher"></i> Specialized for Teachers
+                    </p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Orycom Agency. All rights reserved. | Teacher Media Production Services</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/2001010909404" target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('active');
+            this.innerHTML = document.getElementById('navMenu').classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+                document.getElementById('mobileMenuBtn').innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Package Selection
+        document.querySelectorAll('.choose-package').forEach(button => {
+            button.addEventListener('click', function() {
+                const packageName = this.getAttribute('data-package');
+                
+                // Auto-fill the contact form
+                document.getElementById('teacherInterest').value = packageName.toLowerCase();
+                
+                // Add package info to message
+                const messageField = document.getElementById('teacherMessage');
+                const currentMessage = messageField.value;
+                const packageMessage = `\n\nI'm interested in the ${packageName} package for teachers. Please send me more details and availability.`;
+                
+                if (!currentMessage.includes(packageName)) {
+                    messageField.value = currentMessage + packageMessage;
+                }
+                
+                // Scroll to contact form
+                setTimeout(() => {
+                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+                
+                // Visual feedback
+                this.style.backgroundColor = '#10B981';
+                this.style.color = 'white';
+                this.innerHTML = '<i class="fas fa-check"></i> Selected';
+                
+                setTimeout(() => {
+                    this.style.backgroundColor = '';
+                    this.style.color = '';
+                    this.innerHTML = `Choose ${packageName}`;
+                }, 2000);
+            });
+        });
+
+        // Service Card Selection
+        document.querySelectorAll('.custom-service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const serviceName = this.getAttribute('data-service');
+                
+                // Add service info to message
+                const messageField = document.getElementById('teacherMessage');
+                const currentMessage = messageField.value;
+                const serviceMessage = `\n\nI'm interested in: ${serviceName}. Please provide more information and pricing details.`;
+                
+                messageField.value = currentMessage + serviceMessage;
+                
+                // Scroll to contact form
+                setTimeout(() => {
+                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+                
+                // Visual feedback
+                this.style.borderColor = 'var(--teacher-accent)';
+                this.style.boxShadow = '0 10px 30px rgba(139, 92, 246, 0.2)';
+                
+                setTimeout(() => {
+                    this.style.borderColor = '';
+                    this.style.boxShadow = '';
+                }, 1500);
+            });
+        });
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+
+        // Teacher Contact Form Submission via WhatsApp
+        document.getElementById('teacherContactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (!validateTeacherForm()) {
+                return;
+            }
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('teacherName').value.trim(),
+                email: document.getElementById('teacherEmail').value.trim(),
+                phone: document.getElementById('teacherPhone').value.trim(),
+                interest: document.getElementById('teacherInterest').value,
+                message: document.getElementById('teacherMessage').value.trim(),
+                timestamp: new Date().toLocaleString('en-EG', { timeZone: 'Africa/Cairo' })
+            };
+            
+            // Format WhatsApp message
+            const whatsappMessage = formatTeacherWhatsAppMessage(formData);
+            
+            // Create WhatsApp link
+            const whatsappNumber = "01010909404";
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            // Open WhatsApp
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.location.href = whatsappLink;
+            } else {
+                window.open(whatsappLink, '_blank');
+            }
+            
+            // Show success message
+            showTeacherNotification('success', 'Opening WhatsApp with your inquiry... Please send the message to contact us.');
+            
+            // Reset form after delay
+            setTimeout(() => {
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        function validateTeacherForm() {
+            const name = document.getElementById('teacherName').value.trim();
+            const email = document.getElementById('teacherEmail').value.trim();
+            const phone = document.getElementById('teacherPhone').value.trim();
+            const message = document.getElementById('teacherMessage').value.trim();
+            
+            let isValid = true;
+            
+            // Clear previous errors
+            document.querySelectorAll('.teacher-error').forEach(el => el.remove());
+            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+            
+            // Name validation
+            if (!name) {
+                showTeacherError('teacherName', 'Name is required');
+                isValid = false;
+            }
+            
+            // Email validation
+            if (!email) {
+                showTeacherError('teacherEmail', 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                showTeacherError('teacherEmail', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Phone validation
+            if (!phone) {
+                showTeacherError('teacherPhone', 'Phone number is required');
+                isValid = false;
+            } else if (phone.length < 10) {
+                showTeacherError('teacherPhone', 'Please enter a valid phone number');
+                isValid = false;
+            }
+            
+            // Platform validation
+
+            
+            // Message validation
+            if (!message) {
+                showTeacherError('teacherMessage', 'Message is required');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function showTeacherError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            field.classList.add('error');
+            
+            const errorEl = document.createElement('div');
+            errorEl.className = 'teacher-error';
+            errorEl.style.color = '#EF4444';
+            errorEl.style.fontSize = '14px';
+            errorEl.style.marginTop = '5px';
+            errorEl.textContent = message;
+            
+            field.parentNode.appendChild(errorEl);
+        }
+
+        function isValidEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function formatTeacherWhatsAppMessage(data) {
+            const packageNames = {
+                'basic': 'Basic (1,500 EGP/month)',
+                'pro': 'Pro (3,000 EGP/month)',
+                'premium': 'Premium (5,000 EGP/month)',
+                'custom': 'Custom Services',
+                'notsure': 'Not Sure - Need Advice'
+            };
+            
+            return `
+🎓 *TEACHER MEDIA INQUIRY - ORYCOM AGENCY* 🎓
+
+*👤 Teacher Information:*
+• Name: ${data.name}
+• Email: ${data.email}
+• Phone: ${data.phone}
+
+*💼 Package Interest:*
+${packageNames[data.interest] || data.interest || 'Not specified'}
+
+*📝 Message:*
+${data.message}
+
+*📊 Source:* Teachers Media Page
+*⏰ Submitted:* ${data.timestamp}
+    
+*📞 Please contact me via:* ${data.phone}
+*📧 Email:* ${data.email}
+            `.trim();
+        }
+
+        function showTeacherNotification(type, message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 20px 25px;
+                border-radius: 12px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                border-left: 5px solid ${type === 'success' ? '#25D366' : '#EF4444'};
+            `;
+            
+            if (type === 'success') {
+                notification.style.backgroundColor = '#1A2238';
+                notification.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background-color: #25D366; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <strong style="display: block; margin-bottom: 5px;">WhatsApp Ready!</strong>
+                            ${message}
+                        </div>
+                    </div>
+                `;
+            } else {
+                notification.style.backgroundColor = '#1A2238';
+                notification.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background-color: #EF4444; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div>${message}</div>
+                    </div>
+                `;
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+
+        // Scroll Animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = () => {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+        
+        // Set current year in footer
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearSpan = document.querySelector('.copyright p');
+            if(yearSpan) {
+                yearSpan.innerHTML = yearSpan.innerHTML.replace('2023', new Date().getFullYear());
+            }
+            
+            fadeInOnScroll();
+        });
+    </script>
+</body>
+</html>
