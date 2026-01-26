@@ -366,6 +366,94 @@
             color: var(--teacher-accent);
         }
 
+        /* Smart Board Toggle */
+        .smart-board-toggle {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .toggle-label.active {
+            color: var(--warning);
+        }
+
+        .toggle-container {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-checkbox {
+            display: none;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .toggle-checkbox:checked + .toggle-slider {
+            background-color: var(--warning);
+        }
+
+        .toggle-checkbox:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .smart-board-price {
+            color: var(--warning);
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .smart-board-price.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Custom Services Grid */
         .custom-pricing-grid {
             display: grid;
@@ -924,6 +1012,21 @@
                 <p>Choose the perfect package for your course creation needs. All packages include professional shooting and editing.</p>
             </div>
 
+            <!-- Smart Board Toggle -->
+            <div class="smart-board-toggle fade-in">
+                <div class="toggle-switch">
+                    <span class="toggle-label">Normal Package</span>
+                    <div class="toggle-container">
+                        <input type="checkbox" id="smartBoardToggle" class="toggle-checkbox">
+                        <label for="smartBoardToggle" class="toggle-slider"></label>
+                    </div>
+                    <span class="toggle-label active">Smart Board Package</span>
+                </div>
+                <div id="smartBoardPrice" class="smart-board-price">
+                    <i class="fas fa-chalkboard"></i> Smart Board packages include professional interactive whiteboard setup and recording
+                </div>
+            </div>
+
             <div class="package-comparison fade-in">
                 <table class="teachers-pricing-table">
                     <thead>
@@ -932,21 +1035,21 @@
                             <th>
                                 <div class="package-header basic">
                                     <h3>Basic</h3>
-                                    <div class="price">2,200 <span>EGP / month</span></div>
+                                    <div class="price" id="basicPrice">1,500 <span>EGP / month</span></div>
                                     <span class="popular-badge">Perfect for Starting</span>
                                 </div>
                             </th>
                             <th>
                                 <div class="package-header pro">
                                     <h3>Pro</h3>
-                                    <div class="price">4,400 <span>EGP / month</span></div>
+                                    <div class="price" id="proPrice">3,000 <span>EGP / month</span></div>
                                     <span class="popular-badge">Most Popular</span>
                                 </div>
                             </th>
                             <th>
                                 <div class="package-header premium">
                                     <h3>Premium</h3>
-                                    <div class="price">6,600 <span>EGP / month</span></div>
+                                    <div class="price" id="premiumPrice">5,000 <span>EGP / month</span></div>
                                     <span class="popular-badge">Best Value</span>
                                 </div>
                             </th>
@@ -1010,13 +1113,13 @@
                         <tr>
                             <td></td>
                             <td class="basic">
-                                <button class="btn btn-secondary choose-package" data-package="Basic" style="width: 100%; margin-top: 10px;">Choose Basic</button>
+                                <button class="btn btn-secondary choose-package" data-package="Basic" data-price="1500" data-smart-price="3200" style="width: 100%; margin-top: 10px;">Choose Basic</button>
                             </td>
                             <td class="pro">
-                                <button class="btn btn-primary choose-package" data-package="Pro" style="width: 100%; margin-top: 10px;">Choose Pro</button>
+                                <button class="btn btn-primary choose-package" data-package="Pro" data-price="3000" data-smart-price="6400" style="width: 100%; margin-top: 10px;">Choose Pro</button>
                             </td>
                             <td class="premium">
-                                <button class="btn btn-secondary choose-package" data-package="Premium" style="width: 100%; margin-top: 10px; background-color: #8B5CF6; color: white;">Choose Premium</button>
+                                <button class="btn btn-secondary choose-package" data-package="Premium" data-price="5000" data-smart-price="9600" style="width: 100%; margin-top: 10px; background-color: #8B5CF6; color: white;">Choose Premium</button>
                             </td>
                         </tr>
                     </tbody>
@@ -1024,7 +1127,7 @@
             </div>
 
             <div class="package-note fade-in" style="text-align: center; margin-top: 30px; padding: 20px; background-color: rgba(139, 92, 246, 0.1); border-radius: 12px; border-left: 4px solid var(--teacher-accent);">
-                <p><i class="fas fa-info-circle"></i> <strong>Note:</strong> All packages include setup, equipment, and basic graphics. Additional services available Customized below.</p>
+                <p><i class="fas fa-info-circle"></i> <strong>Note:</strong> All packages include setup, equipment, and basic graphics. Smart Board packages include interactive whiteboard setup and recording.</p>
             </div>
         </div>
     </section>
@@ -1042,24 +1145,8 @@
                     <div class="service-icon" style="background-color: rgba(37, 99, 235, 0.1); color: #2563EB;">
                         <i class="fas fa-video"></i>
                     </div>
-                    <h3>Shooting marker board</h3>
+                    <h3>Shooting Only</h3>
                     <div class="custom-price">250 <span>EGP / Hour</span></div>
-                    <p>Professional shooting with 4K camera, lighting setup, and audio equipment</p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Professional Camera Operator</li>
-                        <li><i class="fas fa-check"></i> Studio Lighting Setup</li>
-                        <li><i class="fas fa-check"></i> High-Quality Audio Recording</li>
-                        <li><i class="fas fa-check"></i> Raw Footage Delivery</li>
-                    </ul>
-                </div>
-
-                      
-                <div class="custom-service-card fade-in" data-service="Shooting Only">
-                    <div class="service-icon" style="background-color: rgba(37, 99, 235, 0.1); color: #2563EB;">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <h3>Shooting with digitalboard</h3>
-                    <div class="custom-price">500 <span>EGP / Hour</span></div>
                     <p>Professional shooting with 4K camera, lighting setup, and audio equipment</p>
                     <ul class="service-features">
                         <li><i class="fas fa-check"></i> Professional Camera Operator</li>
@@ -1291,6 +1378,16 @@
                         We can usually start within 3-5 days of signing up. The first step is a free consultation to plan your content strategy.
                     </div>
                 </div>
+                
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        What is included in the Smart Board package?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        The Smart Board package includes professional interactive whiteboard setup, specialized lighting for whiteboard recording, digital annotation tools, and optimized video capture for educational content. It's perfect for math, science, and other subjects that benefit from writing and drawing explanations.
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1320,14 +1417,16 @@
                         <input type="tel" id="teacherPhone" class="form-control" placeholder="Your Phone Number" required>
                     </div>
                     
-                    
                     <div class="form-group">
                         <label for="teacherInterest">Package Interest</label>
                         <select id="teacherInterest" class="form-control">
                             <option value="">Select Package Interest</option>
-                            <option value="basic">Basic (2,200 EGP/month)</option>
-                            <option value="pro">Pro (4,400 EGP/month)</option>
-                            <option value="premium">Premium (6,600 EGP/month)</option>
+                            <option value="basic">Basic (1,500 EGP/month)</option>
+                            <option value="basic-smart">Basic with Smart Board (3,200 EGP/month)</option>
+                            <option value="pro">Pro (3,000 EGP/month)</option>
+                            <option value="pro-smart">Pro with Smart Board (6,400 EGP/month)</option>
+                            <option value="premium">Premium (5,000 EGP/month)</option>
+                            <option value="premium-smart">Premium with Smart Board (9,600 EGP/month)</option>
                             <option value="custom">Custom Services</option>
                             <option value="notsure">Not Sure - Need Advice</option>
                         </select>
@@ -1415,18 +1514,76 @@
             });
         });
 
+        // Smart Board Toggle Functionality
+        const smartBoardToggle = document.getElementById('smartBoardToggle');
+        const smartBoardPrice = document.getElementById('smartBoardPrice');
+        const basicPrice = document.getElementById('basicPrice');
+        const proPrice = document.getElementById('proPrice');
+        const premiumPrice = document.getElementById('premiumPrice');
+        
+        // Package prices
+        const prices = {
+            basic: { normal: 1500, smart: 3200 },
+            pro: { normal: 3000, smart: 6400 },
+            premium: { normal: 5000, smart: 9600 }
+        };
+        
+        // Update prices when toggle is changed
+        smartBoardToggle.addEventListener('change', function() {
+            const isSmartBoard = this.checked;
+            
+            if (isSmartBoard) {
+                basicPrice.innerHTML = `${prices.basic.smart.toLocaleString()} <span>EGP / month</span>`;
+                proPrice.innerHTML = `${prices.pro.smart.toLocaleString()} <span>EGP / month</span>`;
+                premiumPrice.innerHTML = `${prices.premium.smart.toLocaleString()} <span>EGP / month</span>`;
+                smartBoardPrice.classList.add('show');
+            } else {
+                basicPrice.innerHTML = `${prices.basic.normal.toLocaleString()} <span>EGP / month</span>`;
+                proPrice.innerHTML = `${prices.pro.normal.toLocaleString()} <span>EGP / month</span>`;
+                premiumPrice.innerHTML = `${prices.premium.normal.toLocaleString()} <span>EGP / month</span>`;
+                smartBoardPrice.classList.remove('show');
+            }
+            
+            // Update package buttons with current prices
+            updatePackageButtons(isSmartBoard);
+        });
+
+        // Update package buttons with correct prices
+        function updatePackageButtons(isSmartBoard) {
+            document.querySelectorAll('.choose-package').forEach(button => {
+                const packageName = button.getAttribute('data-package');
+                const normalPrice = button.getAttribute('data-price');
+                const smartPrice = button.getAttribute('data-smart-price');
+                
+                const currentPrice = isSmartBoard ? smartPrice : normalPrice;
+                
+                // Update button text to show price
+                button.innerHTML = `Choose ${packageName} - ${parseInt(currentPrice).toLocaleString()} EGP`;
+            });
+        }
+
         // Package Selection
         document.querySelectorAll('.choose-package').forEach(button => {
             button.addEventListener('click', function() {
                 const packageName = this.getAttribute('data-package');
+                const isSmartBoard = document.getElementById('smartBoardToggle').checked;
+                const normalPrice = this.getAttribute('data-price');
+                const smartPrice = this.getAttribute('data-smart-price');
+                const currentPrice = isSmartBoard ? smartPrice : normalPrice;
                 
                 // Auto-fill the contact form
-                document.getElementById('teacherInterest').value = packageName.toLowerCase();
+                let packageValue = packageName.toLowerCase();
+                if (isSmartBoard) {
+                    packageValue += '-smart';
+                }
+                
+                document.getElementById('teacherInterest').value = packageValue;
                 
                 // Add package info to message
                 const messageField = document.getElementById('teacherMessage');
                 const currentMessage = messageField.value;
-                const packageMessage = `\n\nI'm interested in the ${packageName} package for teachers. Please send me more details and availability.`;
+                const packageType = isSmartBoard ? 'Smart Board' : 'Normal';
+                const packageMessage = `\n\nI'm interested in the ${packageName} package (${packageType}) for ${parseInt(currentPrice).toLocaleString()} EGP/month. Please send me more details and availability.`;
                 
                 if (!currentMessage.includes(packageName)) {
                     messageField.value = currentMessage + packageMessage;
@@ -1445,7 +1602,7 @@
                 setTimeout(() => {
                     this.style.backgroundColor = '';
                     this.style.color = '';
-                    this.innerHTML = `Choose ${packageName}`;
+                    updatePackageButtons(isSmartBoard);
                 }, 2000);
             });
         });
@@ -1507,7 +1664,8 @@
                 phone: document.getElementById('teacherPhone').value.trim(),
                 interest: document.getElementById('teacherInterest').value,
                 message: document.getElementById('teacherMessage').value.trim(),
-                timestamp: new Date().toLocaleString('en-EG', { timeZone: 'Africa/Cairo' })
+                timestamp: new Date().toLocaleString('en-EG', { timeZone: 'Africa/Cairo' }),
+                smartBoard: document.getElementById('smartBoardToggle').checked ? 'Smart Board' : 'Normal'
             };
             
             // Format WhatsApp message
@@ -1572,9 +1730,6 @@
                 isValid = false;
             }
             
-            // Platform validation
-
-            
             // Message validation
             if (!message) {
                 showTeacherError('teacherMessage', 'Message is required');
@@ -1605,9 +1760,12 @@
 
         function formatTeacherWhatsAppMessage(data) {
             const packageNames = {
-                'basic': 'Basic (2,200 EGP/month)',
-                'pro': 'Pro (4,400 EGP/month)',
-                'premium': 'Premium (6,600 EGP/month)',
+                'basic': 'Basic (1,500 EGP/month)',
+                'basic-smart': 'Basic with Smart Board (3,200 EGP/month)',
+                'pro': 'Pro (3,000 EGP/month)',
+                'pro-smart': 'Pro with Smart Board (6,400 EGP/month)',
+                'premium': 'Premium (5,000 EGP/month)',
+                'premium-smart': 'Premium with Smart Board (9,600 EGP/month)',
                 'custom': 'Custom Services',
                 'notsure': 'Not Sure - Need Advice'
             };
@@ -1626,8 +1784,8 @@ ${packageNames[data.interest] || data.interest || 'Not specified'}
 *📝 Message:*
 ${data.message}
 
-*📊 Source:* Teachers Media Page
-*⏰ Submitted:* ${data.timestamp}
+*📊 Package Type:* ${data.smartBoard}
+*📅 Submitted:* ${data.timestamp}
     
 *📞 Please contact me via:* ${data.phone}
 *📧 Email:* ${data.email}
@@ -1726,6 +1884,9 @@ ${data.message}
             if(yearSpan) {
                 yearSpan.innerHTML = yearSpan.innerHTML.replace('2023', new Date().getFullYear());
             }
+            
+            // Initialize package buttons with correct text
+            updatePackageButtons(false);
             
             fadeInOnScroll();
         });
