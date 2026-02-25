@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ORYCOM 2060 · quantum pricing</title>
+  <title>Orycom Tech · build your digital presence</title>
   <!-- Font Awesome 6 (free) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Fonts: Inter + Space Grotesk + Orbitron (future) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Inter + Space Grotesk -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -16,594 +16,723 @@
     }
 
     body {
-      background: #0b0e19;
+      background: #fbfdff;
       font-family: 'Inter', sans-serif;
-      color: #e0f0ff;
+      color: #0a1e2f;
       line-height: 1.5;
       overflow-x: hidden;
-      min-height: 100vh;
     }
 
-    /* 2060 NEOBG – hyper-dimensional motion */
-    .hyper-bg {
+    /* smooth animated background */
+    .bg-abstract {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at 30% 30%, #1b2f5e 0%, #030514 100%);
-      z-index: -3;
-    }
-    canvas#neuroGrid {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: -50%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle at 30% 40%, rgba(0,180,255,0.03) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(100,80,255,0.04) 0%, transparent 45%),
+                  repeating-linear-gradient(45deg, rgba(200,220,250,0.02) 0px, rgba(200,220,250,0.02) 2px, transparent 2px, transparent 8px);
       z-index: -2;
-      opacity: 0.35;
       pointer-events: none;
     }
-    /* floating quantum orbs – fast motion */
-    .quantum-orb {
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 3rem;
+      position: relative;
+    }
+
+    /* floating orbs (motion) */
+    .orb {
       position: fixed;
       border-radius: 50%;
-      filter: blur(70px);
+      background: linear-gradient(145deg, #3b82f630, #a855f730);
+      filter: blur(55px);
       z-index: -1;
-      mix-blend-mode: soft-light;
-      animation: quantumFloat 12s infinite alternate cubic-bezier(0.3, 1.2, 0.8, 1.1);
+      animation: float 18s infinite alternate ease-in-out;
     }
-    .qorb1 { width: 550px; height: 550px; background: #00c6ff60; top: -200px; right: -100px; }
-    .qorb2 { width: 600px; height: 600px; background: #aa5aff60; bottom: -250px; left: -150px; animation-delay: -3s; }
-    .qorb3 { width: 400px; height: 400px; background: #ffb86c60; top: 40%; left: 30%; animation-duration: 18s; filter: blur(90px); }
-
-    @keyframes quantumFloat {
-      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-      100% { transform: translate(70px, -50px) scale(1.4) rotate(10deg); }
+    .orb1 { width: 400px; height: 400px; top: -100px; right: -100px; }
+    .orb2 { width: 350px; height: 350px; bottom: 0px; left: -50px; animation-delay: -5s; background: linear-gradient(145deg, #f9731630, #3b82f630); }
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 40px) scale(1.1); }
     }
 
-    /* container fluid */
-    .container {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 2rem 2.5rem 4rem;
-      position: relative;
-      backdrop-filter: blur(2px);
-    }
-
-    /* neo glassmorphism + future border */
-    .glass-panel {
-      background: rgba(8, 20, 40, 0.35);
-      backdrop-filter: blur(16px) saturate(200%);
-      -webkit-backdrop-filter: blur(16px) saturate(200%);
-      border: 1px solid rgba(90, 180, 255, 0.3);
-      border-radius: 48px;
-      box-shadow: 0 25px 60px -10px #00000080, 0 0 0 1px rgba(0, 255, 255, 0.1) inset;
-      transition: all 0.25s;
-    }
-    .glass-panel:hover {
-      border-color: #4ab5ff80;
-      box-shadow: 0 30px 70px -5px #0066ff60, 0 0 20px #0088ff30 inset;
-    }
-
-    /* hero area */
-    .hero-2060 {
+    /* header / company intro */
+    .hero {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 3rem;
-      padding: 2rem 2.5rem;
-      background: rgba(0, 15, 40, 0.4);
-      backdrop-filter: blur(20px);
-      border-radius: 80px;
-      border: 1px solid #4f9eff40;
-      box-shadow: 0 20px 40px -15px #00000080;
+      margin-bottom: 3.5rem;
+      gap: 2rem;
     }
-    .brandQuantum {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 16px;
     }
-    .hologram-logo {
-      width: 90px;
-      height: 90px;
-      background: linear-gradient(145deg, #0026b3, #b300ff);
-      border-radius: 30px 10px 30px 10px;
+    .logo-motion {
+      width: 70px;
+      height: 70px;
+      background: #0f172a;
+      border-radius: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      font-weight: 900;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: white;
-      text-shadow: 0 0 15px cyan;
-      box-shadow: 0 0 30px #0055ff, 0 20px 30px -10px #000;
-      transform: rotate(2deg);
-      animation: hologlitch 4s infinite steps(1);
+      box-shadow: 0 25px 40px -15px #0f172a80;
+      transition: transform 0.2s ease;
+      animation: subtlePop 4s infinite;
     }
-    @keyframes hologlitch {
-      0%,100% { transform: skew(0deg); opacity:1; }
-      2% { transform: skew(3deg) scale(1.02); text-shadow: -3px 0 red; }
-      4% { transform: skew(-2deg); text-shadow: 3px 0 blue; }
+    @keyframes subtlePop {
+      0%,100%{ transform: scale(1); }
+      50%{ transform: scale(1.02); }
+    }
+    .logo-motion span {
+      background: #3b82f6;
+      width: 12px;
+      height: 12px;
+      border-radius: 20px;
+      margin-left: 4px;
+      display: inline-block;
     }
     .company h1 {
-      font-size: 3.4rem;
-      font-weight: 800;
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #a0e9ff, #3e7eff, #c473ff);
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(145deg, #0f172a 20%, #2563eb 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: -0.02em;
+      line-height: 1.2;
     }
-    .tagline-2060 {
+    .company .tagline {
+      font-size: 1.1rem;
+      color: #334155;
       display: flex;
-      gap: 30px;
-      font-size: 1.3rem;
-      color: #b0d5ff;
+      gap: 20px;
+      margin-top: 6px;
     }
-    .tagline-2060 i {
-      color: #ffbb4a;
-      text-shadow: 0 0 8px orange;
+    .company .tagline i {
+      color: #2563eb;
+      width: 24px;
     }
 
-    .hud-stats {
-      display: flex;
-      gap: 3rem;
-      background: rgba(0,255,255,0.08);
-      padding: 1.3rem 2.5rem;
-      border-radius: 100px;
-      border: 1px solid #30a0ff;
+    .stats-mini {
+      background: rgba(255,255,255,0.7);
       backdrop-filter: blur(10px);
+      padding: 1.2rem 2rem;
+      border-radius: 80px;
+      border: 1px solid #ffffff80;
+      box-shadow: 0 15px 35px -20px #1e293b;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      text-align: center;
     }
     .stat-num {
-      font-size: 2.3rem;
+      font-size: 2rem;
       font-weight: 700;
-      font-family: 'Space Grotesk', sans-serif;
-      color: #aaf0ff;
-      text-shadow: 0 0 10px #0af;
+      color: #0f172a;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #4b5563;
     }
 
-    /* about card 2060 */
-    .about-quantum {
+    /* about company card */
+    .about-card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 48px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 3.5rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 2.5rem;
-      padding: 2.5rem;
-      margin-bottom: 3rem;
-      background: rgba(10, 25, 55, 0.5);
-      backdrop-filter: blur(18px);
-      border-radius: 60px;
-      border: 1px solid #42a5ff60;
+      gap: 2rem;
+      justify-content: space-between;
+      box-shadow: 0 30px 50px -30px #14253d30;
+      transition: box-shadow 0.3s;
     }
-    .about-quantum h2 {
-      font-size: 2.4rem;
+    .about-card:hover {
+      box-shadow: 0 40px 60px -20px #1e3a8a40;
+    }
+    .about-text {
+      flex: 2;
+      min-width: 280px;
+    }
+    .about-text h2 {
+      font-size: 2rem;
       font-weight: 600;
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 8px;
     }
-    .about-quantum p {
-      color: #ceecff;
-      font-size: 1.15rem;
+    .about-text p {
+      color: #1e293b;
+      max-width: 600px;
+      font-size: 1.08rem;
     }
-    .tech-stack-future {
+    .tech-stack {
+      flex: 1;
+      min-width: 200px;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1rem;
     }
-    .tech-item-f {
-      background: rgba(0, 100, 255, 0.2);
-      border-radius: 60px;
-      padding: 0.9rem 2rem;
-      border-left: 6px solid #2ef7ff;
-      font-weight: 600;
-      backdrop-filter: blur(5px);
-      font-size: 1.2rem;
-    }
-
-    /* core plan */
-    .core-plan {
-      padding: 2rem 2.5rem;
-      margin: 2.5rem 0;
-    }
-    .price-neon {
-      background: #00122e;
-      border: 2px solid #1eb0ff;
-      border-radius: 60px;
-      padding: 0.8rem 2.5rem;
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: #c3fcff;
-      box-shadow: 0 0 30px #00b7ff;
-    }
-
-    /* feature grid — fast cards */
-    .feature-grid-2060 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.2rem;
-      padding: 2rem 0;
-    }
-    .feature-card-f {
-      background: rgba(0, 40, 70, 0.5);
-      backdrop-filter: blur(12px);
-      border: 1px solid #00dcff40;
-      border-radius: 40px;
-      padding: 1.3rem 1.6rem;
+    .tech-item {
       display: flex;
       align-items: center;
       gap: 15px;
-      transition: all 0.15s cubic-bezier(0.2,1,0.3,1);
-      box-shadow: 0 8px 20px -10px #000;
+      background: #ffffff70;
+      border-radius: 60px;
+      padding: 0.8rem 1.8rem;
+      backdrop-filter: blur(4px);
+      border: 1px solid white;
+      font-weight: 500;
     }
-    .feature-card-f:hover {
-      transform: translateY(-6px) scale(1.02);
-      background: #103a62b0;
-      border-color: #00f2ff;
-      box-shadow: 0 0 30px #0af;
-    }
-    .feature-card-f input[type=checkbox] {
-      width: 26px; height: 26px;
-      accent-color: #00ddff;
-      border-radius: 8px;
-      transform: scale(1.1);
-      box-shadow: 0 0 15px #0ff;
-    }
-    .price-badge-f {
-      background: #001d3d;
-      border: 1px solid cyan;
-      border-radius: 40px;
-      padding: 0.3rem 1.2rem;
-      color: #b7f0ff;
-      font-weight: 700;
+    .tech-item i {
+      font-size: 1.6rem;
+      color: #2563eb;
     }
 
-    /* summary – total immersion */
-    .summary-future {
-      background: rgba(0, 12, 30, 0.7);
-      backdrop-filter: blur(25px);
-      border: 2px solid #0af;
-      border-radius: 70px;
-      padding: 2.5rem 3rem;
-      margin-top: 3rem;
-      box-shadow: 0 50px 80px -20px #000, 0 0 70px #0044ff;
+    /* base plan premium */
+    .base-plan {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      border-radius: 48px;
+      padding: 2.2rem 2.5rem;
+      margin: 2.5rem 0 2rem;
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: 0 25px 45px -25px #1f3a6b;
+      transition: all 0.2s;
     }
-    .price-block-future {
-      background: #021c33;
-      border-radius: 50px;
-      padding: 0.8rem 2.2rem;
-      border-left: 8px solid #2ad4ff;
+    .base-plan:hover {
+      background: rgba(255,255,255,0.95);
     }
-    .price-main-f {
-      font-size: 3.2rem;
-      font-weight: 800;
-      font-family: 'Space Grotesk';
-      background: linear-gradient(135deg, #fff, #9fd9ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .installment-neon {
-      background: #02223b;
-      border-radius: 60px;
-      padding: 1.3rem 2.5rem;
-      border: 1px dashed #0ff;
+    .base-head {
       display: flex;
       flex-wrap: wrap;
-      gap: 35px;
-      align-items: baseline;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
     }
-    .big-neon {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: #fbff47;
-      text-shadow: 0 0 10px #f0f;
-    }
-    .selected-chip-f {
-      background: #0a4a8a60;
-      border: 1px solid #4de1ff;
-      border-radius: 60px;
-      padding: 0.5rem 1.8rem;
-      color: #d2f5ff;
-      font-weight: 500;
-      backdrop-filter: blur(4px);
-    }
-    .reset-f {
-      background: transparent;
-      border: 2px solid #00b7ff;
-      color: #b1ebff;
-      padding: 0.6rem 2.5rem;
-      border-radius: 60px;
+    .base-head h3 {
+      font-size: 2rem;
       font-weight: 600;
-      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .price-chip {
+      background: #0f172a;
+      color: white;
+      padding: 0.7rem 2rem;
+      border-radius: 60px;
+      font-size: 2rem;
+      font-weight: 600;
+      box-shadow: 0 10px 15px -8px #0f172a;
+    }
+    .price-chip small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #9bbbff;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      background: #f8fcff;
+      border-radius: 32px;
+      padding: 2rem;
+    }
+    .core-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+    }
+    .core-feature i {
+      color: #2563eb;
+      background: white;
+      border-radius: 50%;
+      padding: 6px;
+      box-shadow: 0 5px 10px #c7d9ff;
+    }
+
+    /* features panel with motion */
+    .features-panel {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 48px;
+      padding: 2.5rem;
+      margin: 2rem 0;
+      border: 1px solid #ffffff;
+      box-shadow: 0 25px 40px -30px #172032;
+    }
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .panel-title i {
+      background: #0f172a;
+      color: white;
+      padding: 12px;
+      border-radius: 30px;
+    }
+
+    .features-motion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1rem;
+    }
+
+    .feature-card {
+      background: #ffffffc9;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 60px;
+      padding: 1rem 1.5rem 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.25s cubic-bezier(0.2,0,0,1);
+      box-shadow: 0 2px 8px rgba(0,35,80,0.04);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      background: white;
+      border-color: #aac8ff;
+      box-shadow: 0 20px 30px -20px #2563eb70;
+    }
+    .feature-card input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: #2563eb;
+      border-radius: 8px;
       cursor: pointer;
     }
-    .reset-f:hover {
-      background: #006eff30;
-      border-color: cyan;
-      box-shadow: 0 0 20px cyan;
+    .feature-detail {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+    }
+    .feature-detail .name {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .feature-detail .name i {
+      color: #2563eb;
+      width: 22px;
+      font-size: 1.1rem;
+    }
+    .feature-price-badge {
+      background: #e6f0ff;
+      border-radius: 40px;
+      padding: 0.3rem 1rem;
+      font-weight: 600;
+      color: #075985;
+      font-size: 0.95rem;
     }
 
-    /* phone mockup 3060 */
-    .phone-3060 {
-      margin: 6rem auto 2rem;
-      perspective: 2000px;
-    }
-    .phone-frame {
-      width: 340px;
-      height: 680px;
-      background: #111a28;
-      border-radius: 70px;
-      padding: 15px 8px;
-      border: 3px solid #00c3ff;
-      box-shadow: 0 60px 100px -20px #000, 0 0 0 8px #2a3b55, 0 0 50px #0af;
-      transform: rotateY(-8deg) rotateX(5deg);
-      transition: 0.4s;
-    }
-    .phone-frame:hover {
-      transform: rotateY(-3deg) rotateX(2deg) scale(1.02);
-      box-shadow: 0 80px 120px -10px #0044ff;
-    }
-    .screen-link {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background: linear-gradient(145deg, #0a1b2f, #02182b);
-      border-radius: 50px;
-      height: 100%;
-      border: 2px solid #31b0ff;
+    /* summary area with per month insight */
+    .summary-luxury {
+      background: #0f172a;
+      border-radius: 56px;
+      padding: 2.5rem 2.8rem;
+      margin-top: 3rem;
       color: white;
-      font-size: 1.3rem;
+      box-shadow: 0 35px 60px -20px #0a0f1f;
+      border: 1px solid #2d3a5e;
+      transition: all 0.2s;
+    }
+    .summary-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+    .summary-header h2 {
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .pill-icon {
+      background: #1e2b48;
+      padding: 0.5rem 1.8rem;
+      border-radius: 60px;
+      border: 1px solid #3f5280;
+      color: #c7dcff;
+    }
+    .pricing-breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem 4rem;
+      align-items: baseline;
+      margin: 2rem 0 1.2rem;
+    }
+    .price-block {
+      background: #1b263b;
+      border-radius: 50px;
+      padding: 0.8rem 2.2rem;
+      display: flex;
+      align-items: center;
       gap: 20px;
+      border-left: 6px solid;
     }
-    .pulse-demo {
-      animation: softPulse 2s infinite;
+    .yearly-block { border-left-color: #3b82f6; }
+    .monthly-block { border-left-color: #f59e0b; }
+    .price-label-small {
+      color: #9aa9c3;
+      font-size: 1.2rem;
     }
-    @keyframes softPulse {
-      0% { text-shadow: 0 0 10px cyan; }
-      50% { text-shadow: 0 0 30px #ffae00; }
+    .price-main {
+      font-weight: 700;
+      font-size: 2.6rem;
+      line-height: 1.2;
+    }
+    .price-main small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #a0b3d9;
     }
 
-    /* responsive */
-    @media (max-width: 700px) {
-      .container { padding: 1rem; }
-      .hero-2060 { flex-direction: column; align-items: start; }
-      .price-neon { font-size: 2rem; }
+    /* monthly installment detail */
+    .installment-note {
+      background: #1f2c44;
+      border-radius: 40px;
+      padding: 1rem 2rem;
+      margin: 1rem 0 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px 35px;
+      border: 1px dashed #5271a0;
+    }
+    .per-month {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .per-month .big {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fcd34d;
+    }
+    .per-month span {
+      color: #b3c7ff;
+    }
+    .selected-tags-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin: 1.5rem 0 0.5rem;
+    }
+    .selected-chip {
+      background: #2563eb20;
+      border: 1px solid #3f6bcb;
+      color: #c3d9ff;
+      border-radius: 40px;
+      padding: 0.5rem 1.4rem;
+      font-size: 0.95rem;
+    }
+    .reset-modern {
+      background: transparent;
+      border: 1px solid #3c4e70;
+      color: #d7e2fb;
+      padding: 0.5rem 2rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-left: auto;
+    }
+    .reset-modern:hover {
+      background: #25344f;
+      border-color: #6889cc;
+    }
+
+    .footnote {
+      text-align: right;
+      font-size: 0.9rem;
+      color: #6b84af;
+      margin-top: 1rem;
+    }
+
+    /* animations on load */
+    .fade-up {
+      animation: fadeUp 0.8s ease backwards;
+    }
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="hyper-bg"></div>
-  <canvas id="neuroGrid"></canvas>
-  <div class="quantum-orb qorb1"></div>
-  <div class="quantum-orb qorb2"></div>
-  <div class="quantum-orb qorb3"></div>
+<div class="bg-abstract"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
 
-  <div class="container">
-    <!-- HERO - 2060 -->
-    <div class="hero-2060">
-      <div class="brandQuantum">
-        <div class="hologram-logo">◉</div>
-        <div class="company">
-          <h1>ORYCOM <span style="font-size:2rem;">⍟</span></h1>
-          <div class="tagline-2060">
-            <span><i class="fas fa-cube"></i> quantum retail</span>
-            <span><i class="fas fa-satellite-dish"></i> immersive AI</span>
-          </div>
+<div class="container">
+  <!-- hero + about data -->
+  <div class="hero fade-up" style="animation-delay: 0.1s;">
+    <div class="brand">
+      <div class="logo-motion">O<span></span></div>
+      <div class="company">
+        <h1>orycom tech</h1>
+        <div class="tagline">
+          <span><i class="fas fa-store"></i> restaurants</span>
+          <span><i class="fas fa-shop"></i> shops</span>
+          <span><i class="fas fa-bag-shopping"></i> any business</span>
         </div>
       </div>
-      <div class="hud-stats">
-        <div><span class="stat-num">128+</span> <span style="color:#b8dcff;">worlds</span></div>
-        <div><span class="stat-num">4.98</span> <span style="color:#b8dcff;">neural rating</span></div>
-        <div><span class="stat-num">∞</span> <span style="color:#b8dcff;">uptime</span></div>
-      </div>
     </div>
-
-    <!-- ABOUT QUANTUM -->
-    <div class="about-quantum glass-panel">
-      <div style="flex:2">
-        <h2><i class="fas fa-microchip" style="color:#5ad0ff;"></i> beyond code · 2060 stack</h2>
-        <p>Orycom builds hyper‑scalable digital consciousness for restaurants, shops, and meta‑businesses. 100+ quantum nodes, real‑time adaptive UX. This is not a simple website — it’s a living brand universe.<br> <i class="fas fa-crown" style="color:#ffb347;"></i> trusted by 42 intergalactic merchants</p>
-      </div>
-      <div class="tech-stack-future">
-        <div class="tech-item-f"><i class="fas fa-atom"></i> react 19 / holographic</div>
-        <div class="tech-item-f"><i class="fas fa-chart-line"></i> quantum analytics</div>
-        <div class="tech-item-f"><i class="fas fa-robot"></i> neural payment core</div>
-      </div>
-    </div>
-
-    <!-- CORE PLAN (20,000 K) -->
-    <div class="core-plan glass-panel">
-      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
-        <h3 style="font-size:2.4rem;"><i class="fas fa-crown" style="color:#ffd966;"></i> core singularity</h3>
-        <div class="price-neon">20,000 <span style="font-size:1.5rem;">K</span> <span style="font-size:1.2rem;">/ year</span></div>
-      </div>
-      <div class="feature-grid-2060" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); margin-top:1.5rem;">
-        <div class="feature-card-f"><i class="fas fa-house-flood"></i> home portal</div>
-        <div class="feature-card-f"><i class="fas fa-cart-flatbed"></i> order matrix</div>
-        <div class="feature-card-f"><i class="fas fa-coins"></i> cash + crypto</div>
-        <div class="feature-card-f"><i class="fas fa-chart-gantt"></i> data hive</div>
-        <div class="feature-card-f"><i class="fas fa-pen-fancy"></i> admin AI</div>
-      </div>
-    </div>
-
-    <!-- DYNAMIC FEATURES (INJECTED) -->
-    <div class="glass-panel" style="padding: 2rem 2.5rem; margin: 2rem 0;">
-      <div class="panel-title" style="display: flex; gap:15px; font-size:2rem; margin-bottom: 2rem;">
-        <i class="fas fa-cogs" style="color:#3df5ff;"></i> <span style="font-family:'Orbitron';">◈ power‑ups — yearly price (K) ◈</span>
-      </div>
-      <div class="feature-grid-2060" id="featuresContainer"></div>
-    </div>
-
-    <!-- SUMMARY FUTURE (with per‑month) -->
-    <div class="summary-future" id="summaryBox">
-      <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-        <h2 style="font-size:2.4rem;"><i class="fas fa-crystal"></i> your quantum build</h2>
-        <span style="background:#002f5f; padding:0.5rem 2rem; border-radius: 60px; border:1px solid #0af;">monthly +10%</span>
-      </div>
-      <!-- yearly & monthly blocks -->
-      <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin: 2rem 0;">
-        <div class="price-block-future"><span style="font-size:1.4rem; color:#aad0ff;">yearly</span> <span class="price-main-f" id="yearlyCost">20,000 K</span></div>
-        <div class="price-block-future" style="border-left-color:#ffbb33;"><span style="font-size:1.4rem; color:#ffdb8e;">monthly</span> <span class="price-main-f" id="monthlyCost">22,000 K</span></div>
-      </div>
-      <!-- installment detail -->
-      <div class="installment-neon">
-        <div><span style="color:#cfecff;">➔ monthly you pay</span> <span class="big-neon" id="perMonthAmount">1,833 K</span> <span style="color:#b5d0ff;">/month</span></div>
-        <div><span style="color:#cfecff;">⟸ yearly total</span> <span class="big-neon" id="yearlyInstallHint">22,000 K</span></div>
-        <i class="fas fa-sync fa-spin" style="color:#6af;"></i>
-      </div>
-      <!-- selected chips -->
-      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 2rem;">
-        <span style="color:#aae0ff;"><i class="fas fa-check-circle" style="color:#0ff;"></i> add‑ons selected:</span>
-        <div class="selected-tags-area" id="selectedTags" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-        <button class="reset-f" id="resetBtn"><i class="fas fa-undo-alt"></i> reset extras</button>
-      </div>
-      <div style="margin-top: 1.5rem; color: #6d9bff; text-align: right; font-size:0.95rem;">* K = 1,000 · core 20,000 K yearly · monthly = yearly×1.1÷12</div>
-    </div>
-
-    <!-- PHONE MOCKUP 3060 -->
-    <div class="phone-3060" style="text-align:center;">
-      <h2 style="font-size:2.4rem; background: linear-gradient(145deg,#c4e6ff,#7eb9ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:1rem;"><i class="fas fa-mobile-notch"></i> live shop · 2060 demo</h2>
-      <div style="display: flex; justify-content: center;">
-        <div class="phone-frame">
-          <a href="#" class="screen-link" onclick="alert('🔮 quantum shop would open — holographic UI ready'); return false;">
-            <i class="fas fa-play-circle pulse-demo" style="font-size:5rem; color:#5ad0ff;"></i>
-            <span style="background:#004cff; padding: 10px 30px; border-radius: 60px; font-weight:700;">⟡ launch demo ⟡</span>
-            <span style="color:#aad0ff;"><i class="fas fa-hand-pointer"></i> tap to explore</span>
-            <div style="display: flex; gap: 20px; font-size: 1.5rem; color: #79d0ff;">
-              <i class="fas fa-pizza"></i> <i class="fas fa-bag-shopping"></i> <i class="fas fa-credit-card"></i>
-            </div>
-          </a>
-        </div>
-      </div>
+    <div class="stats-mini">
+      <div class="stat-item"><span class="stat-num">50+</span> <span class="stat-label">websites live</span></div>
+      <div class="stat-item"><span class="stat-num">4.9</span> <span class="stat-label">client rating</span></div>
+      <div class="stat-item"><span class="stat-num">24/7</span> <span class="stat-label">support</span></div>
     </div>
   </div>
 
-  <script>
-    (function() {
-      // features data (price in K)
-      const featuresData = [
-        { id: 'cat', name: 'catalog page', price: 2, icon: 'fa-book-open' },
-        { id: 'abt', name: 'about page', price: 2, icon: 'fa-address-card' },
-        { id: 'stat', name: 'statistics page', price: 2, icon: 'fa-chart-pie' },
-        { id: 'log', name: 'login & register', price: 5, icon: 'fa-right-to-bracket' },
-        { id: 'pay', name: 'payment methods', price: 5, icon: 'fa-credit-card' },
-        { id: 'track', name: 'order tracking', price: 5, icon: 'fa-truck' },
-        { id: 'rev', name: 'reviews & ratings', price: 3, icon: 'fa-star' },
-        { id: 'notify', name: 'notification system', price: 4, icon: 'fa-bell' },
-        { id: 'coup', name: 'coupon engine', price: 4, icon: 'fa-ticket' },
-        { id: 'multi', name: 'multi‑admin roles', price: 10, icon: 'fa-users-gear' },
-        { id: 'lang', name: 'multi language', price: 2, icon: 'fa-language' },
-        { id: 'chat', name: 'live chat AI', price: 5, icon: 'fa-comment-dots' },
-        { id: 'pwa', name: 'PWA (installable)', price: 15, icon: 'fa-mobile-screen' },
-        { id: 'inv', name: 'invoice generation', price: 4, icon: 'fa-file-invoice' },
-        { id: 'map', name: 'Google Maps', price: 0, icon: 'fa-map-location-dot' },
-        { id: 'auto', name: 'auto order assign', price: 20, icon: 'fa-robot' }
-      ];
+  <!-- about us card (more data) -->
+  <div class="about-card fade-up" style="animation-delay: 0.2s;">
+    <div class="about-text">
+      <h2><i class="fas fa-bolt" style="color:#2563eb;"></i> more than code</h2>
+      <p>Orycom builds powerful, scalable websites for restaurants, retail shops and local businesses. We combine conversion-focused design with robust admin tools. Based in 2024, we’ve helped 50+ brands double their online orders. Our packages are modular — you only pay for what you need. <br> <span style="display:inline-block; margin-top:1rem;"><i class="fas fa-medal" style="color:#f59e0b;"></i> trusted by merchants in 12 cities</span></p>
+    </div>
+    <div class="tech-stack">
+      <div class="tech-item"><i class="fab fa-react"></i> react / pwa</div>
+      <div class="tech-item"><i class="fas fa-database"></i> realtime dashboard</div>
+      <div class="tech-item"><i class="fas fa-lock"></i> secure payments</div>
+    </div>
+  </div>
 
-      const BASE_YEARLY = 20000; // K
+  <!-- base plan (yearly 20k) -->
+  <div class="base-plan fade-up" style="animation-delay: 0.3s;">
+    <div class="base-head">
+      <h3><i class="fas fa-crown" style="color:#f59e0b;"></i> essential core</h3>
+      <div class="price-chip">20,000 <small>K / year</small></div>
+    </div>
+    <div class="feature-grid">
+      <div class="core-feature"><i class="fas fa-house"></i> user home page</div>
+      <div class="core-feature"><i class="fas fa-cart-shopping"></i> order page</div>
+      <div class="core-feature"><i class="fas fa-money-bill"></i> cash only</div>
+      <div class="core-feature"><i class="fas fa-chart-simple"></i> orders data</div>
+      <div class="core-feature"><i class="fas fa-pen-to-square"></i> admin product mgmt</div>
+    </div>
+  </div>
 
-      const container = document.getElementById('featuresContainer');
-      function renderFeatures() {
-        let html = '';
-        featuresData.forEach(f => {
-          const priceDisplay = f.price === 0 ? 'free' : f.price + ' K';
-          html += `
-            <div class="feature-card-f" data-id="${f.id}">
-              <input type="checkbox" class="feature-checkbox" id="chk_${f.id}" value="${f.price}" data-id="${f.id}">
-              <i class="fas ${f.icon}" style="color:#5fd9ff; width:28px;"></i>
-              <span style="flex:1; font-weight:500;">${f.name}</span>
-              <span class="price-badge-f">${priceDisplay}</span>
+  <!-- dynamic features injected via js -->
+  <div class="features-panel fade-up" style="animation-delay: 0.4s;">
+    <div class="panel-title">
+      <i class="fa-solid fa-puzzle-piece"></i> 
+      <span>add power‑ups — yearly price (K)</span>
+    </div>
+    <div class="features-motion-grid" id="featuresContainer"></div>
+  </div>
+
+  <!-- summary with per‑month exact cost -->
+  <div class="summary-luxury fade-up" style="animation-delay: 0.5s;" id="summaryBox">
+    <div class="summary-header">
+      <h2><i class="fas fa-file-signature"></i> your tailor‑made package</h2>
+      <span class="pill-icon"><i class="fas fa-calendar-alt"></i> monthly +10%</span>
+    </div>
+
+    <!-- yearly & monthly totals -->
+    <div class="pricing-breakdown">
+      <div class="price-block yearly-block">
+        <span class="price-label-small">yearly</span>
+        <span class="price-main" id="yearlyCost">20,000 <small>K</small></span>
+      </div>
+      <div class="price-block monthly-block">
+        <span class="price-label-small">monthly</span>
+        <span class="price-main" id="monthlyCost">22,000 <small>K</small></span>
+      </div>
+    </div>
+
+    <!-- per month detail (monthly payment) -->
+    <div class="installment-note">
+      <div class="per-month"><span>💳 monthly you pay</span> <span class="big" id="perMonthAmount">1,833 K</span> <span style="color:#b3c7ff;">/month</span></div>
+      <div class="per-month"><span>📅 yearly subscription</span> <span class="big" id="yearlyInstallHint">22,000 K</span> <span style="color:#b3c7ff;">/year</span></div>
+      <i class="fas fa-info-circle" style="color:#7597d9;"></i> flexible, no hidden fees
+    </div>
+
+    <!-- selected features -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;">
+      <span style="color:#b7c7ee;"><i class="fas fa-check-circle" style="color:#3b82f6;"></i> add‑ons selected:</span>
+      <div class="selected-tags-area" id="selectedTags"></div>
+      <button class="reset-modern" id="resetBtn"><i class="fas fa-rotate-left"></i> reset extras</button>
+    </div>
+    <div class="footnote">* all prices in thousands K (K = 1,000). base 20K yearly included. monthly = yearly × 1.10 ÷ 12</div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ----- FEATURES (yearly price in K) -----
+    const featuresData = [
+      { id: 'catalog', name: 'catalog page', price: 2, icon: 'fa-book-open' },
+      { id: 'about', name: 'about page', price: 2, icon: 'fa-address-card' },
+      { id: 'stats', name: 'statistics page', price: 2, icon: 'fa-chart-pie' },
+      { id: 'login', name: 'login & register', price: 5, icon: 'fa-right-to-bracket' },
+      { id: 'payment', name: 'payment methods', price: 5, icon: 'fa-credit-card' },
+      { id: 'orderTracking', name: 'order tracking', price: 5, icon: 'fa-truck' },
+      { id: 'reviews', name: 'reviews & ratings', price: 3, icon: 'fa-star' },
+      { id: 'notify', name: 'notification system', price: 4, icon: 'fa-bell' },
+      { id: 'coupon', name: 'coupon / discount', price: 4, icon: 'fa-ticket' },
+      { id: 'multiAdmin', name: 'multi‑admin roles', price: 10, icon: 'fa-users-gear' },
+      { id: 'multiLang', name: 'multi language', price: 2, icon: 'fa-language' },
+      { id: 'liveChat', name: 'live chat', price: 5, icon: 'fa-comment-dots' },
+      { id: 'pwa', name: 'PWA (installable)', price: 15, icon: 'fa-mobile-screen' },
+      { id: 'invoice', name: 'invoice generation', price: 4, icon: 'fa-file-invoice' },
+      { id: 'maps', name: 'Google Maps', price: 0, icon: 'fa-map-location-dot' },
+      { id: 'autoAssign', name: 'auto order assign', price: 20, icon: 'fa-robot' }
+    ];
+
+    const BASE_YEARLY = 20000;   // K
+
+    const container = document.getElementById('featuresContainer');
+    function renderFeatures() {
+      let html = '';
+      featuresData.forEach(f => {
+        const priceDisplay = f.price === 0 ? 'free' : f.price + ' K';
+        html += `
+          <div class="feature-card" data-id="${f.id}">
+            <input type="checkbox" class="feature-checkbox" id="chk_${f.id}" value="${f.price}" data-id="${f.id}">
+            <div class="feature-detail">
+              <span class="name"><i class="fas ${f.icon}"></i> ${f.name}</span>
+              <span class="feature-price-badge">${priceDisplay}</span>
             </div>
-          `;
-        });
-        container.innerHTML = html;
-      }
-      renderFeatures();
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+    renderFeatures();
 
-      const checkboxes = document.querySelectorAll('.feature-checkbox');
-      const yearlySpan = document.getElementById('yearlyCost');
-      const monthlySpan = document.getElementById('monthlyCost');
-      const perMonthSpan = document.getElementById('perMonthAmount');
-      const yearlyInstallHint = document.getElementById('yearlyInstallHint');
-      const selectedTagsDiv = document.getElementById('selectedTags');
+    const checkboxes = document.querySelectorAll('.feature-checkbox');
+    const yearlySpan = document.getElementById('yearlyCost');
+    const monthlySpan = document.getElementById('monthlyCost');
+    const perMonthSpan = document.getElementById('perMonthAmount');
+    const yearlyInstallHint = document.getElementById('yearlyInstallHint');
+    const selectedTagsDiv = document.getElementById('selectedTags');
 
-      function formatNumber(num) {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      }
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 
-      function updateSummary() {
-        let totalAddonsK = 0;
-        const selectedNames = [];
+    function updateSummary() {
+      let totalAddonsK = 0;
+      const selectedNames = [];
 
-        checkboxes.forEach(cb => {
-          if (cb.checked) {
-            const priceK = parseInt(cb.value, 10);
-            totalAddonsK += priceK;
-            const parent = cb.closest('.feature-card-f');
-            const nameSpan = parent?.querySelector('span:nth-of-type(1)')?.innerText || 'feature';
-            selectedNames.push(nameSpan);
-          }
-        });
-
-        const yearlyTotalK = BASE_YEARLY + totalAddonsK * 1000;   // because price K *1000
-        const monthlyTotalK = Math.round(yearlyTotalK * 1.10);     // yearly total +10%
-        const perMonthK = Math.round(monthlyTotalK / 12);         // monthly payment
-
-        yearlySpan.innerHTML = formatNumber(yearlyTotalK) + ' <small style="font-size:1.2rem;">K</small>';
-        monthlySpan.innerHTML = formatNumber(monthlyTotalK) + ' <small style="font-size:1.2rem;">K</small>';
-        perMonthSpan.innerText = formatNumber(perMonthK) + ' K';
-        yearlyInstallHint.innerText = formatNumber(monthlyTotalK) + ' K';
-
-        // chips
-        let chips = '';
-        if (selectedNames.length === 0) chips = '<span style="color:#7aa5d9;">none</span>';
-        else {
-          selectedNames.forEach(n => {
-            chips += `<span class="selected-chip-f"><i class="fas fa-plus-circle"></i> ${n}</span>`;
-          });
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          const priceK = parseInt(cb.value, 10);
+          totalAddonsK += priceK;
+          const parent = cb.closest('.feature-card');
+          const nameSpan = parent?.querySelector('.name')?.innerText?.trim() || 'feature';
+          selectedNames.push(nameSpan);
         }
-        selectedTagsDiv.innerHTML = chips;
-      }
+      });
 
+      const yearlyTotalK = BASE_YEARLY + totalAddonsK * 1000;   // because price K *1000
+      const monthlyTotalK = Math.round(yearlyTotalK * 1.10);     // yearly total +10%
+      const perMonthK = Math.round(monthlyTotalK / 12);          // what customer pays each month
+
+      yearlySpan.innerHTML = formatNumber(yearlyTotalK) + ' <small>K</small>';
+      monthlySpan.innerHTML = formatNumber(monthlyTotalK) + ' <small>K</small>';
+      perMonthSpan.innerText = formatNumber(perMonthK) + ' K';
+      yearlyInstallHint.innerText = formatNumber(monthlyTotalK) + ' K';
+
+      // chips
+      let chips = '';
+      if (selectedNames.length === 0) chips = '<span style="color:#8497bb;">none</span>';
+      else {
+        selectedNames.forEach(n => {
+          chips += `<span class="selected-chip"><i class="fas fa-plus"></i> ${n}</span>`;
+        });
+      }
+      selectedTagsDiv.innerHTML = chips;
+    }
+
+    updateSummary();
+    checkboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      checkboxes.forEach(cb => cb.checked = false);
       updateSummary();
-      checkboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+    });
+  })();
+</script>
+<!-- Phone Frame Mockup Section -->
+<div style="margin: 4rem auto; max-width: 1200px; padding: 0 1rem; text-align: center; font-family: 'Inter', sans-serif;">
+  <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem; background: linear-gradient(145deg, #0f172a, #2563eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+    <i class="fas fa-mobile-alt" style="margin-right: 12px;"></i>See a Live Sample
+  </h2>
+  <p style="color: #334155; margin-bottom: 2.5rem; font-size: 1.1rem;">
+    Click the phone screen to open and scroll through our shop demo.
+  </p>
 
-      document.getElementById('resetBtn').addEventListener('click', () => {
-        checkboxes.forEach(cb => cb.checked = false);
-        updateSummary();
-      });
-
-      // Neuro grid canvas (fast moving)
-      const canvas = document.getElementById('neuroGrid');
-      const ctx = canvas.getContext('2d');
-      let w = window.innerWidth, h = window.innerHeight;
-      canvas.width = w; canvas.height = h;
-
-      function drawGrid() {
-        ctx.clearRect(0, 0, w, h);
-        ctx.strokeStyle = '#40a0ff20';
-        ctx.lineWidth = 0.7;
-        const step = 45;
-        const time = Date.now() / 1000;
-        for (let i = 0; i < w + step; i += step) {
-          ctx.beginPath();
-          ctx.moveTo(i + Math.sin(time) * 10, 0);
-          ctx.lineTo(i + Math.cos(time*1.3) * 20, h);
-          ctx.strokeStyle = `#${Math.floor(80 + 40 * Math.sin(i/200 + time))}a0ff40`;
-          ctx.stroke();
-        }
-        for (let i = 0; i < h + step; i += step) {
-          ctx.beginPath();
-          ctx.moveTo(0, i + Math.cos(time*0.7) * 15);
-          ctx.lineTo(w, i + Math.sin(time*0.9) * 15);
-          ctx.strokeStyle = `#${Math.floor(90 + 30 * Math.cos(i/300 + time))}c0ff50`;
-          ctx.stroke();
-        }
-        requestAnimationFrame(drawGrid);
-      }
-      drawGrid();
-
-      window.addEventListener('resize', () => {
-        w = window.innerWidth; h = window.innerHeight;
-        canvas.width = w; canvas.height = h;
-      });
-    })();
-  </script>
-  <!-- extra note: fully responsive 2060 -->
-  <div style="text-align:center; color:#85b9ff; padding: 2rem; font-size:1rem;">⚡ orycom 2060 — quantum edge · all devices resized ⚡</div>
+  <!-- Interactive Phone Frame -->
+  <div style="display: flex; justify-content: center; perspective: 1200px;">
+    <div style="position: relative; width: 320px; height: 640px; background: #1a1a1a; border-radius: 48px; padding: 12px 6px; box-shadow: 0 50px 70px -20px rgba(0,0,0,0.5), 0 0 0 8px #3a3a3a, 0 0 0 12px #1e1e1e; transition: transform 0.3s ease; transform: rotateY(-2deg) rotateX(2deg);">
+      <!-- Camera / Speaker -->
+      <div style="position: absolute; top: 16px; left: 50%; transform: translateX(-50%); width: 120px; height: 28px; background: #111; border-radius: 20px; z-index: 10; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <div style="width: 12px; height: 12px; background: #2a6df4; border-radius: 50%; box-shadow: 0 0 5px #2a6df4;"></div>
+        <div style="width: 40px; height: 6px; background: #222; border-radius: 10px;"></div>
+      </div>
+      
+      <!-- Screen (Clickable Link) -->
+      <a href="https://www.orycom.com/Pages/Shop.html" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; height: 100%; border-radius: 40px; overflow: hidden; border: 2px solid #333; text-decoration: none; cursor: pointer;">
+        <div style="width: 100%; height: 100%; background: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s;">
+          <!-- Live Preview Simulation -->
+          <i class="fas fa-play-circle" style="font-size: 4rem; color: #2563eb; opacity: 0.8;"></i>
+          <span style="background: #2563eb; color: white; padding: 8px 24px; border-radius: 40px; font-weight: 600; letter-spacing: 0.5px;">Live Demo</span>
+          <span style="color: #4b5563; font-size: 0.9rem;">Tap to open and scroll</span>
+          <div style="display: flex; gap: 12px; margin-top: 10px; color: #2563eb80;">
+            <i class="fas fa-utensils"></i>
+            <i class="fas fa-burger"></i>
+            <i class="fas fa-cart-shopping"></i>
+          </div>
+          <!-- Preview Dots (simulating page content) -->
+          <div style="width: 80%; height: 4px; background: #ddd; border-radius: 4px; margin-top: 10px;"></div>
+          <div style="width: 70%; height: 4px; background: #eee; border-radius: 4px;"></div>
+          <div style="width: 60%; height: 4px; background: #f0f0f0; border-radius: 4px;"></div>
+        </div>
+      </a>
+      
+      <!-- Home Button -->
+      <div style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); width: 45%; height: 5px; background: #444; border-radius: 10px;"></div>
+    </div>
+  </div>
+  
+  <!-- Instruction Note -->
+  <p style="margin-top: 2rem; color: #4b5563; font-size: 0.95rem;">
+    <i class="fas fa-arrow-up" style="color: #2563eb; margin-right: 6px;"></i>
+    The link opens in a new tab — you can scroll and explore the full shop interface.
+  </p>
+</div>
 </body>
 </html>
