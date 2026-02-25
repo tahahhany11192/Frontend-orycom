@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORYCOM 2060 · quantum pricing</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Inter + Space Grotesk + Orbitron (future) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0e19;
+      font-family: 'Inter', sans-serif;
+      color: #e0f0ff;
+      line-height: 1.5;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* 2060 NEOBG – hyper-dimensional motion */
+    .hyper-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 30%, #1b2f5e 0%, #030514 100%);
+      z-index: -3;
+    }
+    canvas#neuroGrid {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -2;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    /* floating quantum orbs – fast motion */
+    .quantum-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(70px);
+      z-index: -1;
+      mix-blend-mode: soft-light;
+      animation: quantumFloat 12s infinite alternate cubic-bezier(0.3, 1.2, 0.8, 1.1);
+    }
+    .qorb1 { width: 550px; height: 550px; background: #00c6ff60; top: -200px; right: -100px; }
+    .qorb2 { width: 600px; height: 600px; background: #aa5aff60; bottom: -250px; left: -150px; animation-delay: -3s; }
+    .qorb3 { width: 400px; height: 400px; background: #ffb86c60; top: 40%; left: 30%; animation-duration: 18s; filter: blur(90px); }
+
+    @keyframes quantumFloat {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      100% { transform: translate(70px, -50px) scale(1.4) rotate(10deg); }
+    }
+
+    /* container fluid */
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem 2.5rem 4rem;
+      position: relative;
+      backdrop-filter: blur(2px);
+    }
+
+    /* neo glassmorphism + future border */
+    .glass-panel {
+      background: rgba(8, 20, 40, 0.35);
+      backdrop-filter: blur(16px) saturate(200%);
+      -webkit-backdrop-filter: blur(16px) saturate(200%);
+      border: 1px solid rgba(90, 180, 255, 0.3);
+      border-radius: 48px;
+      box-shadow: 0 25px 60px -10px #00000080, 0 0 0 1px rgba(0, 255, 255, 0.1) inset;
+      transition: all 0.25s;
+    }
+    .glass-panel:hover {
+      border-color: #4ab5ff80;
+      box-shadow: 0 30px 70px -5px #0066ff60, 0 0 20px #0088ff30 inset;
+    }
+
+    /* hero area */
+    .hero-2060 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      padding: 2rem 2.5rem;
+      background: rgba(0, 15, 40, 0.4);
+      backdrop-filter: blur(20px);
+      border-radius: 80px;
+      border: 1px solid #4f9eff40;
+      box-shadow: 0 20px 40px -15px #00000080;
+    }
+    .brandQuantum {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .hologram-logo {
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(145deg, #0026b3, #b300ff);
+      border-radius: 30px 10px 30px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: white;
+      text-shadow: 0 0 15px cyan;
+      box-shadow: 0 0 30px #0055ff, 0 20px 30px -10px #000;
+      transform: rotate(2deg);
+      animation: hologlitch 4s infinite steps(1);
+    }
+    @keyframes hologlitch {
+      0%,100% { transform: skew(0deg); opacity:1; }
+      2% { transform: skew(3deg) scale(1.02); text-shadow: -3px 0 red; }
+      4% { transform: skew(-2deg); text-shadow: 3px 0 blue; }
+    }
+    .company h1 {
+      font-size: 3.4rem;
+      font-weight: 800;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #a0e9ff, #3e7eff, #c473ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    .tagline-2060 {
+      display: flex;
+      gap: 30px;
+      font-size: 1.3rem;
+      color: #b0d5ff;
+    }
+    .tagline-2060 i {
+      color: #ffbb4a;
+      text-shadow: 0 0 8px orange;
+    }
+
+    .hud-stats {
+      display: flex;
+      gap: 3rem;
+      background: rgba(0,255,255,0.08);
+      padding: 1.3rem 2.5rem;
+      border-radius: 100px;
+      border: 1px solid #30a0ff;
+      backdrop-filter: blur(10px);
+    }
+    .stat-num {
+      font-size: 2.3rem;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #aaf0ff;
+      text-shadow: 0 0 10px #0af;
+    }
+
+    /* about card 2060 */
+    .about-quantum {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      background: rgba(10, 25, 55, 0.5);
+      backdrop-filter: blur(18px);
+      border-radius: 60px;
+      border: 1px solid #42a5ff60;
+    }
+    .about-quantum h2 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .about-quantum p {
+      color: #ceecff;
+      font-size: 1.15rem;
+    }
+    .tech-stack-future {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .tech-item-f {
+      background: rgba(0, 100, 255, 0.2);
+      border-radius: 60px;
+      padding: 0.9rem 2rem;
+      border-left: 6px solid #2ef7ff;
+      font-weight: 600;
+      backdrop-filter: blur(5px);
+      font-size: 1.2rem;
+    }
+
+    /* core plan */
+    .core-plan {
+      padding: 2rem 2.5rem;
+      margin: 2.5rem 0;
+    }
+    .price-neon {
+      background: #00122e;
+      border: 2px solid #1eb0ff;
+      border-radius: 60px;
+      padding: 0.8rem 2.5rem;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #c3fcff;
+      box-shadow: 0 0 30px #00b7ff;
+    }
+
+    /* feature grid — fast cards */
+    .feature-grid-2060 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      padding: 2rem 0;
+    }
+    .feature-card-f {
+      background: rgba(0, 40, 70, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid #00dcff40;
+      border-radius: 40px;
+      padding: 1.3rem 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: all 0.15s cubic-bezier(0.2,1,0.3,1);
+      box-shadow: 0 8px 20px -10px #000;
+    }
+    .feature-card-f:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: #103a62b0;
+      border-color: #00f2ff;
+      box-shadow: 0 0 30px #0af;
+    }
+    .feature-card-f input[type=checkbox] {
+      width: 26px; height: 26px;
+      accent-color: #00ddff;
+      border-radius: 8px;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #0ff;
+    }
+    .price-badge-f {
+      background: #001d3d;
+      border: 1px solid cyan;
+      border-radius: 40px;
+      padding: 0.3rem 1.2rem;
+      color: #b7f0ff;
+      font-weight: 700;
+    }
+
+    /* summary – total immersion */
+    .summary-future {
+      background: rgba(0, 12, 30, 0.7);
+      backdrop-filter: blur(25px);
+      border: 2px solid #0af;
+      border-radius: 70px;
+      padding: 2.5rem 3rem;
+      margin-top: 3rem;
+      box-shadow: 0 50px 80px -20px #000, 0 0 70px #0044ff;
+    }
+    .price-block-future {
+      background: #021c33;
+      border-radius: 50px;
+      padding: 0.8rem 2.2rem;
+      border-left: 8px solid #2ad4ff;
+    }
+    .price-main-f {
+      font-size: 3.2rem;
+      font-weight: 800;
+      font-family: 'Space Grotesk';
+      background: linear-gradient(135deg, #fff, #9fd9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .installment-neon {
+      background: #02223b;
+      border-radius: 60px;
+      padding: 1.3rem 2.5rem;
+      border: 1px dashed #0ff;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 35px;
+      align-items: baseline;
+    }
+    .big-neon {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fbff47;
+      text-shadow: 0 0 10px #f0f;
+    }
+    .selected-chip-f {
+      background: #0a4a8a60;
+      border: 1px solid #4de1ff;
+      border-radius: 60px;
+      padding: 0.5rem 1.8rem;
+      color: #d2f5ff;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+    }
+    .reset-f {
+      background: transparent;
+      border: 2px solid #00b7ff;
+      color: #b1ebff;
+      padding: 0.6rem 2.5rem;
+      border-radius: 60px;
+      font-weight: 600;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .reset-f:hover {
+      background: #006eff30;
+      border-color: cyan;
+      box-shadow: 0 0 20px cyan;
+    }
+
+    /* phone mockup 3060 */
+    .phone-3060 {
+      margin: 6rem auto 2rem;
+      perspective: 2000px;
+    }
+    .phone-frame {
+      width: 340px;
+      height: 680px;
+      background: #111a28;
+      border-radius: 70px;
+      padding: 15px 8px;
+      border: 3px solid #00c3ff;
+      box-shadow: 0 60px 100px -20px #000, 0 0 0 8px #2a3b55, 0 0 50px #0af;
+      transform: rotateY(-8deg) rotateX(5deg);
+      transition: 0.4s;
+    }
+    .phone-frame:hover {
+      transform: rotateY(-3deg) rotateX(2deg) scale(1.02);
+      box-shadow: 0 80px 120px -10px #0044ff;
+    }
+    .screen-link {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(145deg, #0a1b2f, #02182b);
+      border-radius: 50px;
+      height: 100%;
+      border: 2px solid #31b0ff;
+      color: white;
+      font-size: 1.3rem;
+      gap: 20px;
+    }
+    .pulse-demo {
+      animation: softPulse 2s infinite;
+    }
+    @keyframes softPulse {
+      0% { text-shadow: 0 0 10px cyan; }
+      50% { text-shadow: 0 0 30px #ffae00; }
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      .container { padding: 1rem; }
+      .hero-2060 { flex-direction: column; align-items: start; }
+      .price-neon { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hyper-bg"></div>
+  <canvas id="neuroGrid"></canvas>
+  <div class="quantum-orb qorb1"></div>
+  <div class="quantum-orb qorb2"></div>
+  <div class="quantum-orb qorb3"></div>
+
+  <div class="container">
+    <!-- HERO - 2060 -->
+    <div class="hero-2060">
+      <div class="brandQuantum">
+        <div class="hologram-logo">◉</div>
+        <div class="company">
+          <h1>ORYCOM <span style="font-size:2rem;">⍟</span></h1>
+          <div class="tagline-2060">
+            <span><i class="fas fa-cube"></i> quantum retail</span>
+            <span><i class="fas fa-satellite-dish"></i> immersive AI</span>
+          </div>
+        </div>
+      </div>
+      <div class="hud-stats">
+        <div><span class="stat-num">128+</span> <span style="color:#b8dcff;">worlds</span></div>
+        <div><span class="stat-num">4.98</span> <span style="color:#b8dcff;">neural rating</span></div>
+        <div><span class="stat-num">∞</span> <span style="color:#b8dcff;">uptime</span></div>
+      </div>
+    </div>
+
+    <!-- ABOUT QUANTUM -->
+    <div class="about-quantum glass-panel">
+      <div style="flex:2">
+        <h2><i class="fas fa-microchip" style="color:#5ad0ff;"></i> beyond code · 2060 stack</h2>
+        <p>Orycom builds hyper‑scalable digital consciousness for restaurants, shops, and meta‑businesses. 100+ quantum nodes, real‑time adaptive UX. This is not a simple website — it’s a living brand universe.<br> <i class="fas fa-crown" style="color:#ffb347;"></i> trusted by 42 intergalactic merchants</p>
+      </div>
+      <div class="tech-stack-future">
+        <div class="tech-item-f"><i class="fas fa-atom"></i> react 19 / holographic</div>
+        <div class="tech-item-f"><i class="fas fa-chart-line"></i> quantum analytics</div>
+        <div class="tech-item-f"><i class="fas fa-robot"></i> neural payment core</div>
+      </div>
+    </div>
+
+    <!-- CORE PLAN (20,000 K) -->
+    <div class="core-plan glass-panel">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+        <h3 style="font-size:2.4rem;"><i class="fas fa-crown" style="color:#ffd966;"></i> core singularity</h3>
+        <div class="price-neon">20,000 <span style="font-size:1.5rem;">K</span> <span style="font-size:1.2rem;">/ year</span></div>
+      </div>
+      <div class="feature-grid-2060" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); margin-top:1.5rem;">
+        <div class="feature-card-f"><i class="fas fa-house-flood"></i> home portal</div>
+        <div class="feature-card-f"><i class="fas fa-cart-flatbed"></i> order matrix</div>
+        <div class="feature-card-f"><i class="fas fa-coins"></i> cash + crypto</div>
+        <div class="feature-card-f"><i class="fas fa-chart-gantt"></i> data hive</div>
+        <div class="feature-card-f"><i class="fas fa-pen-fancy"></i> admin AI</div>
+      </div>
+    </div>
+
+    <!-- DYNAMIC FEATURES (INJECTED) -->
+    <div class="glass-panel" style="padding: 2rem 2.5rem; margin: 2rem 0;">
+      <div class="panel-title" style="display: flex; gap:15px; font-size:2rem; margin-bottom: 2rem;">
+        <i class="fas fa-cogs" style="color:#3df5ff;"></i> <span style="font-family:'Orbitron';">◈ power‑ups — yearly price (K) ◈</span>
+      </div>
+      <div class="feature-grid-2060" id="featuresContainer"></div>
+    </div>
+
+    <!-- SUMMARY FUTURE (with per‑month) -->
+    <div class="summary-future" id="summaryBox">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+        <h2 style="font-size:2.4rem;"><i class="fas fa-crystal"></i> your quantum build</h2>
+        <span style="background:#002f5f; padding:0.5rem 2rem; border-radius: 60px; border:1px solid #0af;">monthly +10%</span>
+      </div>
+      <!-- yearly & monthly blocks -->
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin: 2rem 0;">
+        <div class="price-block-future"><span style="font-size:1.4rem; color:#aad0ff;">yearly</span> <span class="price-main-f" id="yearlyCost">20,000 K</span></div>
+        <div class="price-block-future" style="border-left-color:#ffbb33;"><span style="font-size:1.4rem; color:#ffdb8e;">monthly</span> <span class="price-main-f" id="monthlyCost">22,000 K</span></div>
+      </div>
+      <!-- installment detail -->
+      <div class="installment-neon">
+        <div><span style="color:#cfecff;">➔ monthly you pay</span> <span class="big-neon" id="perMonthAmount">1,833 K</span> <span style="color:#b5d0ff;">/month</span></div>
+        <div><span style="color:#cfecff;">⟸ yearly total</span> <span class="big-neon" id="yearlyInstallHint">22,000 K</span></div>
+        <i class="fas fa-sync fa-spin" style="color:#6af;"></i>
+      </div>
+      <!-- selected chips -->
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 2rem;">
+        <span style="color:#aae0ff;"><i class="fas fa-check-circle" style="color:#0ff;"></i> add‑ons selected:</span>
+        <div class="selected-tags-area" id="selectedTags" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+        <button class="reset-f" id="resetBtn"><i class="fas fa-undo-alt"></i> reset extras</button>
+      </div>
+      <div style="margin-top: 1.5rem; color: #6d9bff; text-align: right; font-size:0.95rem;">* K = 1,000 · core 20,000 K yearly · monthly = yearly×1.1÷12</div>
+    </div>
+
+    <!-- PHONE MOCKUP 3060 -->
+    <div class="phone-3060" style="text-align:center;">
+      <h2 style="font-size:2.4rem; background: linear-gradient(145deg,#c4e6ff,#7eb9ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:1rem;"><i class="fas fa-mobile-notch"></i> live shop · 2060 demo</h2>
+      <div style="display: flex; justify-content: center;">
+        <div class="phone-frame">
+          <a href="#" class="screen-link" onclick="alert('🔮 quantum shop would open — holographic UI ready'); return false;">
+            <i class="fas fa-play-circle pulse-demo" style="font-size:5rem; color:#5ad0ff;"></i>
+            <span style="background:#004cff; padding: 10px 30px; border-radius: 60px; font-weight:700;">⟡ launch demo ⟡</span>
+            <span style="color:#aad0ff;"><i class="fas fa-hand-pointer"></i> tap to explore</span>
+            <div style="display: flex; gap: 20px; font-size: 1.5rem; color: #79d0ff;">
+              <i class="fas fa-pizza"></i> <i class="fas fa-bag-shopping"></i> <i class="fas fa-credit-card"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // features data (price in K)
+      const featuresData = [
+        { id: 'cat', name: 'catalog page', price: 2, icon: 'fa-book-open' },
+        { id: 'abt', name: 'about page', price: 2, icon: 'fa-address-card' },
+        { id: 'stat', name: 'statistics page', price: 2, icon: 'fa-chart-pie' },
+        { id: 'log', name: 'login & register', price: 5, icon: 'fa-right-to-bracket' },
+        { id: 'pay', name: 'payment methods', price: 5, icon: 'fa-credit-card' },
+        { id: 'track', name: 'order tracking', price: 5, icon: 'fa-truck' },
+        { id: 'rev', name: 'reviews & ratings', price: 3, icon: 'fa-star' },
+        { id: 'notify', name: 'notification system', price: 4, icon: 'fa-bell' },
+        { id: 'coup', name: 'coupon engine', price: 4, icon: 'fa-ticket' },
+        { id: 'multi', name: 'multi‑admin roles', price: 10, icon: 'fa-users-gear' },
+        { id: 'lang', name: 'multi language', price: 2, icon: 'fa-language' },
+        { id: 'chat', name: 'live chat AI', price: 5, icon: 'fa-comment-dots' },
+        { id: 'pwa', name: 'PWA (installable)', price: 15, icon: 'fa-mobile-screen' },
+        { id: 'inv', name: 'invoice generation', price: 4, icon: 'fa-file-invoice' },
+        { id: 'map', name: 'Google Maps', price: 0, icon: 'fa-map-location-dot' },
+        { id: 'auto', name: 'auto order assign', price: 20, icon: 'fa-robot' }
+      ];
+
+      const BASE_YEARLY = 20000; // K
+
+      const container = document.getElementById('featuresContainer');
+      function renderFeatures() {
+        let html = '';
+        featuresData.forEach(f => {
+          const priceDisplay = f.price === 0 ? 'free' : f.price + ' K';
+          html += `
+            <div class="feature-card-f" data-id="${f.id}">
+              <input type="checkbox" class="feature-checkbox" id="chk_${f.id}" value="${f.price}" data-id="${f.id}">
+              <i class="fas ${f.icon}" style="color:#5fd9ff; width:28px;"></i>
+              <span style="flex:1; font-weight:500;">${f.name}</span>
+              <span class="price-badge-f">${priceDisplay}</span>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      }
+      renderFeatures();
+
+      const checkboxes = document.querySelectorAll('.feature-checkbox');
+      const yearlySpan = document.getElementById('yearlyCost');
+      const monthlySpan = document.getElementById('monthlyCost');
+      const perMonthSpan = document.getElementById('perMonthAmount');
+      const yearlyInstallHint = document.getElementById('yearlyInstallHint');
+      const selectedTagsDiv = document.getElementById('selectedTags');
+
+      function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+
+      function updateSummary() {
+        let totalAddonsK = 0;
+        const selectedNames = [];
+
+        checkboxes.forEach(cb => {
+          if (cb.checked) {
+            const priceK = parseInt(cb.value, 10);
+            totalAddonsK += priceK;
+            const parent = cb.closest('.feature-card-f');
+            const nameSpan = parent?.querySelector('span:nth-of-type(1)')?.innerText || 'feature';
+            selectedNames.push(nameSpan);
+          }
+        });
+
+        const yearlyTotalK = BASE_YEARLY + totalAddonsK * 1000;   // because price K *1000
+        const monthlyTotalK = Math.round(yearlyTotalK * 1.10);     // yearly total +10%
+        const perMonthK = Math.round(monthlyTotalK / 12);         // monthly payment
+
+        yearlySpan.innerHTML = formatNumber(yearlyTotalK) + ' <small style="font-size:1.2rem;">K</small>';
+        monthlySpan.innerHTML = formatNumber(monthlyTotalK) + ' <small style="font-size:1.2rem;">K</small>';
+        perMonthSpan.innerText = formatNumber(perMonthK) + ' K';
+        yearlyInstallHint.innerText = formatNumber(monthlyTotalK) + ' K';
+
+        // chips
+        let chips = '';
+        if (selectedNames.length === 0) chips = '<span style="color:#7aa5d9;">none</span>';
+        else {
+          selectedNames.forEach(n => {
+            chips += `<span class="selected-chip-f"><i class="fas fa-plus-circle"></i> ${n}</span>`;
+          });
+        }
+        selectedTagsDiv.innerHTML = chips;
+      }
+
+      updateSummary();
+      checkboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        checkboxes.forEach(cb => cb.checked = false);
+        updateSummary();
+      });
+
+      // Neuro grid canvas (fast moving)
+      const canvas = document.getElementById('neuroGrid');
+      const ctx = canvas.getContext('2d');
+      let w = window.innerWidth, h = window.innerHeight;
+      canvas.width = w; canvas.height = h;
+
+      function drawGrid() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = '#40a0ff20';
+        ctx.lineWidth = 0.7;
+        const step = 45;
+        const time = Date.now() / 1000;
+        for (let i = 0; i < w + step; i += step) {
+          ctx.beginPath();
+          ctx.moveTo(i + Math.sin(time) * 10, 0);
+          ctx.lineTo(i + Math.cos(time*1.3) * 20, h);
+          ctx.strokeStyle = `#${Math.floor(80 + 40 * Math.sin(i/200 + time))}a0ff40`;
+          ctx.stroke();
+        }
+        for (let i = 0; i < h + step; i += step) {
+          ctx.beginPath();
+          ctx.moveTo(0, i + Math.cos(time*0.7) * 15);
+          ctx.lineTo(w, i + Math.sin(time*0.9) * 15);
+          ctx.strokeStyle = `#${Math.floor(90 + 30 * Math.cos(i/300 + time))}c0ff50`;
+          ctx.stroke();
+        }
+        requestAnimationFrame(drawGrid);
+      }
+      drawGrid();
+
+      window.addEventListener('resize', () => {
+        w = window.innerWidth; h = window.innerHeight;
+        canvas.width = w; canvas.height = h;
+      });
+    })();
+  </script>
+  <!-- extra note: fully responsive 2060 -->
+  <div style="text-align:center; color:#85b9ff; padding: 2rem; font-size:1rem;">⚡ orycom 2060 — quantum edge · all devices resized ⚡</div>
+</body>
+</html>
