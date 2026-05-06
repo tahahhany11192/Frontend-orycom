@@ -1,904 +1,893 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-    <link rel="icon" type="image/jpg" href="../../uploads/orycomLogo.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orycom - Educational Excellence</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6a5af9;
-            --secondary: #d66efd;
-            --accent: #ff8c8c;
-            --light: #f7f9fc;
-            --dark: #2d3748;
-            --success: #4ade80;
-            --warning: #fbbf24;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-            --shadow: 0 10px 20px rgba(0,0,0,0.1);
-            --radius: 16px;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        body {
-            background-color: #f0f5ff;
-            background-image: radial-gradient(#d66efd33 1px, transparent 1px), 
-                              radial-gradient(#6a5af933 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-            color: var(--dark);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-        
-        /* Header Styles */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 0.5rem 2rem;
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ORYCOM | Data-Driven Media & Performance Agency</title>
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-        }
-        
-        nav ul li {
-            position: relative;
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 600;
-            padding: 0.8rem 1rem;
-            border-radius: var(--radius);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        nav ul li a:hover {
-            background: var(--gradient);
-            color: white;
-            transform: translateY(-3px);
-        }
-        
-        .dropdown {
-            position: relative;
-        }
-        
-        .dropdown-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            min-width: 220px;
-            padding: 1rem 0;
-            display: none;
-            z-index: 10;
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        .dropdown-content a {
-            padding: 0.7rem 1.5rem;
-            display: block;
-            color: var(--dark);
-            transition: all 0.2s ease;
-        }
-        
-        .dropdown-content a:hover {
-            background: rgba(106, 90, 249, 0.1);
-            transform: translateX(5px);
-            color: var(--primary);
-        }
-        
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        
-        .profile-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .login-btn, .Register-btn {
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid var(--primary);
-            background: white;
-            color: var(--primary);
-        }
-        
-        .login-btn:hover, .Register-btn:hover {
-            background: var(--gradient);
-            color: white;
-            transform: translateY(-3px);
-            border-color: transparent;
-        }
-        
-        .profile-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .profile-icon:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 5px 15px rgba(106, 90, 249, 0.4);
-        }
-        
-        /* Hero Section */
-        .hero {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 3rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
-        
-        .hero-content {
-            flex: 1;
-            animation: fadeInUp 1s ease-out;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 800;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: #4a5568;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            line-height: 1.7;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .btn-primary {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            box-shadow: 0 10px 20px rgba(106, 90, 249, 0.3);
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 25px rgba(106, 90, 249, 0.4);
-        }
-        
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .hero-image-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-        }
-        
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            z-index: -1;
-        }
-        
-        .shape-1 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #ff8c8c, #ffc58c);
-            top: -50px;
-            left: -50px;
-            animation: pulse 4s infinite;
-        }
-        
-        .shape-2 {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, #6a5af9, #d66efd);
-            bottom: -30px;
-            right: -30px;
-            animation: pulse 5s infinite;
-        }
-        
-        .main-image {
-            position: relative;
-            background: white;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            border: 10px solid white;
-            z-index: 2;
-        }
-        
-        .main-image img {
-            width: 100%;
-            display: block;
-        }
-        
-        /* Features Section */
-        .features {
-            max-width: 1400px;
-            margin: 5rem auto;
-            padding: 0 2rem;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient);
-            z-index: 2;
-        }
-        
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: rgba(106, 90, 249, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--primary);
-        }
-        
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .feature-card p {
-            color: #718096;
-            line-height: 1.6;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 4rem 2rem 2rem;
-            margin-top: 5rem;
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        
-        .footer-column h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--gradient);
-            border-radius: 10px;
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-links a {
-            text-decoration: none;
-            color: #a0aec0;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .social-icon:hover {
-            background: var(--gradient);
-            transform: translateY(-5px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 3rem;
-            color: #a0aec0;
-            font-size: 0.9rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        @keyframes logoFloat {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .hero-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .cta-buttons {
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            nav ul {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .header-container {
-                padding: 0.5rem 1rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .hero {
-                padding: 2rem 1rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--dark);
-            cursor: pointer;
-        }
-        
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 1000;
-            padding: 2rem;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        
-        .mobile-menu.active {
-            transform: translateX(0);
-        }
-        
-        .mobile-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .close-menu {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--dark);
-            cursor: pointer;
-        }
-        
-        .mobile-nav ul {
-            list-style: none;
-        }
-        
-        .mobile-nav ul li {
-            margin-bottom: 1rem;
-        }
-        
-        .mobile-nav ul li a {
-            text-decoration: none;
-            color: var(--dark);
-            font-size: 1.2rem;
-            font-weight: 500;
-            display: block;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-        }
-    .logo {
-  display: flex;
-  align-items: center;
-animation: logoFloat 4s ease-in-out infinite;
-}
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A0F1E;
+      color: #F5F7FA;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
+    h1, h2, h3, h4, h5 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
 
-.logo img {
-  height: 68px; /* Adjust as needed */
-  width: auto;
-  margin-right: 10px; /* Space between logo and text */
-}
+    :root {
+      --primary-dark: #0B2B36;
+      --primary-teal: #124750;
+      --primary-orange: #F59A20;
+      --orange-accent: #FF9F2E;
+      --text: #F5F7FA;
+      --text-light: #B8C1D9;
+      --card-bg: rgba(18, 71, 80, 0.15);
+      --border: rgba(245, 154, 32, 0.25);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s ease;
+    }
 
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
+    header {
+      background: rgba(11, 43, 54, 0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(245, 154, 32, 0.3);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-img {
+      width: 300px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .logo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      align-items: center;
+    }
+
+    nav ul li a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav ul li a:hover {
+      color: var(--primary-orange);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--primary-orange);
+      color: #0B2B36;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(245, 154, 32, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--primary-orange);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      background: rgba(245, 154, 32, 0.1);
+      transform: translateY(-2px);
+      border-color: var(--orange-accent);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 160px 0 100px;
+      background: linear-gradient(135deg, #0B2B36 0%, #0A1F28 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.05;
+      z-index: 0;
+    }
+
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content {
+      flex: 1.2;
+      max-width: 600px;
+    }
+
+    .hero-video-container {
+      flex: 0.8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .vertical-video-card {
+      background: #0B2B36;
+      border-radius: 32px;
+      padding: 10px;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(245, 154, 32, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .vertical-video-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 2px var(--primary-orange);
+    }
+
+    .vertical-video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      border-radius: 24px;
+      object-fit: cover;
+      display: block;
+      background-color: #000;
+      cursor: pointer;
+    }
+
+    .video-caption {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: var(--primary-orange);
+      font-weight: 500;
+    }
+
+    .hero-badge {
+      background: rgba(245, 154, 32, 0.15);
+      color: var(--primary-orange);
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #fff 0%, var(--primary-orange) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #CBD5E1;
+      margin-bottom: 32px;
+    }
+
+    .stats-flex {
+      display: flex;
+      gap: 48px;
+      margin: 32px 0;
+    }
+
+    .stat-item .number {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary-orange);
+    }
+
+    .stat-item .label {
+      font-size: 0.85rem;
+      color: #94A3B8;
+    }
+
+    .partner-logos {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 28px;
+      opacity: 0.7;
+    }
+
+    .partner-logos img {
+      height: 32px;
+      filter: brightness(0) invert(1);
+    }
+
+    /* Team Video Player Card */
+    .team-video-player {
+      background: linear-gradient(145deg, #124750, #0B2B36);
+      border-radius: 28px;
+      border: 1px solid rgba(245, 154, 32, 0.4);
+      transition: var(--transition);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .team-video-player:hover {
+      border-color: var(--primary-orange);
+      transform: scale(1.02);
+    }
+    .team-video-element {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      border-radius: 28px;
+    }
+    .team-video-element.active-video {
+      display: block;
+    }
+    .team-video-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .team-video-placeholder i {
+      font-size: 52px;
+      color: var(--primary-orange);
+      transition: transform 0.2s;
+    }
+    .team-video-placeholder span {
+      font-weight: 500;
+      margin-left: 0;
+    }
+    .team-video-placeholder:hover i {
+      transform: scale(1.1);
+    }
+    .team-video-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Work Card Video Modal / Inline player */
+    .work-video-overlay {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      background: linear-gradient(145deg, #124750, #0B2B36);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .work-video-overlay i {
+      font-size: 3rem;
+      color: var(--primary-orange);
+      margin-bottom: 8px;
+    }
+    .work-video-overlay span {
+      font-size: 0.8rem;
+    }
+    .work-video-element {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      display: none;
+      border-radius: 0;
+    }
+    .work-video-element.active-work-video {
+      display: block;
+    }
+
+    /* rest of existing styles */
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-title h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--primary-orange);
+      border-radius: 2px;
+    }
+    .section-title p {
+      color: #94A3B8;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .stats-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 70px 0;
+    }
+    .stat-big-card {
+      background: rgba(18, 71, 80, 0.6);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 40px 24px;
+      text-align: center;
+      border: 1px solid rgba(245, 154, 32, 0.3);
+      transition: var(--transition);
+    }
+    .stat-big-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary-orange);
+    }
+    .stat-big-card i {
+      font-size: 2.5rem;
+      color: var(--primary-orange);
+    }
+    .stat-big-card .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin: 12px 0 8px;
+      color: var(--primary-orange);
+    }
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 48px 0;
+    }
+    .solution-card {
+      background: rgba(18, 71, 80, 0.5);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 32px;
+      border: 1px solid rgba(245, 154, 32, 0.2);
+      transition: var(--transition);
+    }
+    .solution-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary-orange);
+      background: rgba(18, 71, 80, 0.7);
+    }
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(245, 154, 32, 0.15);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .card-icon i {
+      font-size: 28px;
+      color: var(--primary-orange);
+    }
+    .solution-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    .solution-card p {
+      color: #CBD5E1;
+    }
+    .team-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      margin: 40px 0;
+    }
+    .team-flex > div:first-child {
+      flex: 1;
+    }
+    .team-flex > div:last-child {
+      flex: 1;
+      height: 260px;
+      position: relative;
+      background: none;
+      border-radius: 28px;
+    }
+    .btn-arrow-link {
+      background: none;
+      border: none;
+      color: var(--primary-orange);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+    .btn-arrow-link:hover i {
+      transform: translateX(5px);
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin: 48px 0;
+    }
+    .team-card {
+      background: rgba(18, 71, 80, 0.5);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid rgba(245, 154, 32, 0.2);
+    }
+    .team-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary-orange);
+    }
+    .team-avatar {
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(135deg, rgba(245,154,32,0.2), rgba(18,71,80,0.4));
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      color: var(--primary-orange);
+    }
+    .team-card h4 {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .team-card .role {
+      color: var(--primary-orange);
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+    .team-card .bio {
+      font-size: 0.8rem;
+      color: #CBD5E1;
+    }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+      margin: 48px 0;
+    }
+    .work-card {
+      background: rgba(18, 71, 80, 0.5);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(245, 154, 32, 0.2);
+      transition: var(--transition);
+    }
+    .work-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary-orange);
+    }
+    .work-img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+    .work-info {
+      padding: 20px;
+    }
+    .work-info h4 {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .work-info p {
+      font-size: 0.85rem;
+      color: #CBD5E1;
+    }
+    .portal-hub {
+      background: rgba(18, 71, 80, 0.5);
+      backdrop-filter: blur(4px);
+      border-radius: 32px;
+      padding: 56px 40px;
+      margin: 60px 0;
+      text-align: center;
+      border: 1px solid rgba(245, 154, 32, 0.3);
+    }
+    .portal-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 32px;
+    }
+    .portal-btn {
+      background: rgba(11, 43, 54, 0.7);
+      border: 1px solid rgba(245, 154, 32, 0.3);
+      border-radius: 60px;
+      padding: 12px 24px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      color: white;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .portal-btn:hover {
+      border-color: var(--primary-orange);
+      background: rgba(245, 154, 32, 0.15);
+      color: var(--primary-orange);
+    }
+    footer {
+      background: #0B2B36;
+      padding: 60px 0 30px;
+      border-top: 1px solid rgba(245, 154, 32, 0.3);
+      margin-top: 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer h4 {
+      color: white;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .footer h4::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--primary-orange);
+    }
+    .footer a, .footer p {
+      color: #CBD5E1;
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .footer a:hover {
+      color: var(--primary-orange);
+      padding-left: 4px;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 28px;
+      border-top: 1px solid rgba(245, 154, 32, 0.2);
+      color: #94A3B8;
+      font-size: 0.8rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-card {
+      background: #124750;
+      max-width: 460px;
+      width: 90%;
+      border-radius: 28px;
+      padding: 40px;
+      position: relative;
+      border: 1px solid var(--primary-orange);
+    }
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      font-size: 1.7rem;
+      cursor: pointer;
+      color: #CBD5E1;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 40px;
+      border: 1px solid rgba(245, 154, 32, 0.3);
+      background: rgba(11, 43, 54, 0.6);
+      color: white;
+    }
+    .switch-auth {
+      text-align: center;
+      margin-top: 24px;
+      color: var(--primary-orange);
+      cursor: pointer;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 1024px) {
+      .solutions-grid, .team-grid, .work-grid, .stats-showcase, .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: 2.3rem; }
+      .hero p { font-size: 1rem; }
+      .solutions-grid, .team-grid, .work-grid, .stats-showcase, .footer-grid { grid-template-columns: 1fr; }
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #0B2B36;
+        flex-direction: column;
+        padding: 20px;
+        gap: 16px;
+        border-top: 1px solid var(--primary-orange);
+      }
+      nav ul.active { display: flex; }
+      .mobile-menu-btn { display: block; }
+      .team-flex { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
-  <!-- Header with Navigation -->
-  <header>
-    <div class="header-container">
-   <div class="logo">
-  <img src="../../uploads/orycomLogo.png" alt="Orycom Logo">
+
+<!-- Auth Modal -->
+<div id="authModal" class="modal">
+  <div class="modal-card">
+    <span class="close-modal" id="closeModalBtn">&times;</span>
+    <h3 id="modalTitle" style="font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">Welcome</h3>
+    <form id="authForm">
+      <div id="nameField" style="display: none;" class="form-group"><input type="text" id="regName" placeholder="Full Name"></div>
+      <div class="form-group"><input type="email" id="emailInput" placeholder="Email address" required></div>
+      <div class="form-group"><input type="password" id="passwordInput" placeholder="Password" required></div>
+      <div id="confirmField" style="display: none;" class="form-group"><input type="password" id="confirmPass" placeholder="Confirm Password"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Continue</button>
+    </form>
+    <div id="toggleAuthMsg" class="switch-auth">Don't have an account? Register</div>
+  </div>
 </div>
-    
-            
-            <nav>
-                <ul>
-                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="Pages/OrycomEdu/MyDashboard.html"><i class="fas fa-tachometer-alt"></i> My Dashboard</a></li>
-                    <li class="dropdown">
-                        <a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-school"></i> Egyptian Education (ar)</a>
-                        <div class="dropdown-content">
-                            <a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a>
-                            <a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a>
-                            <a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a>
-                        </div>
-                    </li>
-                    <li class="dropdown">
-                        <a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-book-open"></i> Egyptian Schools (en)</a>
-                        <div class="dropdown-content">
-                            <a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a>
-                            <a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a>
-                            <a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a>
-                        </div>
-                    </li>
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-globe"></i> IG Education</a></li>
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-flag-usa"></i> American Education</a></li>
-                </ul>
-            </nav>
-            
-            <div class="profile-section">
-                <a href="Pages/OrycomEdu/OrycomLogin.html"><button class="login-btn">Login</button></a>
-                <a href="Pages/OrycomEdu/OrycomRegister.html"><button class="Register-btn">Register</button></a>
-                <div class="profile-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-            </div>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
-    
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <div class="mobile-menu-header">
-            <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>Orycom</span>
-            </div>
-            <button class="close-menu">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <nav class="mobile-nav">
-            <ul>
-                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="Pages/OrycomEdu/MyDashboard.html"><i class="fas fa-tachometer-alt"></i> My Dashboard</a></li>
-                <li>
-                    <a href=""><i class="fas fa-school"></i> Egyptian Education (ar)</a>
-                    <ul>
-                        <li><a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a></li>
-                        <li><a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a></li>
-                        <li><a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fas fa-book-open"></i> Egyptian Schools (en)</a>
-                    <ul>
-                        <li><a href="Pages/OrycomEdu/available-lessons.html">Basic Education</a></li>
-                        <li><a href="Pages/OrycomEdu/available-lessons.html">Preparatory Education</a></li>
-                        <li><a href="Pages/OrycomEdu/available-lessons.html">Secondary Education</a></li>
-                    </ul>
-                </li>
-                <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-globe"></i> IG Education</a></li>
-                <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-flag-usa"></i> American Education</a></li>
-            </ul>
-        </nav>
-        
-        <div class="profile-section">
-           <a href="Pages/OrycomEdu/OrycomLogin.html"><button class="login-btn">Login</button></a>
-            <a href="Pages/OrycomEdu/OrycomRegister.html"><button class="Register-btn">Register</button></a>
-        </div>
+
+<header>
+  <div class="container nav-container">
+    <div class="logo-img"><img id="agencyLogo" src="orycom.PNG" alt="ORYCOM Logo" style="width:400%; height:400%; border-radius:50px;"></div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+    <nav><ul id="navMenu">
+      <li><a href="#home">Home</a></li><li><a href="#solutions">Solutions</a></li><li><a href="#work">Case Studies</a></li><li><a href="#team">Team</a></li>
+      <li><button class="btn-outline" id="navLoginBtn" style="padding:8px 20px;">Login</button></li>
+      <li><button class="btn-primary" id="navRegBtn" style="padding:8px 20px;">Get Started</button></li>
+    </ul></nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-content fade-in">
+        <div class="hero-badge">Data-driven media buying agency</div>
+        <h1>Break the cycle.<br>Turn vision into <span style="color:var(--primary-orange);">momentum.</span></h1>
+        <p>Premium media production, AI-powered marketing & full‑stack development — we engineer growth that leads markets.</p>
+        <div class="stats-flex"><div class="stat-item"><div class="number">5+</div><div class="label">Years Experience</div></div><div class="stat-item"><div class="number">500+</div><div class="label">Happy Clients</div></div><div class="stat-item"><div class="number">100</div><div class="label">Experts</div></div></div>
+        <div class="partner-logos"><span style="font-size:0.75rem;">Trusted by:</span><img src="https://cdn.prod.website-files.com/639b8b54b3a648eba300c697/65ad7669913b3f422114c064_MBP-Partner-Badge-RGB.png" alt="partner"><img src="https://cdn.prod.website-files.com/639b8b54b3a648eba300c697/660cdf56c3373ca6ccdd929a_Zoho.png" alt="zoho"><img src="https://cdn.prod.website-files.com/639b8b54b3a648eba300c697/6403f117a05a6bc96950dab4_Fab-Partner.webp" alt="fab"></div>
+      </div>
+      <div class="hero-video-container fade-in"><div class="vertical-video-card"><video class="vertical-video" id="heroVideo" loop playsinline autoplay><source src="video.mp4" type="video/mp4" >Your browser does not support video.</video><div class="video-caption"><i class="fas fa-fire"></i> Trending Campaign · ORYCOM Creative</div></div></div>
     </div>
-    
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Transform Your Learning Experience with Orycom</h1>
-            <p>Join Egypt's leading educational platform for all school levels and types. We offer personalized learning paths, interactive content, and expert teachers to help you succeed.</p>
-            <div class="cta-buttons">
-                <a href="Pages/OrycomEdu/OrycomRegister.html"><button class="btn btn-primary">
-                    <i class="fas fa-user-plus"></i> Create Account
-                </button></a>
-               <a href="Pages/OrycomEdu/OutOfService.html"><button class="btn btn-secondary">
-                    <i class="fas fa-play-circle"></i> Watch Demo
-                </button></a>
-            </div>
+  </section>
+
+  <div class="container">
+    <div class="stats-showcase fade-in"><div class="stat-big-card"><i class="fas fa-eye"></i><div class="stat-number">8.2B+</div><div class="label">Impressions delivered (2024)</div></div><div class="stat-big-card"><i class="fas fa-chart-simple"></i><div class="stat-number">9.4M+</div><div class="label">Conversions generated</div></div><div class="stat-big-card"><i class="fas fa-play-circle"></i><div class="stat-number">200M+</div><div class="label">Video views across platforms</div></div></div>
+    <div id="solutions"><div class="section-title fade-in"><h2>We Run a Complete Cycle</h2><p>Engineered touchpoints designed to steer performance — igniting exponential growth.</p></div><div class="solutions-grid"><div class="solution-card fade-in"><div class="card-icon"><i class="fas fa-chart-line"></i></div><h3>Media & Performance</h3><p>Data‑first media buying plus outcome-driven campaigns. We maximize ROI across search, social & programmatic.</p></div><div class="solution-card fade-in"><div class="card-icon"><i class="fas fa-robot"></i></div><h3>Automation & Tech</h3><p>End‑to‑end data management, automated reporting, and AI orchestration that fuels real‑time decisions.</p></div><div class="solution-card fade-in"><div class="card-icon"><i class="fas fa-database"></i></div><h3>Data & Intelligence</h3><p>Track, store, analyze customer data to extract actionable intelligence and predictive insights.</p></div></div></div>
+
+    <!-- Team Section with REPLACED video player -->
+    <div class="team-flex fade-in" id="team">
+      <div><h2 class="section-title" style="text-align:left; margin-bottom:16px;">Team of Experts</h2><p style="color:#CBD5E1; margin-bottom:18px;">Given the unique nature of our approach, we assemble a dedicated team committed to your success.</p><button class="btn-arrow-link" id="aboutTeamBtn">Learn more about our company <i class="fas fa-arrow-right"></i></button></div>
+      <div id="teamVideoMock" class="team-video-player">
+        <div class="team-video-wrapper">
+          <video id="teamInlineVideo" class="team-video-element" loop muted playsinline><source src="video.mp4" type="video/mp4" audio="true"></video>
+          <div id="teamPlaceholder" class="team-video-placeholder">
+            <i class="fas fa-play-circle"></i>
+            <span>Creative energy in action</span>
+          </div>
         </div>
-                   
-        <div class="hero-image">
-            <div class="hero-image-container">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="main-image">
-                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Students Learning">
-                </div>
-            </div>
+      </div>
+    </div>
+
+    <div class="section-title fade-in" style="margin-top:40px;"><h2>Last Contributors · All Fields</h2><p>Creative minds & technical leads behind our latest wins</p></div>
+    <div class="team-grid"><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-clapperboard"></i></div><h4>Logy Hesham</h4><div class="role">Media Director</div><p class="bio">15+ award-winning productions</p></div><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-chart-line"></i></div><h4>Rodina Mohamed</h4><div class="role">Head of Marketing</div><p class="bio">+320% ROI on campaigns</p></div><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-code"></i></div><h4>Mohamed AbdelFatah sherif</h4><div class="role">Lead Web Architect</div><p class="bio">Next.js, scalable platforms</p></div><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-mobile-alt"></i></div><h4>Abdelrahman Syam</h4><div class="role">Mobile Dev Lead</div><p class="bio">Flutter, React Native</p></div></div>
+
+    <!-- Latest Work Showcase with REPLACED demo reel video inline -->
+    <div id="work"><div class="section-title fade-in"><h2>Latest Work · Showcase</h2><p>From cinematic commercials to full‑stack platforms — our portfolio speaks</p></div><div class="work-grid">
+      <div class="work-card fade-in"><img class="work-img" src="work1.jpeg" alt="production"><div class="work-info"><h4>Koshary Masr</h4><p>Full Media Production Covering</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work2.jpeg" alt="production"><div class="work-info"><h4>Khofo Burger</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work7.png" alt="production"><div class="work-info"><h4>Pizza Five</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work4.jpeg" alt="production"><div class="work-info"><h4>Elmoamen Restraunt</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work5.jpeg" alt="production"><div class="work-info"><h4>Se5 fe R5ef</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work6.jpeg" alt="production"><div class="work-info"><h4>Hanafi Store</h4><p>UGC Media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="image.png" alt="web"><div class="work-info"><h4>cs-EslamHatem Platform</h4><p>Web Node.js · 30k users</p></div></div>
+      <!-- Replaced demo reel card: inline video toggle -->
+      <div class="work-card fade-in" id="demoReelCard">
+        <div id="demoReelBtn" class="work-video-overlay">
+          <i class="fas fa-play-circle"></i>
+          <span>Watch reel</span>
         </div>
-    </section>
-    
-    <!-- Features Section -->
-    <section class="features">
-        <h2 class="section-title">Why Choose Orycom?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <h3>Comprehensive Curriculum</h3>
-                <p>Covering all Egyptian, IG, and American curricula with materials for all grade levels and subjects.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                </div>
-                <h3>Expert Teachers</h3>
-                <p>Learn from certified teachers with years of experience in their respective fields.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-video"></i>
-                </div>
-                <h3>Interactive Lessons</h3>
-                <p>Engaging video lessons, quizzes, and interactive exercises to enhance understanding.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3>Mobile Friendly</h3>
-                <p>Access your lessons anytime, anywhere on any device with our responsive platform.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>Progress Tracking</h3>
-                <p>Monitor your progress with detailed analytics and personalized recommendations.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-language"></i>
-                </div>
-                <h3>Bilingual Content</h3>
-                <p>All content available in both Arabic and English to suit your learning preferences.</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Orycom</h3>
-                <p>Egypt's premier educational platform for all school levels and curricula. Empowering students to achieve academic excellence.</p>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/profile.php?id=61581342564232" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="Pages/OrycomEdu/OutOfService.html" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="https://www.instagram.com/orycomsocial/" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.youtube.com/channel/UCaUFCzHcKet_Ai3i0Up6rpQ" class="social-icon"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <li><a href="Pages/aboutus.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Courses</a></li>
-                    <li><a href="Pages/OrycomEdu/Instructors.html"><i class="fas fa-chevron-right"></i> Teachers</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Education Systems</h3>
-                <ul class="footer-links">
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Egyptian Education (ar)</a></li>
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Egyptian Schools (en)</a></li>
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> IG Education</a></li>
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> American Education</a></li>
-                    <li><a href="Pages/OrycomEdu/available-lessons.html"><i class="fas fa-chevron-right"></i> Special Needs</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Contact Us</h3>
-                <ul class="footer-links">
-                    <li><a href="https://maps.app.goo.gl/z5dNGHfgoDWjaERw5"><i class="fas fa-map-marker-alt"></i> Cairo, Egypt</a></li>
-                    <li><a href="+201010909404"><i class="fas fa-phone"></i> +20 1010909404</a></li>
-                    <li><a href="info@orycom.com"><i class="fas fa-envelope"></i> info@orycom.com</a></li>
-                    <li><a href="#"><i class="fas fa-clock"></i> Sun-Thu: 8AM - 8PM</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="copyright">
-            <p>&copy; 2023 Orycom Educational Platform. All rights reserved.</p>
-        </div>
-    </footer>
-    
-    <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const closeMenu = document.querySelector('.close-menu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-        });
-        
-        closeMenu.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-        });
-        
-        // Feature card animation on scroll
-        const featureCards = document.querySelectorAll('.feature-card');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        featureCards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            observer.observe(card);
-        });
-        
-        // Login button animation
-        const loginBtn = document.querySelector('.login-btn');
-        
-        loginBtn.addEventListener('mouseenter', () => {
-            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-        });
-        
-        loginBtn.addEventListener('mouseleave', () => {
-            loginBtn.innerHTML = 'Login';
-        });
-        
-        // Profile icon animation
-        const profileIcon = document.querySelector('.profile-icon');
-        
-        profileIcon.addEventListener('click', () => {
-            profileIcon.innerHTML = '<i class="fas fa-user-check"></i>';
-            setTimeout(() => {
-                profileIcon.innerHTML = '<i class="fas fa-user"></i>';
-            }, 2000);
-        });
-    </script>
+        <video id="workReelVideo" class="work-video-element" loop muted playsinline><source src="video.mp4" type="video/mp4"></video>
+        <div class="work-info"><h4>Orycom Moments Reel</h4><p>Behind the scenes</p></div>
+      </div>
+    </div></div>
+
+    <div class="portal-hub fade-in"><h2 class="section-title" style="margin-bottom:12px;">Platform Access Hub</h2><p>Seamless entry to our ecosystem — learning, offers, staff & customer portals</p><div class="portal-buttons"><button class="portal-btn" id="learnBtn"><i class="fas fa-graduation-cap"></i> OrycomLearnings</button><button class="portal-btn" id="offersBtn"><i class="fas fa-tags"></i> Media Offers</button><button class="portal-btn" id="lastWorkPortalBtn"><i class="fas fa-briefcase"></i> Last Work</button><button class="portal-btn" id="staffPortalBtn"><i class="fas fa-user-tie"></i> Staff Portal</button><button class="portal-btn" id="adminPortalBtn"><i class="fas fa-laptop-code"></i> Admin Portal</button><button class="portal-btn" id="customersPortalBtn"><i class="fas fa-users"></i> Customers Portal</button></div><div class="portal-buttons" style="margin-top:16px;"><button class="portal-btn" id="loginPortalBtn"><i class="fas fa-sign-in-alt"></i> Customer Login</button><button class="portal-btn" id="registerPortalBtn"><i class="fas fa-user-plus"></i> New Customer Register</button></div></div>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer-grid"><div><h4>ORYCOM</h4><p>Media production, marketing & development. Turning momentum into market leadership.</p></div><div><h4>Locations</h4><p><i class="fas fa-map-marker-alt"></i> New Egypt, Cairo<br/><i class="fas fa-building"></i> Nasr City – Elwaha</p></div><div><h4>Contact</h4><p>administrator@orycom.com<br/>+20 101 090 9404</p></div><div><h4>Quick Links</h4><a href="Pages/index.html" id="footerLearnLink">OrycomLearnings</a><a href="#" id="footerPortalLink">Customer Portal</a></div></div><div class="footer-bottom">© 2025 ORYCOM — The momentum agency. All rights reserved.</div></div></footer>
+
+<script>
+  // Helper: play video with autoplay attempt
+  function playVideoWithUserInteraction(videoEl, placeholderEl) {
+    if (!videoEl) return;
+    videoEl.play().then(() => {
+      if(placeholderEl) placeholderEl.style.display = 'none';
+      videoEl.classList.add('active-video');
+    }).catch(e => { console.log("playback failed", e); alert("Click to play video"); });
+  }
+
+  // 1) Team video logic
+  const teamVideo = document.getElementById('teamInlineVideo');
+  const teamPlaceholder = document.getElementById('teamPlaceholder');
+  const teamWrapper = document.getElementById('teamVideoMock');
+  if(teamVideo && teamPlaceholder) {
+    teamPlaceholder.addEventListener('click', (e) => {
+      e.stopPropagation();
+      teamVideo.style.display = 'block';
+      teamVideo.classList.add('active-video');
+      teamPlaceholder.style.display = 'none';
+      teamVideo.play().catch(() => { alert("Please click again to play video"); teamVideo.muted = false; teamVideo.play(); });
+    });
+    // Optional: if user clicks video again, reset to placeholder? not needed, but keep simple
+  }
+
+  // 2) Work reel card video logic
+  const workReelVideo = document.getElementById('workReelVideo');
+  const demoReelBtn = document.getElementById('demoReelBtn');
+  if(workReelVideo && demoReelBtn) {
+    demoReelBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Hide overlay, show video
+      demoReelBtn.style.display = 'none';
+      workReelVideo.style.display = 'block';
+      workReelVideo.classList.add('active-work-video');
+      workReelVideo.play().catch(err => { 
+        workReelVideo.muted = true; 
+        workReelVideo.play(); 
+      });
+    });
+    // Optional loop seamless
+    workReelVideo.addEventListener('ended', () => {
+      workReelVideo.currentTime = 0;
+      workReelVideo.play();
+    });
+  }
+
+  // Also team video loop
+  if(teamVideo) {
+    teamVideo.addEventListener('ended', () => { teamVideo.currentTime = 0; teamVideo.play(); });
+  }
+
+  // Hero video autoplay handling
+  const heroVideoElem = document.getElementById('heroVideo');
+  if(heroVideoElem) heroVideoElem.play().catch(e => console.log("hero autoplay blocked"));
+
+  // Auth & Portal Scripts (same as original)
+  const authModal = document.getElementById('authModal'), closeModalBtn = document.getElementById('closeModalBtn'), modalTitle = document.getElementById('modalTitle'), nameField = document.getElementById('nameField'), confirmField = document.getElementById('confirmField'), toggleMsg = document.getElementById('toggleAuthMsg'), authForm = document.getElementById('authForm');
+  let authMode = 'login';
+  function openModal(mode) { authMode = mode; modalTitle.innerText = mode === 'login' ? 'Customer Login' : 'New Customer Registration'; nameField.style.display = mode === 'login' ? 'none' : 'block'; confirmField.style.display = mode === 'login' ? 'none' : 'block'; toggleMsg.innerText = mode === 'login' ? "Don't have an account? Register" : "Already have an account? Login"; document.getElementById('emailInput').value = ''; document.getElementById('passwordInput').value = ''; if(document.getElementById('regName')) document.getElementById('regName').value = ''; if(document.getElementById('confirmPass')) document.getElementById('confirmPass').value = ''; authModal.style.display = 'flex'; }
+  function closeModalFunc() { authModal.style.display = 'none'; }
+  document.getElementById('navLoginBtn')?.addEventListener('click', () => openModal('login')); document.getElementById('navRegBtn')?.addEventListener('click', () => openModal('register')); document.getElementById('loginPortalBtn')?.addEventListener('click', () => openModal('login')); document.getElementById('registerPortalBtn')?.addEventListener('click', () => openModal('register')); closeModalBtn.addEventListener('click', closeModalFunc); window.addEventListener('click', (e) => { if (e.target === authModal) closeModalFunc(); }); toggleMsg.addEventListener('click', () => { authMode === 'login' ? openModal('register') : openModal('login'); }); authForm.addEventListener('submit', (e) => { e.preventDefault(); const email = document.getElementById('emailInput').value.trim(); const pwd = document.getElementById('passwordInput').value; if (authMode === 'login') { if(email && pwd) alert(`Welcome back, ${email}!`); if(email && pwd) closeModalFunc(); } else { const name = document.getElementById('regName').value.trim(); const confirm = document.getElementById('confirmPass').value; if(!name || !email || !pwd || !confirm) alert("All fields required"); else if(pwd !== confirm) alert("Passwords do not match"); else { alert(`✅ Registration successful, ${name}!`); closeModalFunc(); } } });
+  document.getElementById('learnBtn')?.addEventListener('click', () => alert("🔗 OrycomLearnings — coming soon")); document.getElementById('offersBtn')?.addEventListener('click', () => alert("🔥 Exclusive Media Offers available")); document.getElementById('lastWorkPortalBtn')?.addEventListener('click', () => { document.querySelector('#work').scrollIntoView({ behavior: 'smooth' }); }); document.getElementById('staffPortalBtn')?.addEventListener('click', () => alert("Staff Portal — internal access")); document.getElementById('adminPortalBtn')?.addEventListener('click', () => alert("Admin Dashboard")); document.getElementById('customersPortalBtn')?.addEventListener('click', () => alert("Customers Portal — login required")); document.getElementById('aboutTeamBtn')?.addEventListener('click', () => alert("Learn more about our expert team and philosophy")); document.getElementById('footerLearnLink')?.addEventListener('click', (e) => { e.preventDefault(); alert("OrycomLearnings"); }); document.getElementById('footerPortalLink')?.addEventListener('click', (e) => { e.preventDefault(); openModal('login'); });
+  const mobileBtn = document.getElementById('mobileMenuBtn'); const navMenu = document.getElementById('navMenu'); mobileBtn?.addEventListener('click', () => { navMenu.classList.toggle('active'); mobileBtn.innerHTML = navMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>'; }); document.querySelectorAll('#navMenu a').forEach(link => { link.addEventListener('click', () => { navMenu.classList.remove('active'); mobileBtn.innerHTML = '<i class="fas fa-bars"></i>'; }); });
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const targetId = this.getAttribute('href'); if(targetId === '#') return; const target = document.querySelector(targetId); if(target) { e.preventDefault(); window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' }); } }); });
+  const fadeElements = document.querySelectorAll('.fade-in'); const fadeInOnScroll = () => { fadeElements.forEach(el => { const top = el.getBoundingClientRect().top; if(top < window.innerHeight - 100) el.classList.add('visible'); }); }; window.addEventListener('scroll', fadeInOnScroll); window.addEventListener('load', fadeInOnScroll);
+</script>
 </body>
 </html>
