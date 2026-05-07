@@ -200,14 +200,19 @@
       box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 2px var(--primary-orange);
     }
 
-    .vertical-video {
+    .youtube-embed {
       width: 100%;
       aspect-ratio: 9 / 16;
       border-radius: 24px;
-      object-fit: cover;
-      display: block;
-      background-color: #000;
-      cursor: pointer;
+      overflow: hidden;
+      background: #000;
+    }
+    
+    .youtube-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: auto;
     }
 
     .video-caption {
@@ -275,7 +280,7 @@
       filter: brightness(0) invert(1);
     }
 
-    /* Team Video Player Card */
+    /* Team Video Player Card - YouTube Modal Style */
     .team-video-player {
       background: linear-gradient(145deg, #124750, #0B2B36);
       border-radius: 28px;
@@ -288,21 +293,14 @@
       align-items: center;
       justify-content: center;
       position: relative;
+      height: 100%;
+      min-height: 260px;
     }
     .team-video-player:hover {
       border-color: var(--primary-orange);
       transform: scale(1.02);
     }
-    .team-video-element {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
-      border-radius: 28px;
-    }
-    .team-video-element.active-video {
-      display: block;
-    }
+    
     .team-video-placeholder {
       display: flex;
       flex-direction: column;
@@ -312,6 +310,7 @@
       height: 100%;
       gap: 12px;
       cursor: pointer;
+      padding: 40px 20px;
     }
     .team-video-placeholder i {
       font-size: 52px;
@@ -320,18 +319,64 @@
     }
     .team-video-placeholder span {
       font-weight: 500;
-      margin-left: 0;
     }
     .team-video-placeholder:hover i {
       transform: scale(1.1);
     }
-    .team-video-wrapper {
+    
+    /* YouTube Modal Overlay */
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+      cursor: pointer;
+    }
+    .video-modal-content {
       position: relative;
+      width: 90%;
+      max-width: 400px;
+      background: #0B2B36;
+      border-radius: 28px;
+      padding: 16px;
+      border: 2px solid var(--primary-orange);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+    .video-modal-content iframe {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      border-radius: 20px;
+      border: none;
+    }
+    .close-video-modal {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background: var(--primary-orange);
+      color: #0B2B36;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    .close-video-modal:hover {
+      transform: scale(1.1);
     }
 
-    /* Work Card Video Modal / Inline player */
+    /* Work Card Video Overlay */
     .work-video-overlay {
       position: relative;
       width: 100%;
@@ -352,15 +397,8 @@
     .work-video-overlay span {
       font-size: 0.8rem;
     }
-    .work-video-element {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      display: none;
-      border-radius: 0;
-    }
-    .work-video-element.active-work-video {
-      display: block;
+    .work-video-overlay:hover {
+      background: linear-gradient(145deg, #0B2B36, #124750);
     }
 
     /* rest of existing styles */
@@ -471,10 +509,8 @@
     }
     .team-flex > div:last-child {
       flex: 1;
-      height: 260px;
-      position: relative;
-      background: none;
-      border-radius: 28px;
+      height: auto;
+      min-height: 260px;
     }
     .btn-arrow-link {
       background: none;
@@ -503,6 +539,7 @@
       padding: 28px 20px;
       text-align: center;
       border: 1px solid rgba(245, 154, 32, 0.2);
+      transition: var(--transition);
     }
     .team-card:hover {
       transform: translateY(-6px);
@@ -596,6 +633,7 @@
       color: white;
       font-size: 0.9rem;
       transition: var(--transition);
+      text-decoration: none;
     }
     .portal-btn:hover {
       border-color: var(--primary-orange);
@@ -728,6 +766,9 @@
       nav ul.active { display: flex; }
       .mobile-menu-btn { display: block; }
       .team-flex { flex-direction: column; }
+      .hero-grid { flex-direction: column; text-align: center; }
+      .hero-content { text-align: center; max-width: 100%; }
+      .stats-flex { justify-content: center; }
     }
   </style>
 </head>
@@ -749,9 +790,17 @@
   </div>
 </div>
 
+<!-- YouTube Video Modal (shared for team and work videos) -->
+<div id="videoModal" class="video-modal">
+  <div class="video-modal-content">
+    <div class="close-video-modal" id="closeVideoModalBtn">✕</div>
+    <iframe id="modalYouTubeIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
 <header>
   <div class="container nav-container">
-    <div class="logo-img"><img id="agencyLogo" src="uploads/orycom.PNG" alt="ORYCOM Logo" style="width:400%; height:400%; border-radius:50px;"></div>
+    <div class="logo-img"><img id="agencyLogo" src="orycom.PNG" alt="ORYCOM Logo" style="width:400%; height:400%; border-radius:50px;"></div>
     <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
     <nav><ul id="navMenu">
       <li><a href="#home">Home</a></li><li><a href="#solutions">Solutions</a></li><li><a href="#work">Case Studies</a></li><li><a href="#team">Team</a></li>
@@ -771,7 +820,15 @@
         <div class="stats-flex"><div class="stat-item"><div class="number">5+</div><div class="label">Years Experience</div></div><div class="stat-item"><div class="number">500+</div><div class="label">Happy Clients</div></div><div class="stat-item"><div class="number">100</div><div class="label">Experts</div></div></div>
         <div class="partner-logos"><span style="font-size:0.75rem;">Trusted by:</span><img src="https://cdn.prod.website-files.com/639b8b54b3a648eba300c697/65ad7669913b3f422114c064_MBP-Partner-Badge-RGB.png" alt="partner"><img src="https://cdn.prod.website-files.com/639b8b54b3a648eba300c697/660cdf56c3373ca6ccdd929a_Zoho.png" alt="zoho"><img src="https://cdn.prod.website-files.com/639b8b54b3a648eba300c697/6403f117a05a6bc96950dab4_Fab-Partner.webp" alt="fab"></div>
       </div>
-      <div class="hero-video-container fade-in"><div class="vertical-video-card"><video class="vertical-video" id="heroVideo" loop playsinline autoplay><source src="video.mp4" type="video/mp4" >Your browser does not support video.</video><div class="video-caption"><i class="fas fa-fire"></i> Trending Campaign · ORYCOM Creative</div></div></div>
+      <div class="hero-video-container fade-in">
+        <div class="vertical-video-card">
+          <div class="youtube-embed">
+            <!-- REPLACE YOUR YOUTUBE VIDEO ID HERE (example: dQw4w9WgXcQ) -->
+            <iframe id="heroYoutubeFrame" src="https://www.youtube.com/embed/8sid9pMr6r0?autoplay=1&mute=1&loop=1&playlist=8sid9pMr6r0&controls=0&modestbranding=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          <div class="video-caption"><i class="fas fa-fire"></i> Trending Campaign · ORYCOM Creative</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -779,16 +836,13 @@
     <div class="stats-showcase fade-in"><div class="stat-big-card"><i class="fas fa-eye"></i><div class="stat-number">8.2B+</div><div class="label">Impressions delivered (2024)</div></div><div class="stat-big-card"><i class="fas fa-chart-simple"></i><div class="stat-number">9.4M+</div><div class="label">Conversions generated</div></div><div class="stat-big-card"><i class="fas fa-play-circle"></i><div class="stat-number">200M+</div><div class="label">Video views across platforms</div></div></div>
     <div id="solutions"><div class="section-title fade-in"><h2>We Run a Complete Cycle</h2><p>Engineered touchpoints designed to steer performance — igniting exponential growth.</p></div><div class="solutions-grid"><div class="solution-card fade-in"><div class="card-icon"><i class="fas fa-chart-line"></i></div><h3>Media & Performance</h3><p>Data‑first media buying plus outcome-driven campaigns. We maximize ROI across search, social & programmatic.</p></div><div class="solution-card fade-in"><div class="card-icon"><i class="fas fa-robot"></i></div><h3>Automation & Tech</h3><p>End‑to‑end data management, automated reporting, and AI orchestration that fuels real‑time decisions.</p></div><div class="solution-card fade-in"><div class="card-icon"><i class="fas fa-database"></i></div><h3>Data & Intelligence</h3><p>Track, store, analyze customer data to extract actionable intelligence and predictive insights.</p></div></div></div>
 
-    <!-- Team Section with REPLACED video player -->
+    <!-- Team Section with YouTube video modal trigger -->
     <div class="team-flex fade-in" id="team">
       <div><h2 class="section-title" style="text-align:left; margin-bottom:16px;">Team of Experts</h2><p style="color:#CBD5E1; margin-bottom:18px;">Given the unique nature of our approach, we assemble a dedicated team committed to your success.</p><button class="btn-arrow-link" id="aboutTeamBtn">Learn more about our company <i class="fas fa-arrow-right"></i></button></div>
-      <div id="teamVideoMock" class="team-video-player">
-        <div class="team-video-wrapper">
-          <video id="teamInlineVideo" class="team-video-element" loop muted playsinline><source src="uploads/video.mp4" type="video/mp4" audio="true"></video>
-          <div id="teamPlaceholder" class="team-video-placeholder">
-            <i class="fas fa-play-circle"></i>
-            <span>Creative energy in action</span>
-          </div>
+      <div id="teamVideoMock" class="team-video-player" data-youtube-id="8sid9pMr6r0">
+        <div class="team-video-placeholder">
+          <i class="fas fa-play-circle"></i>
+          <span>Creative energy in action</span>
         </div>
       </div>
     </div>
@@ -796,89 +850,74 @@
     <div class="section-title fade-in" style="margin-top:40px;"><h2>Last Contributors · All Fields</h2><p>Creative minds & technical leads behind our latest wins</p></div>
     <div class="team-grid"><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-clapperboard"></i></div><h4>Logy Hesham</h4><div class="role">Media Director</div><p class="bio">15+ award-winning productions</p></div><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-chart-line"></i></div><h4>Rodina Mohamed</h4><div class="role">Head of Marketing</div><p class="bio">+320% ROI on campaigns</p></div><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-code"></i></div><h4>Mohamed AbdelFatah sherif</h4><div class="role">Lead Web Architect</div><p class="bio">Next.js, scalable platforms</p></div><div class="team-card fade-in"><div class="team-avatar"><i class="fas fa-mobile-alt"></i></div><h4>Abdelrahman Syam</h4><div class="role">Mobile Dev Lead</div><p class="bio">Flutter, React Native</p></div></div>
 
-    <!-- Latest Work Showcase with REPLACED demo reel video inline -->
+    <!-- Latest Work Showcase with YouTube video trigger -->
     <div id="work"><div class="section-title fade-in"><h2>Latest Work · Showcase</h2><p>From cinematic commercials to full‑stack platforms — our portfolio speaks</p></div><div class="work-grid">
-      <div class="work-card fade-in"><img class="work-img" src="uploads/work1.jpeg" alt="production"><div class="work-info"><h4>Koshary Masr</h4><p>Full Media Production Covering</p></div></div>
-      <div class="work-card fade-in"><img class="work-img" src="uploads/work2.jpeg" alt="production"><div class="work-info"><h4>Khofo Burger</h4><p>Full Social Media Covering & media Production</p></div></div>
-      <div class="work-card fade-in"><img class="work-img" src="uploads/work7.png" alt="production"><div class="work-info"><h4>Pizza Five</h4><p>Full Social Media Covering & media Production</p></div></div>
-      <div class="work-card fade-in"><img class="work-img" src="uploads/work4.jpeg" alt="production"><div class="work-info"><h4>Elmoamen Restraunt</h4><p>Full Social Media Covering & media Production</p></div></div>
-      <div class="work-card fade-in"><img class="work-img" src="uploads/work5.jpeg" alt="production"><div class="work-info"><h4>Se5 fe R5ef</h4><p>Full Social Media Covering & media Production</p></div></div>
-      <div class="work-card fade-in"><img class="work-img" src="uploads/work6.jpeg" alt="production"><div class="work-info"><h4>Hanafi Store</h4><p>UGC Media Production</p></div></div>
-      <div class="work-card fade-in"><img class="work-img" src="uploads/image.png" alt="web"><div class="work-info"><h4>cs-EslamHatem Platform</h4><p>Web Node.js · 30k users</p></div></div>
-      <!-- Replaced demo reel card: inline video toggle -->
+      <div class="work-card fade-in"><img class="work-img" src="work1.jpeg" alt="production"><div class="work-info"><h4>Koshary Masr</h4><p>Full Media Production Covering</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work2.jpeg" alt="production"><div class="work-info"><h4>Khofo Burger</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work7.png" alt="production"><div class="work-info"><h4>Pizza Five</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work4.jpeg" alt="production"><div class="work-info"><h4>Elmoamen Restraunt</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work5.jpeg" alt="production"><div class="work-info"><h4>Se5 fe R5ef</h4><p>Full Social Media Covering & media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="work6.jpeg" alt="production"><div class="work-info"><h4>Hanafi Store</h4><p>UGC Media Production</p></div></div>
+      <div class="work-card fade-in"><img class="work-img" src="image.png" alt="web"><div class="work-info"><h4>cs-EslamHatem Platform</h4><p>Web Node.js · 30k users</p></div></div>
+      <!-- Work Reel Card - YouTube trigger -->
       <div class="work-card fade-in" id="demoReelCard">
-        <div id="demoReelBtn" class="work-video-overlay">
+        <div id="demoReelBtn" class="work-video-overlay" data-youtube-id="8sid9pMr6r0">
           <i class="fas fa-play-circle"></i>
           <span>Watch reel</span>
         </div>
-        <video id="workReelVideo" class="work-video-element" loop muted playsinline><source src="uploads/video.mp4" type="video/mp4"></video>
         <div class="work-info"><h4>Orycom Moments Reel</h4><p>Behind the scenes</p></div>
       </div>
     </div></div>
 
-    <div class="portal-hub fade-in"><h2 class="section-title" style="margin-bottom:12px;">Platform Access Hub</h2><p>Seamless entry to our ecosystem — learning, offers, staff & customer portals</p><div class="portal-buttons"><a href="Pages/index.html" <button class="portal-btn"  id="learnBtn"><i class="fas fa-graduation-cap"></i> OrycomLearnings</button></a><button class="portal-btn" id="offersBtn"><i class="fas fa-tags"></i> Media Offers</button><button class="portal-btn" id="lastWorkPortalBtn"><i class="fas fa-briefcase"></i> Last Work</button><button class="portal-btn" id="staffPortalBtn"><i class="fas fa-user-tie"></i> Staff Portal</button><button class="portal-btn" id="adminPortalBtn"><i class="fas fa-laptop-code"></i> Admin Portal</button><button class="portal-btn" id="customersPortalBtn"><i class="fas fa-users"></i> Customers Portal</button></div><div class="portal-buttons" style="margin-top:16px;"><button class="portal-btn" id="loginPortalBtn"><i class="fas fa-sign-in-alt"></i> Customer Login</button><button class="portal-btn" id="registerPortalBtn"><i class="fas fa-user-plus"></i> New Customer Register</button></div></div>
+    <div class="portal-hub fade-in"><h2 class="section-title" style="margin-bottom:12px;">Platform Access Hub</h2><p>Seamless entry to our ecosystem — learning, offers, staff & customer portals</p><div class="portal-buttons"><button class="portal-btn" id="learnBtn"><i class="fas fa-graduation-cap"></i> OrycomLearnings</button><button class="portal-btn" id="offersBtn"><i class="fas fa-tags"></i> Media Offers</button><button class="portal-btn" id="lastWorkPortalBtn"><i class="fas fa-briefcase"></i> Last Work</button><button class="portal-btn" id="staffPortalBtn"><i class="fas fa-user-tie"></i> Staff Portal</button><button class="portal-btn" id="adminPortalBtn"><i class="fas fa-laptop-code"></i> Admin Portal</button><button class="portal-btn" id="customersPortalBtn"><i class="fas fa-users"></i> Customers Portal</button></div><div class="portal-buttons" style="margin-top:16px;"><button class="portal-btn" id="loginPortalBtn"><i class="fas fa-sign-in-alt"></i> Customer Login</button><button class="portal-btn" id="registerPortalBtn"><i class="fas fa-user-plus"></i> New Customer Register</button></div></div>
   </div>
 </main>
 
-<footer class="footer"><div class="container"><div class="footer-grid"><div><h4>ORYCOM</h4><p>Media production, marketing & development. Turning momentum into market leadership.</p></div><div><h4>Locations</h4><p><i class="fas fa-map-marker-alt"></i> New Egypt, Cairo<br/><i class="fas fa-building"></i> Nasr City – Elwaha</p></div><div><h4>Contact</h4><p>administrator@orycom.com<br/>+20 101 090 9404</p></div><div><h4>Quick Links</h4><a href="Pages/index.html" id="footerLearnLink">OrycomLearnings</a><a href="#" id="footerPortalLink">Customer Portal</a></div></div><div class="footer-bottom">© 2025 ORYCOM — The momentum agency. All rights reserved.</div></div></footer>
+<footer class="footer"><div class="container"><div class="footer-grid"><div><h4>ORYCOM</h4><p>Media production, marketing & development. Turning momentum into market leadership.</p></div><div><h4>Locations</h4><p><i class="fas fa-map-marker-alt"></i> New Egypt, Cairo<br/><i class="fas fa-building"></i> Nasr City – Elwaha</p></div><div><h4>Contact</h4><p>administrator@orycom.com<br/>+20 101 090 9404</p></div><div><h4>Quick Links</h4><a href="#" id="footerLearnLink">OrycomLearnings</a><a href="#" id="footerPortalLink">Customer Portal</a></div></div><div class="footer-bottom">© 2025 ORYCOM — The momentum agency. All rights reserved.</div></div></footer>
 
 <script>
-  // Helper: play video with autoplay attempt
-  function playVideoWithUserInteraction(videoEl, placeholderEl) {
-    if (!videoEl) return;
-    videoEl.play().then(() => {
-      if(placeholderEl) placeholderEl.style.display = 'none';
-      videoEl.classList.add('active-video');
-    }).catch(e => { console.log("playback failed", e); ("Click to play video"); });
+  // YouTube Modal Logic
+  const videoModal = document.getElementById('videoModal');
+  const modalIframe = document.getElementById('modalYouTubeIframe');
+  const closeVideoModal = document.getElementById('closeVideoModalBtn');
+  
+  function openYouTubeModal(videoId) {
+    if(!videoId) return;
+    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+    videoModal.style.display = 'flex';
   }
-
-  // 1) Team video logic
-  const teamVideo = document.getElementById('teamInlineVideo');
-  const teamPlaceholder = document.getElementById('teamPlaceholder');
-  const teamWrapper = document.getElementById('teamVideoMock');
-  if(teamVideo && teamPlaceholder) {
-    teamPlaceholder.addEventListener('click', (e) => {
+  
+  function closeVideoModalFunc() {
+    modalIframe.src = '';
+    videoModal.style.display = 'none';
+  }
+  
+  closeVideoModal.addEventListener('click', closeVideoModalFunc);
+  videoModal.addEventListener('click', (e) => {
+    if(e.target === videoModal) closeVideoModalFunc();
+  });
+  
+  // Attach triggers for team video
+  const teamVideoTrigger = document.getElementById('teamVideoMock');
+  if(teamVideoTrigger) {
+    const teamVideoId = teamVideoTrigger.getAttribute('data-youtube-id') || '8sid9pMr6r0';
+    teamVideoTrigger.addEventListener('click', () => openYouTubeModal(teamVideoId));
+  }
+  
+  // Attach trigger for work reel video
+  const workReelTrigger = document.getElementById('demoReelBtn');
+  if(workReelTrigger) {
+    const reelVideoId = workReelTrigger.getAttribute('data-youtube-id') || '8sid9pMr6r0';
+    workReelTrigger.addEventListener('click', (e) => {
       e.stopPropagation();
-      teamVideo.style.display = 'block';
-      teamVideo.classList.add('active-video');
-      teamPlaceholder.style.display = 'none';
-      teamVideo.play().catch(() => { ("Please click again to play video"); teamVideo.muted = false; teamVideo.play(); });
-    });
-    // Optional: if user clicks video again, reset to placeholder? not needed, but keep simple
-  }
-
-  // 2) Work reel card video logic
-  const workReelVideo = document.getElementById('workReelVideo');
-  const demoReelBtn = document.getElementById('demoReelBtn');
-  if(workReelVideo && demoReelBtn) {
-    demoReelBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      // Hide overlay, show video
-      demoReelBtn.style.display = 'none';
-      workReelVideo.style.display = 'block';
-      workReelVideo.classList.add('active-work-video');
-      workReelVideo.play().catch(err => { 
-        workReelVideo.muted = true; 
-        workReelVideo.play(); 
-      });
-    });
-    // Optional loop seamless
-    workReelVideo.addEventListener('ended', () => {
-      workReelVideo.currentTime = 0;
-      workReelVideo.play();
+      openYouTubeModal(reelVideoId);
     });
   }
-
-  // Also team video loop
-  if(teamVideo) {
-    teamVideo.addEventListener('ended', () => { teamVideo.currentTime = 0; teamVideo.play(); });
-  }
-
-  // Hero video autoplay handling
-  const heroVideoElem = document.getElementById('heroVideo');
-  if(heroVideoElem) heroVideoElem.play().catch(e => console.log("hero autoplay blocked"));
-
-  // Auth & Portal Scripts (same as original)
+  
+  // Hero video autoplay is handled by iframe autoplay parameter (muted autoplay allowed)
+  // Ensure it loops: playlist param + loop=1 added in src
+  
+  // Auth & Portal Scripts (functional as before)
   const authModal = document.getElementById('authModal'), closeModalBtn = document.getElementById('closeModalBtn'), modalTitle = document.getElementById('modalTitle'), nameField = document.getElementById('nameField'), confirmField = document.getElementById('confirmField'), toggleMsg = document.getElementById('toggleAuthMsg'), authForm = document.getElementById('authForm');
   let authMode = 'login';
   function openModal(mode) { authMode = mode; modalTitle.innerText = mode === 'login' ? 'Customer Login' : 'New Customer Registration'; nameField.style.display = mode === 'login' ? 'none' : 'block'; confirmField.style.display = mode === 'login' ? 'none' : 'block'; toggleMsg.innerText = mode === 'login' ? "Don't have an account? Register" : "Already have an account? Login"; document.getElementById('emailInput').value = ''; document.getElementById('passwordInput').value = ''; if(document.getElementById('regName')) document.getElementById('regName').value = ''; if(document.getElementById('confirmPass')) document.getElementById('confirmPass').value = ''; authModal.style.display = 'flex'; }
@@ -891,7 +930,15 @@
   window.addEventListener('click', (e) => { if (e.target === authModal) closeModalFunc(); });
   toggleMsg.addEventListener('click', () => { authMode === 'login' ? openModal('register') : openModal('login'); }); 
   authForm.addEventListener('submit', (e) => { e.preventDefault(); const email = document.getElementById('emailInput').value.trim(); const pwd = document.getElementById('passwordInput').value; if (authMode === 'login') { if(email && pwd) alert(`Welcome back, ${email}!`); if(email && pwd) closeModalFunc(); } else { const name = document.getElementById('regName').value.trim(); const confirm = document.getElementById('confirmPass').value; if(!name || !email || !pwd || !confirm) alert("All fields required"); else if(pwd !== confirm) alert("Passwords do not match"); else { alert(`✅ Registration successful, ${name}!`); closeModalFunc(); } } });
- document.getElementById('offersBtn')?.addEventListener('click', () => alert("🔥 Exclusive Media Offers available")); document.getElementById('lastWorkPortalBtn')?.addEventListener('click', () => { document.querySelector('#work').scrollIntoView({ behavior: 'smooth' }); }); document.getElementById('staffPortalBtn')?.addEventListener('click', () => alert("Staff Portal — internal access")); document.getElementById('adminPortalBtn')?.addEventListener('click', () => alert("Admin Dashboard")); document.getElementById('customersPortalBtn')?.addEventListener('click', () => alert("Customers Portal — login required")); document.getElementById('aboutTeamBtn')?.addEventListener('click', () => alert("Learn more about our expert team and philosophy"));  document.getElementById('footerPortalLink')?.addEventListener('click', (e) => { e.preventDefault(); openModal('login'); });
+  document.getElementById('learnBtn')?.addEventListener('click', () => alert("🔗 OrycomLearnings — coming soon"));
+  document.getElementById('offersBtn')?.addEventListener('click', () => alert("🔥 Exclusive Media Offers available"));
+  document.getElementById('lastWorkPortalBtn')?.addEventListener('click', () => { document.querySelector('#work').scrollIntoView({ behavior: 'smooth' }); });
+  document.getElementById('staffPortalBtn')?.addEventListener('click', () => alert("Staff Portal — internal access"));
+  document.getElementById('adminPortalBtn')?.addEventListener('click', () => alert("Admin Dashboard"));
+  document.getElementById('customersPortalBtn')?.addEventListener('click', () => alert("Customers Portal — login required"));
+  document.getElementById('aboutTeamBtn')?.addEventListener('click', () => alert("Learn more about our expert team and philosophy"));
+  document.getElementById('footerLearnLink')?.addEventListener('click', (e) => { e.preventDefault(); alert("OrycomLearnings"); });
+  document.getElementById('footerPortalLink')?.addEventListener('click', (e) => { e.preventDefault(); openModal('login'); });
   const mobileBtn = document.getElementById('mobileMenuBtn'); const navMenu = document.getElementById('navMenu'); mobileBtn?.addEventListener('click', () => { navMenu.classList.toggle('active'); mobileBtn.innerHTML = navMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>'; }); document.querySelectorAll('#navMenu a').forEach(link => { link.addEventListener('click', () => { navMenu.classList.remove('active'); mobileBtn.innerHTML = '<i class="fas fa-bars"></i>'; }); });
   document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { const targetId = this.getAttribute('href'); if(targetId === '#') return; const target = document.querySelector(targetId); if(target) { e.preventDefault(); window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' }); } }); });
   const fadeElements = document.querySelectorAll('.fade-in'); const fadeInOnScroll = () => { fadeElements.forEach(el => { const top = el.getBoundingClientRect().top; if(top < window.innerHeight - 100) el.classList.add('visible'); }); }; window.addEventListener('scroll', fadeInOnScroll); window.addEventListener('load', fadeInOnScroll);
